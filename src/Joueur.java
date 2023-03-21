@@ -4,9 +4,21 @@ public class Joueur {
 	int SOLDEjoueur;
 	private int POSITIONjoueur; //normalment on la tire de la classe plateau, ce n'est donc pas un entier. J'écris ca au début pour ne pas avcoir d'erreur
 	private String NOMjoueur;
-	private int maxAVANCER = 6;
+	private final int maxAVANCER = 6;
 	
 	//définir un constructeur, j'attend que la classe plateau soit ouverte dans le git 
+	/**
+	 * Constructeur de la classe
+	 */
+	public Joueur(int solde, int pos, string nom) {
+		assert solde != 0;
+		assert nom != null;
+		
+		this.SOLDEjoueur = solde;
+		this.POSITIONjoueur = pos;
+		this.NOMjoueur = nom;
+	}
+	
 	
 	/**
 	 * Choix du nom du joueur.
