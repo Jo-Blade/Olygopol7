@@ -1,6 +1,3 @@
-package projetlong;
-
-
 import java.util.Random;
 
 public class Joueur {
