@@ -5,12 +5,20 @@ public class Joueur {
 	private int POSITIONjoueur; //normalment on la tire de la classe plateau, ce n'est donc pas un entier. J'écris ca au début pour ne pas avcoir d'erreur
 	private String NOMjoueur;
 	private final int maxAVANCER = 6;
+
+  /** Caractère qui permet d’afficher le joueur. */
+  private char avatar;
+
+  /** Charactères qui permettent de représenter une propriété du joueur.
+   * exemple: "{ }" ou "< >" ou "( )" ou "| |"
+   */
+  private String symbolePropriete;
 	
 	//définir un constructeur, j'attend que la classe plateau soit ouverte dans le git 
 	/**
 	 * Constructeur de la classe
 	 */
-	public Joueur(int solde, int pos, string nom) {
+	public Joueur(int solde, int pos, String nom) {
 		assert solde != 0;
 		assert nom != null;
 		
@@ -74,4 +82,8 @@ public class Joueur {
 	public void debiter(double monnaie) {
 		this.SOLDEjoueur -= monnaie;
 	}
+
+  public String getSymbolePropriete() {
+    return symbolePropriete;
+  }
 }
