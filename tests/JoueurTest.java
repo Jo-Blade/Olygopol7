@@ -18,31 +18,30 @@ public class JoueurTest {
 	}
 	
 	@Test
-	public void testGetNom() throws Exception {
-		// est-ce qu'on teste avec des try pour lever des exceptions?
+	public void testGetNom() {
 		assertEquals(joueur1.getNom, "Lucas");
 		assertEquals(joueur2.getNom, "Léa");
 		
 	}
 	
 	@Test
-	public void testGetPos() throws Exception {
+	public void testGetPos() {
 		assertEquals(joueur1.getPosition, 1);
 		assertEquals(joueur2.getPosition, 1);
 	}
 	
 	@Test
-	public void testGetSolde() throws Exception {
+	public void testGetSolde() {
 		assertEquals(joueur1.getSolde, 1500);
 		assertEquals(joueur2.getSolde, 1500);
 	}
 	
 	@Test
-	public void testLancerDe() throws Exception {
+	public void testLancerDe() {
 		nbAlea = joueur1.lancerDe;
 		nbAlea2 = joueur2.lancerDe;
 		assert(1 <= nbAlea && nbAlea <= 6);
-		ssert(1 <= nbAlea2 && nbAlea2 <= 6);
+		assert(1 <= nbAlea2 && nbAlea2 <= 6);
 	}
 	
 	@Test
