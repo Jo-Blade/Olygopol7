@@ -79,11 +79,8 @@ public class Joueur {
 	 * Réduit le solde du joueur.
 	 * @param monnaie valeur que l'on souhaite retirer au solde du joueur.
 	 */
-	public void debiter(double monnaie) throws BanquerouteException{
+	public void debiter(double monnaie) {
 		this.SOLDEjoueur -= monnaie;
-		if (this.SOLDEjoueur <= 0) {
-			throw new BanquerouteException(Joueur)
-		}
 	}
 
   public String getSymbolePropriete() {
