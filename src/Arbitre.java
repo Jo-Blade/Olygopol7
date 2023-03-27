@@ -1,8 +1,9 @@
+import java.util.scanner
 public class Arbitre {
 	
 	Joueur[] tabJoueur;
 	Boolean finDuJeu =false;  
-	private static scan = new Scanner(system)
+	Scanner scanner = new Scanner(System.in)
 	
 	public Arbitre (Joueur[4] tJoueur) {
 		tabJoueur = tJoueur;
@@ -23,8 +24,19 @@ public class Arbitre {
 		afficherPlateau();
 		CaseFonctionelle Case = Plateau.getCase(J.getPos);
 		executer(Case);
-		system.out.println("Voulez vous ajouter gerer vos propriété ?") 
-		//a voir plus tard. 		
+		system.out.println("Voulez vous ajouter gerer vos propriété ?")
+		try {
+			String reponse = scanner.nextLine()
+			if (reponse == "oui") {
+				//Accees au menu propriete
+			}
+			else if (reponse != "non") {
+				throw InvalideEntreeException
+			} 
+		} catch (InvalideEntreeException e) {
+			system.out.println("On répond generalement à une question fermé par oui ou par non.")
+		}
+
 	}
 
 	
