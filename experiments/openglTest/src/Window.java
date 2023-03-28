@@ -88,6 +88,8 @@ public class Window {
     // Enable v-sync
     if (vSync)
       glfwSwapInterval(1);
+    else
+      glfwSwapInterval(0);
 
 
 
