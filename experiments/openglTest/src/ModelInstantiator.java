@@ -3,8 +3,10 @@
  * @author : pisento
 **/
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import static org.lwjgl.opengl.GL40.*;
 
 public class ModelInstantiator<T extends ModelInstance> {
@@ -24,6 +26,9 @@ public class ModelInstantiator<T extends ModelInstance> {
   /** La liste des objets à afficher.*/
   private List<T> objets;
 
+  /** La liste des locations des objets.*/
+  private Set<Integer> objetsLocations;
+
   /** Créer un instancieur à partir de son modèle et de ses shadeurs.
    * @param afficheur programme opengl avec les shaders
    * @param modele le modèle 2d avec la texture
@@ -33,67 +38,102 @@ public class ModelInstantiator<T extends ModelInstance> {
     this.afficheur = afficheur;
     this.modele = modele;
     this.vaoId = glGenVertexArrays();
-    this.objets = new LinkedList<T>();
+    this.objets = new ArrayList<T>();
+    this.objetsLocations = new HashSet<Integer>();
+
+
+    // Ajouter les vertices + uvs au vao
+    glBindVertexArray(vaoId);
+    modele.getVerticesVbo().setLocation(0);
+    modele.getUvsVbo().setLocation(1);
+    glBindVertexArray(0); // unbind the vao when done
+
   }
 
   /** Ajouter un objet à la liste des objets à dessiner.
    * @param objet une instance d’un objet à dessiner
    */
-  public void addObjet (T objet) {
-    objets.add(objet);
-    aJour = false;
+  public boolean addObjet (T objet) {
+    if (objets.add(objet)) {
+      aJour = false;
+      return true;
+    }
+    return false;
+  }
+
+  /** Supprimer un objet de la liste des objets à dessiner.
+   * @param objet l’objet à supprimer
+   */
+  public boolean delObjet (T objet) {
+    if (objets.remove(objet)) {
+      aJour = false;
+      return true;
+    }
+    return false;
   }
 
   /** Actualiser les données du gpu.*/
-  private void Actualiser() {
+  private void actualiser() {
 
     Map<Integer, Vbo<?>> objetsVbos = objets.get(0).initVbos();
     for (T objet: objets) {
       objet.appendVbos(objetsVbos);
     }
 
-    // -----------------------------------------
+    objetsLocations.clear();
+    // Bind the vertex array
+    glBindVertexArray(vaoId);
     for (Map.Entry<Integer, Vbo<?>> entry : objetsVbos.entrySet()) {
       entry.getValue().uploadToGpu();
       entry.getValue().setLocation(entry.getKey());
+      objetsLocations.add(entry.getKey()); // mettre à jour la liste des
+                                           // locations à activer
     }
-
-    modele.getVbo().setLocation(0);
-    // -----------------------------------------
-
+    glBindVertexArray(0); // unbind the vao when done
 
     aJour = true;
   }
 
-  public void DessinerObjets() {
-    // Bind the vertex array
-    glBindVertexArray(vaoId);
-    // Use the correct program
-    afficheur.utiliser();
+  public void dessinerObjets() {
+
+    // Si aucun objet à dessiner, on ne fait rien
+    if (objets.isEmpty())
+      return;
 
     if (!aJour)
-      Actualiser();
+      actualiser();
 
+    // Use the correct program
+    afficheur.utiliser();
+    // Bind the vertex array
+    glBindVertexArray(vaoId);
+    // Utiliser le modèle pour dessiner
+    modele.utiliser();
 
-    // A MODIFIER, POUR L’INSTANT JE HARD CODE POUR DES TESTS
+    // les zones 0 et 1 sont réservées respectivement
+    // pour les vertices et les uvs.
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
     glVertexAttribDivisor(0, 0); // réutilisation des vertices
-    glVertexAttribDivisor(1, 1); // changer les centres
-    glVertexAttribDivisor(2, 1); // changer les angles
+    glVertexAttribDivisor(1, 0); // réutilisation des vertices
 
-    // Draw a triangle of 3 vertices
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
-    // dessiner plusieurs instances de 2 triangles
+    for (int location : objetsLocations) {
+      glEnableVertexAttribArray(location);
+      glVertexAttribDivisor(location, 1); // 1 car on change de ligne
+                                          // à chaque nouvelle instantiation
+    }
+
+    // dessiner plusieurs instances en un seul appel à draw
     glDrawArraysInstanced(GL_TRIANGLES, 0, modele.getVertices().length, objets.size());
 
-    // Disable our location
+    // Disable our locations
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindVertexArray(0);
+
+    for (int location : objetsLocations)
+      glDisableVertexAttribArray(location);
+
+    glBindVertexArray(0); // unbind the vao when done
   }
 
 }

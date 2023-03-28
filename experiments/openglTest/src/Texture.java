@@ -2,63 +2,41 @@
  * à un modèle 2d.
  * @author : pisento
 **/
-import org.lwjgl.system.*;
 import java.nio.*;
 import static org.lwjgl.opengl.GL30.*;
-import java.io.File;
 import org.lwjgl.stb.STBImage;
 
-
-public class Texture {
+abstract public class Texture {
 
   /** Id opengl de la texture.*/
-  final private int id = glGenTextures();
+  final protected int id = glGenTextures();
 
-  /** Largeur de la texture (en pixels).*/
-  private int width;
+  /** Enregistrer l’image de la texture.
+   * @param buffer le buffer des pixels de l’image
+   * @param width la largeur de l’image
+   * @param height la hauteur de l’image
+   */
+  public void storeImage(ByteBuffer buffer, int width, int height) {
 
-  /** Hauteur de la texture (en pixels).*/
-  private int height;
+    glBindTexture(GL_TEXTURE_2D, id);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-  public Texture(String resourceName){
-    ByteBuffer buffer;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+        GL_UNSIGNED_BYTE, buffer);
 
+    // filtrage linéaire pour réduire les artifacts
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+        GL_LINEAR_MIPMAP_LINEAR);
 
-    try (MemoryStack stack = MemoryStack.stackPush()){
-      IntBuffer w = stack.mallocInt(1);
-      IntBuffer h = stack.mallocInt(1);
-      IntBuffer channels = stack.mallocInt(1);
-
-      File file = new File("res/"+resourceName);
-      String filePath = file.getAbsolutePath();
-      buffer = STBImage.stbi_load(filePath, w, h, channels, 4);
-      if(buffer ==null) {
-        throw new Exception("Can't load file "+resourceName+" "+STBImage.stbi_failure_reason());
-      }
-      width = w.get();
-      height = h.get();
-
-      glBindTexture(GL_TEXTURE_2D, id);
-      glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-
-      // filtrage linéaire pour réduire les artifacts
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
-      glGenerateMipmap(GL_TEXTURE_2D);
-      STBImage.stbi_image_free(buffer);
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
+    glGenerateMipmap(GL_TEXTURE_2D);
+    STBImage.stbi_image_free(buffer);
   }
 
-
   /** Charger la texture pour l’utiliser dans un shader.*/
-  void loadTexture() {
+  public void loadTexture() {
 
-      glBindTexture(GL_TEXTURE_2D, id);
+    glBindTexture(GL_TEXTURE_2D, id);
   }
 
 }

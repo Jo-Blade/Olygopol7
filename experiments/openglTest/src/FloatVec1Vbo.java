@@ -49,8 +49,6 @@ public class FloatVec1Vbo implements Vbo<Float> {
     glVertexAttribPointer(location, 1,
         GL_FLOAT, false, 0, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind the vbo when done
-  
-    System.out.println("Set vbo to location " + location);
   }
 
 }

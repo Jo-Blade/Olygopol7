@@ -4,29 +4,43 @@
 
 public class Model2d {
 
-  /** A MODIFIER !!*/
+  /** Les points du modèle.*/
   private final float[] vertices;
 
   /** La texture du modèle.*/
   private final Texture texture;
 
   /** Le vbo avec les points du modèle.*/
-  private final FloatVec2Vbo vbo;
+  private final FloatVec2Vbo vboVert;
+
+  /** Le vbo avec les coordonnées uvs du modèle.*/
+  private final FloatVec2Vbo vboUvs;
 
   /** Nouveau modèle 2d par ses points et le nom d’une image.
    * @param vertices coordonnées des points du modèles dans l’ordre x puis y
    * @param resourceName nom d’une image pour créer une nouvelle texture
    */
-  public Model2d(float[] vertices, String resourceName) {
+  public Model2d(float[] vertices, float[] uvs, Texture texture) {
     this.vertices = vertices;
+    this.texture = texture;
 
-    vbo = new FloatVec2Vbo();
+    if (vertices.length % 2 != 0)
+      throw new IncompatibleTailleException(
+          "La taille du tableau de vertices doit être un multiple de 2.");
+
+    if (vertices.length != uvs.length)
+      throw new IncompatibleTailleException(
+          "Il doit y avoir autant de coordonnées uvs que de points.");
+
+    vboVert = new FloatVec2Vbo();
+    vboUvs  = new FloatVec2Vbo();
     for (int i = 0; i < vertices.length; i += 2) {
-      vbo.push(new FloatVec2(vertices[i], vertices[i + 1]));
+      vboVert.push(new FloatVec2(vertices[i], vertices[i + 1]));
+      vboUvs.push(new FloatVec2(uvs[i], uvs[i + 1]));
     }
 
-    vbo.uploadToGpu();
-    texture = new Texture(resourceName);
+    vboVert.uploadToGpu();
+    vboUvs.uploadToGpu();
   }
 
   /** Obtenir la texture du modèle.
@@ -46,7 +60,19 @@ public class Model2d {
   /** Récupérer le vbo avec les vertices.
    * @return le vbo
    */
-  public FloatVec2Vbo getVbo() {
-    return vbo;
+  public FloatVec2Vbo getVerticesVbo() {
+    return vboVert;
+  }
+
+  /** Récupérer le vbo avec les coordonnées uvs.
+   * @return le vbo
+   */
+  public FloatVec2Vbo getUvsVbo() {
+    return vboUvs;
+  }
+
+  /** Utiliser le modèle (load la texture si besoin).*/
+  void utiliser() {
+    texture.loadTexture();
   }
 }

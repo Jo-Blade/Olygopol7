@@ -51,8 +51,6 @@ public class FloatVec2Vbo implements Vbo<FloatVec2> {
     glVertexAttribPointer(location, FloatVec2.getDimension(),
         FloatVec2.getGlType(), false, 0, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind the vbo when done
-  
-    System.out.println("Set vbo to location " + location);
   }
 
 }

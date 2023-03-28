@@ -38,7 +38,7 @@ abstract public class Shader {
   }
 
 
-  /** compiler le shader.*/
+  /** Compiler le shader.*/
   private void compiler() {
     glCompileShader(id);
 

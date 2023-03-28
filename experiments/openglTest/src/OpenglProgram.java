@@ -2,14 +2,12 @@
  * shaders prets à l’emploi.
  * @author : pisento
  **/
-
-import org.lwjgl.opengl.*;
 import static org.lwjgl.opengl.GL20.*;
 
 public class OpenglProgram {
 
   /** Id opengl du programme.*/
-  private final int id = GL20.glCreateProgram();
+  private final int id = glCreateProgram();
 
   /** Créer un programme opengl avec son vertex et son fragment shader.
    * @param vertShader vertex shader du programme
@@ -17,10 +15,10 @@ public class OpenglProgram {
    */
   public OpenglProgram(VertexShader vertShader, FragmentShader fragShader) {
 
-    GL20.glAttachShader(id, vertShader.getId());
-    GL20.glAttachShader(id, fragShader.getId());
-    GL20.glLinkProgram(id);
-    GL20.glValidateProgram(id);
+    glAttachShader(id, vertShader.getId());
+    glAttachShader(id, fragShader.getId());
+    glLinkProgram(id);
+    glValidateProgram(id);
   }
 
 
@@ -29,5 +27,14 @@ public class OpenglProgram {
     glUseProgram(id);
   }
 
+
+  /** Modifier une variable uniforme des shaders.*/
+  public void setUniformFloat(String uniformName, float value) {
+
+    glUseProgram(id); // il faut utiliser le programme avant de pouvoir
+                      // changer une variable uniforme
+    int uniformId = glGetUniformLocation(id, uniformName);
+    glUniform1f(uniformId, value);
+  }
 
 }
