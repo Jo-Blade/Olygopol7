@@ -2,6 +2,7 @@ import java.util.Random;
 
 public class Joueur {
 	int SOLDEjoueur;
+	Joueur joueur;
 	private int POSITIONjoueur; //normalment on la tire de la classe plateau, ce n'est donc pas un entier. J'écris ca au début pour ne pas avcoir d'erreur
 	private String NOMjoueur;
 	private final int maxAVANCER = 6;
@@ -82,7 +83,7 @@ public class Joueur {
 	public void debiter(double monnaie) throws BanquerouteException{
 		this.SOLDEjoueur -= monnaie;
 		if (this.SOLDEjoueur <= 0) {
-			throw new BanquerouteException(Joueur)
+			throw new BanquerouteException(joueur);
 		}
 	}
 
