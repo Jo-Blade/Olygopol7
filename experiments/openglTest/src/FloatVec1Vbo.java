@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import org.lwjgl.*;
 import java.nio.*;
 
+import org.lwjgl.system.MemoryUtil;
+
 
 public class FloatVec1Vbo implements Vbo<Float> {
 
@@ -14,12 +16,19 @@ public class FloatVec1Vbo implements Vbo<Float> {
   private List<Float> data;
 
   /** Id opengl du vbo.*/
-  final private int id;
+  private int id;
 
   /** Générer un vbo de vec2 vide.*/
   public FloatVec1Vbo() {
     data = new LinkedList<Float>();
     id = glGenBuffers();
+  }
+
+  @Override
+  public void clear() {
+    glDeleteBuffers(id);
+    id = glGenBuffers();
+    data = new LinkedList<Float>();
   }
 
   @Override
@@ -30,7 +39,9 @@ public class FloatVec1Vbo implements Vbo<Float> {
   @Override
   public void uploadToGpu() {
     // On convertit les données en un FloatBuffer
-    FloatBuffer dataBuffer = BufferUtils.createFloatBuffer(data.size());
+    //FloatBuffer dataBuffer = BufferUtils.createFloatBuffer(data.size());
+
+    FloatBuffer dataBuffer = MemoryUtil.memAllocFloat(data.size());
 
     for (Float value: data) {
       dataBuffer.put(value);
@@ -39,8 +50,10 @@ public class FloatVec1Vbo implements Vbo<Float> {
     dataBuffer.flip();
 
     glBindBuffer(GL_ARRAY_BUFFER, id); // bind the vbo
-    glBufferData(GL_ARRAY_BUFFER, dataBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, dataBuffer, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind the vbo when done
+
+    MemoryUtil.memFree(dataBuffer);
   }
 
   @Override

@@ -17,4 +17,6 @@ public interface Vbo<T> {
    */
   void setLocation(int location);
 
+  /** Vider les données.*/
+  void clear();
 }

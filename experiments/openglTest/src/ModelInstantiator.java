@@ -5,6 +5,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
 import static org.lwjgl.opengl.GL40.*;
@@ -28,6 +29,9 @@ public class ModelInstantiator<T extends ModelInstance> {
 
   /** La liste des locations des objets.*/
   private Set<Integer> objetsLocations;
+
+  /** La liste des vbos et des locations associées.*/
+  private Map<Integer, Vbo<?>> objetsVbos = null;
 
   /** Créer un instancieur à partir de son modèle et de ses shadeurs.
    * @param afficheur programme opengl avec les shaders
@@ -72,15 +76,30 @@ public class ModelInstantiator<T extends ModelInstance> {
     return false;
   }
 
+  /** Supprimer tous les objets de la liste des objets à dessiner.*/
+  public void clear() {
+    objets = new ArrayList<T>();
+    aJour = false;
+  }
+
+
   /** Actualiser les données du gpu.*/
   private void actualiser() {
 
-    Map<Integer, Vbo<?>> objetsVbos = objets.get(0).initVbos();
+    if (objetsVbos == null)
+      objetsVbos = objets.get(0).initVbos();
+
+    for (Map.Entry<Integer, Vbo<?>> entry : objetsVbos.entrySet()) {
+      entry.getValue().clear();
+    }
+
     for (T objet: objets) {
       objet.appendVbos(objetsVbos);
     }
 
     objetsLocations.clear();
+    this.objetsLocations = new HashSet<Integer>();
+
     // Bind the vertex array
     glBindVertexArray(vaoId);
     for (Map.Entry<Integer, Vbo<?>> entry : objetsVbos.entrySet()) {

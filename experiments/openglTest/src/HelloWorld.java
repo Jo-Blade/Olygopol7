@@ -187,7 +187,8 @@ public class HelloWorld {
     // Make the OpenGL context current
     glfwMakeContextCurrent(window);
     // Enable v-sync
-    glfwSwapInterval(1);
+    //glfwSwapInterval(1);
+    glfwSwapInterval(0);
 
     // Make the window visible
     glfwShowWindow(window);

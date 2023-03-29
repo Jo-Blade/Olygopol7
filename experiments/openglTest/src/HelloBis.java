@@ -89,22 +89,15 @@ public class HelloBis {
     Model2d testModel = new Model2d(vertices, uvs, new TextureImage("texture.png"));
     ModelInstantiator<TestInstance> testDrawer = new ModelInstantiator<TestInstance>(testProg, testModel);
 
-    HashSet<TestInstance> fleurs = new HashSet<TestInstance>();
-    for (int i = 0; i < 100; i++) {
-      TestInstance fleur = new TestInstance( 0.0f, 0.0f, 0.0f, 0.0f);
-      fleurs.add(fleur);
-      testDrawer.addObjet(fleur);
-    }
-
-    DrawableText texte = new DrawableText("Téo le gro");
-
     float time = 0.0f;
     Instant instant = Instant.now();
     int frame = 0;
+
+    DrawableText texte = new DrawableText("fps : " + frame);
+
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
     while ( !glfwWindowShouldClose(testWindow.getHandle()) ) {
-
 
       Instant newInstant = Instant.now();
       long timeElapsed = Duration.between(instant, newInstant).toMillis();
@@ -112,23 +105,21 @@ public class HelloBis {
         texte = new DrawableText("fps : " + frame);
         instant = newInstant;
         frame = 0;
+        // System.gc();
       }
+      newInstant = null;
       frame++;
 
       time += 0.01f;
-      for (TestInstance fleur : fleurs) {
-        testDrawer.delObjet(fleur);
-      }
-      fleurs.clear();
+      testDrawer.clear();
       for (int i = 0; i < 100; i++) {
         TestInstance fleur = new TestInstance(-0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
-        fleurs.add(fleur);
         testDrawer.addObjet(fleur);
       }
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-      testDrawer.dessinerObjets();
 
+      testDrawer.dessinerObjets();
       texte.dessiner();
 
 

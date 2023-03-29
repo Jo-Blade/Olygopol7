@@ -20,11 +20,4 @@ public class FloatVec2 {
     this.y = y;
   }
 
-  public static int getGlType() {
-    return GL_FLOAT;
-  }
-
-  public static int getDimension() {
-    return 2;
-  }
 }

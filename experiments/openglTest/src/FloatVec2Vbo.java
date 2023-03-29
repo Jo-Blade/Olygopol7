@@ -3,8 +3,10 @@
  **/
 import static org.lwjgl.opengl.GL20.*;
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import org.lwjgl.*;
+import org.lwjgl.system.MemoryUtil;
+
 import java.nio.*;
 
 
@@ -14,12 +16,19 @@ public class FloatVec2Vbo implements Vbo<FloatVec2> {
   private List<FloatVec2> data;
 
   /** Id opengl du vbo.*/
-  final private int id;
+  private int id;
 
   /** Générer un vbo de vec2 vide.*/
   public FloatVec2Vbo() {
-    data = new LinkedList<FloatVec2>();
+    data = new ArrayList<FloatVec2>();
     id = glGenBuffers();
+  }
+
+  @Override
+  public void clear() {
+    glDeleteBuffers(id);
+    id = glGenBuffers();
+    data = new ArrayList<FloatVec2>();
   }
 
   @Override
@@ -30,8 +39,10 @@ public class FloatVec2Vbo implements Vbo<FloatVec2> {
   @Override
   public void uploadToGpu() {
     // On convertit les données en un FloatBuffer
-    FloatBuffer dataBuffer = 
-      BufferUtils.createFloatBuffer(FloatVec2.getDimension() * data.size());
+    // FloatBuffer dataBuffer = 
+    //   BufferUtils.createFloatBuffer(2 * data.size());
+
+    FloatBuffer dataBuffer = MemoryUtil.memAllocFloat(2 * data.size());
 
     for (FloatVec2 value: data) {
       dataBuffer.put(value.x);
@@ -41,15 +52,17 @@ public class FloatVec2Vbo implements Vbo<FloatVec2> {
     dataBuffer.flip();
 
     glBindBuffer(GL_ARRAY_BUFFER, id); // bind the vbo
-    glBufferData(GL_ARRAY_BUFFER, dataBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, dataBuffer, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind the vbo when done
+
+    MemoryUtil.memFree(dataBuffer);
   }
 
   @Override
   public void setLocation(int location) {
     glBindBuffer(GL_ARRAY_BUFFER, id); // bind the vbo
-    glVertexAttribPointer(location, FloatVec2.getDimension(),
-        FloatVec2.getGlType(), false, 0, 0);
+    glVertexAttribPointer(location, 2,
+        GL_FLOAT, false, 0, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind the vbo when done
   }
 
