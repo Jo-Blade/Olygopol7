@@ -5,7 +5,7 @@ public class Jouer{
    */
 private int solde = 1000;
 public static void main(String[] args) {
-	if (args == "-r") {
+	if (args.equals("-r")) {
 		afficherRegle();
 	}
 	else {
@@ -15,7 +15,7 @@ public static void main(String[] args) {
 		}
 
 	 catch (arrayoutofboundsexception e) {
-		system.out.println("Merci de rentrer Moins de 4 Joueurs.")
+		System.out.println("Merci de rentrer Moins de 4 Joueurs.");
 	
 
   }
@@ -33,7 +33,7 @@ private Joueur[] creationJoueur(String[] str) {
 
 
 private void afficherRegle() {
-	system.out.println("Bienvenue sur notre jeu de monopoly.")
-	system.out.println("Le jeu se déroule avec 4 joueurs, pour le lancer, executer le programme en ajoutant les noms des joueurs séparé par des @")
+	System.out.println("Bienvenue sur notre jeu de monopoly.");
+	System.out.println("Le jeu se déroule avec 4 joueurs, pour le lancer, executer le programme en ajoutant les noms des joueurs séparé par des @");
 }
 }
