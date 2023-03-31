@@ -95,6 +95,8 @@ public class HelloBis {
 
     DrawableText texte = new DrawableText("fps : " + frame);
 
+    DrawableBox testBox = new DrawableBox();
+
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
     while ( !glfwWindowShouldClose(testWindow.getHandle()) ) {
@@ -120,6 +122,8 @@ public class HelloBis {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
       testDrawer.dessinerObjets();
+
+      testBox.dessiner();
       texte.dessiner();
 
 

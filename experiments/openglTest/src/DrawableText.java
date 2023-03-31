@@ -59,7 +59,7 @@ public class DrawableText {
     "fragColor = vec4(0.0, 0.0, 0.0, color.a);\n" +
     "}";
 
-  private static float[] vertices = new float[]
+  private final static float[] vertices = new float[]
   {
       0.0f, +1.0f,    // Top-left coordinate
       0.0f, 0.0f,    // Bottom-left coordinate
@@ -70,7 +70,7 @@ public class DrawableText {
       +1.0f, 0.0f     // Bottom-right
   };
 
-  private static float[] uvs = new float[]
+  private final static float[] uvs = new float[]
   {
       +0.0f, +1.0f,
       +0.0f, +0.0f,
