@@ -33,6 +33,7 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
     // on doit donc mettre '[' à l’indice (position*4)
     // et ']' à l’indice (position*4) + 2
     buffer.setCharAt(position*4, '[');
+    buffer.setCharAt(position*4 + 1, ' ');
     buffer.setCharAt(position*4 + 2, ']');
 
   }

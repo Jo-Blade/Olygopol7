@@ -187,7 +187,8 @@ public class HelloWorld {
     // Make the OpenGL context current
     glfwMakeContextCurrent(window);
     // Enable v-sync
-    glfwSwapInterval(1);
+    //glfwSwapInterval(1);
+    glfwSwapInterval(0);
 
     // Make the window visible
     glfwShowWindow(window);
@@ -285,7 +286,7 @@ public class HelloWorld {
 
     // mettre une lettre
     loadFont();
-    Glyph testLettre = glyphs.get('a');
+    Glyph testLettre = glyphs.get('d');
     float uvx1 = testLettre.x / (float) fontWidth; // on divise par la width de la texture
     float uvy1 = testLettre.y / (float) fontHeight; // on divise par la height de la texture
     float uvx2 = (testLettre.x + testLettre.width) / (float) fontWidth;
