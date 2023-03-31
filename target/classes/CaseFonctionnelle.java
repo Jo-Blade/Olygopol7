@@ -4,9 +4,8 @@
 **/
 
 public interface CaseFonctionnelle {
-  // case chance et caisse de communauté
-	
+
   // mettre la javadoc
   public void executer(Joueur joueur);
-  	// lancer un évènement depuis une pile d'évènement ?
+
 }
