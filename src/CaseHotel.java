@@ -9,10 +9,17 @@ public class CaseHotel implements CaseFonctionnelle, CaseGraphique {
 
   /** Propriétaire de la case.*/
   private Joueur proprietaire;
+  
+  public CaseHotel(int position, Joueur proprietaire) {
+	  this.proprietaire = proprietaire;
+	  this.position = position;
+  }
 
   @Override
   public void executer(Joueur joueur){
-
+	  if (joueur != this.proprietaire) {
+		  // crediter du loyer (A mettre en place)
+	  }
   }
 
   @Override
