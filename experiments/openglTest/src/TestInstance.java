@@ -16,25 +16,29 @@ public class TestInstance implements ModelInstance {
   /** Le facteur d’échelle de l’objet à instancier.*/
   private final float echelle;
 
+  /** Le garbage collector pour opengl.*/
+  private final OpenglGC gc;
+
   /** Créer un objet d’instance par ses propriétés.
    * @param centreX la coordonnée x du centre
    * @param centreY la coordonnée y du centre
    * @param angle le angle de rotation
    * @param echelle le facteur d’échelle
    */
-  public TestInstance(float centreX, float centreY, float angle, float echelle) {
+  public TestInstance(OpenglGC gc, float centreX, float centreY, float angle, float echelle) {
     this.centre = new FloatVec2(centreX, centreY);
     this.angle = angle;
     this.echelle = echelle;
+    this.gc = gc;
   }
 
   @Override
   public Map<Integer, Vbo<?>> initVbos () {
 
     Map<Integer, Vbo<?>> map = new HashMap<Integer, Vbo<?>>();
-    map.put(2, new FloatVec2Vbo());
-    map.put(3, new FloatVec1Vbo());
-    map.put(4, new FloatVec1Vbo());
+    map.put(2, new FloatVec2Vbo(gc));
+    map.put(3, new FloatVec1Vbo(gc));
+    map.put(4, new FloatVec1Vbo(gc));
     return map;
   }
 

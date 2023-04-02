@@ -90,22 +90,32 @@ public class DrawableText {
         java.awt.Font.MONOSPACED, java.awt.Font.PLAIN, 64));
 
   /** Le modèle de la font.*/
-  private static Model2d fontModel = new Model2d(DrawableText.vertices, DrawableText.uvs, DrawableText.font);
+  private Model2d fontModel;
+
+  /** Le vertex Shader après compilation.*/
+  private static VertexShader vertShader = new VertexShader(vertCode);
+
+  /** Le fragment Shader après compilation.*/
+  private static FragmentShader fragShader = new FragmentShader(fragCode);
+
+  /** Le programme opengl pour afficher du texte.*/
+  private static OpenglProgram fontProg = new OpenglProgram(vertShader, fragShader);
+
+  /** Le texte qui est affiché.*/
+  private String texte;
 
   /** Construire une boite de texte.
    * @param font la font pour écrire le texte
    * @param texte le texte à écrire
    */
-  public DrawableText(String texte) {
-
-    VertexShader vertShader = new VertexShader(vertCode);
-    FragmentShader fragShader = new FragmentShader(fragCode);
-    OpenglProgram fontProg = new OpenglProgram(vertShader, fragShader);
+  public DrawableText(OpenglGC gc, String texte) {
+    this.texte = texte;
+    fontModel = new Model2d(gc, DrawableText.vertices, DrawableText.uvs, DrawableText.font);
 
     fontProg.setUniformFloat("texWidth", font.textureWidth);
     fontProg.setUniformFloat("texHeight", font.textureHeight);
 
-    drawer = new ModelInstantiator<GlyphInstance>(fontProg, fontModel);
+    drawer = new ModelInstantiator<GlyphInstance>(gc, fontProg, fontModel);
 
     // On calcule la longueur totale du texte pour le centrer
     int x = 0;
@@ -116,7 +126,7 @@ public class DrawableText {
     int y = - font.textureHeight / 2; // centrer le texte verticalement
     for (char c : texte.toCharArray()) {
       Font.Glyph g = font.getCaractere(c);
-      drawer.addObjet(new GlyphInstance(0.003f * x, 0.003f * y, g, 0, 0.003f));
+      drawer.addObjet(new GlyphInstance(gc, 0.003f * x, 0.003f * y, g, 0, 0.003f));
       x += g.width;
     }
   }
@@ -125,6 +135,11 @@ public class DrawableText {
   public void dessiner() {
 
     drawer.dessinerObjets();
+  }
+
+  @Override
+  public String toString() {
+    return "DrawableTexte : " + texte;
   }
 
 }

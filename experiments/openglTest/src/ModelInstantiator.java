@@ -38,13 +38,14 @@ public class ModelInstantiator<T extends ModelInstance> {
    * @param modele le modèle 2d avec la texture
    * et les vbos communs à tous les objets
    */
-  public ModelInstantiator(OpenglProgram afficheur, Model2d modele) {
+  public ModelInstantiator(OpenglGC gc, OpenglProgram afficheur, Model2d modele) {
     this.afficheur = afficheur;
     this.modele = modele;
     this.vaoId = glGenVertexArrays();
     this.objets = new ArrayList<T>();
     this.objetsLocations = new HashSet<Integer>();
 
+    gc.new GlVao(vaoId, this);
 
     // Ajouter les vertices + uvs au vao
     glBindVertexArray(vaoId);

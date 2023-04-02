@@ -95,17 +95,17 @@ public class DrawableBox {
 
   private ModelInstantiator<TestInstance> drawer;
 
-  public DrawableBox() {
+  public DrawableBox(OpenglGC gc) {
 
     VertexShader testVertSh = new VertexShader(vertCode);
     FragmentShader testFragSh = new FragmentShader(fragCode);
     OpenglProgram testProg = new OpenglProgram(testVertSh, testFragSh);
 
-    Model2d testModel = new Model2dNoTex(vertices, uvs);
-    drawer = new ModelInstantiator<TestInstance>(testProg, testModel);
+    Model2d testModel = new Model2dNoTex(gc, vertices, uvs);
+    drawer = new ModelInstantiator<TestInstance>(gc, testProg, testModel);
 
 
-    TestInstance obTest = new TestInstance(0, 0, 0, 0.5f);
+    TestInstance obTest = new TestInstance(gc, 0, 0, 0, 0.5f);
     drawer.addObjet(obTest);
   }
 

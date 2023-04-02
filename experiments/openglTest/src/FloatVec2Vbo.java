@@ -16,18 +16,18 @@ public class FloatVec2Vbo implements Vbo<FloatVec2> {
   private List<FloatVec2> data;
 
   /** Id opengl du vbo.*/
-  private int id;
+  private final int id;
 
   /** Générer un vbo de vec2 vide.*/
-  public FloatVec2Vbo() {
+  public FloatVec2Vbo(OpenglGC gc) {
     data = new ArrayList<FloatVec2>();
     id = glGenBuffers();
+
+    gc.new GlVbo(id, this);
   }
 
   @Override
   public void clear() {
-    glDeleteBuffers(id);
-    id = glGenBuffers();
     data = new ArrayList<FloatVec2>();
   }
 

@@ -21,6 +21,9 @@ public class GlyphInstance implements ModelInstance {
   /** Le facteur d’échelle de l’objet à instancier.*/
   private final float echelle;
 
+  /** Le garbage collector pour opengl.*/
+  private final OpenglGC gc;
+
   /** Créer un objet d’instance par ses propriétés.
    * @param lettreX la coordonnée x de la lettre
    * @param lettreY la coordonnée y de la lettre
@@ -28,23 +31,24 @@ public class GlyphInstance implements ModelInstance {
    * @param angle le angle de rotation
    * @param echelle le facteur d’échelle
    */
-  public GlyphInstance(float lettreX, float lettreY, Font.Glyph glyph, float angle, float echelle) {
+  public GlyphInstance(OpenglGC gc, float lettreX, float lettreY, Font.Glyph glyph, float angle, float echelle) {
     this.positionLettre = new FloatVec2(lettreX, lettreY);
     this.glyphPos = new FloatVec2(glyph.x, glyph.y);
     this.glyphTaille = new FloatVec2(glyph.width, glyph.height);
     this.angle = angle;
     this.echelle = echelle;
+    this.gc = gc;
   }
 
   @Override
   public Map<Integer, Vbo<?>> initVbos () {
 
     Map<Integer, Vbo<?>> map = new HashMap<Integer, Vbo<?>>();
-    map.put(2, new FloatVec2Vbo());
-    map.put(3, new FloatVec2Vbo());
-    map.put(4, new FloatVec2Vbo());
-    map.put(5, new FloatVec1Vbo());
-    map.put(6, new FloatVec1Vbo());
+    map.put(2, new FloatVec2Vbo(gc));
+    map.put(3, new FloatVec2Vbo(gc));
+    map.put(4, new FloatVec2Vbo(gc));
+    map.put(5, new FloatVec1Vbo(gc));
+    map.put(6, new FloatVec1Vbo(gc));
     return map;
   }
 

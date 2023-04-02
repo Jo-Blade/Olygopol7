@@ -9,7 +9,11 @@ import java.util.HashSet;
 import java.time.Duration;
 import java.time.Instant;
 
+import java.lang.ref.WeakReference;
+
 public class HelloBis {
+
+  private final static OpenglGC openglGc = new OpenglGC();
 
   private final static String vertCode =
     "#version 330 core\n" +
@@ -86,16 +90,15 @@ public class HelloBis {
     FragmentShader testFragSh = new FragmentShader(fragCode);
     OpenglProgram testProg = new OpenglProgram(testVertSh, testFragSh);
 
-    Model2d testModel = new Model2d(vertices, uvs, new TextureImage("texture.png"));
-    ModelInstantiator<TestInstance> testDrawer = new ModelInstantiator<TestInstance>(testProg, testModel);
+    Model2d testModel = new Model2d(openglGc, vertices, uvs, new TextureImage("texture.png"));
+    ModelInstantiator<TestInstance> testDrawer = new ModelInstantiator<TestInstance>(openglGc, testProg, testModel);
 
     float time = 0.0f;
     Instant instant = Instant.now();
     int frame = 0;
 
-    DrawableText texte = new DrawableText("fps : " + frame);
-
-    DrawableBox testBox = new DrawableBox();
+    DrawableText texte = new DrawableText(openglGc, "fps : " + frame);
+    DrawableBox testBox = new DrawableBox(openglGc);
 
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
@@ -103,8 +106,8 @@ public class HelloBis {
 
       Instant newInstant = Instant.now();
       long timeElapsed = Duration.between(instant, newInstant).toMillis();
-      if (timeElapsed > 1000) {
-        texte = new DrawableText("fps : " + frame);
+      if (timeElapsed > 100) {
+        texte = new DrawableText(openglGc, "fps : " + 10*frame);
         instant = newInstant;
         frame = 0;
         // System.gc();
@@ -115,7 +118,7 @@ public class HelloBis {
       time += 0.01f;
       testDrawer.clear();
       for (int i = 0; i < 100; i++) {
-        TestInstance fleur = new TestInstance(-0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
+        TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
         testDrawer.addObjet(fleur);
       }
 
@@ -132,6 +135,10 @@ public class HelloBis {
       // Poll for window events. The key callback above will only be
       // invoked during this call.
       glfwPollEvents();
+
+      if (time % 1 < 0.1 ) {
+        openglGc.gc();
+      }
     }
   }
 }

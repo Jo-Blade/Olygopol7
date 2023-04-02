@@ -16,18 +16,18 @@ public class FloatVec1Vbo implements Vbo<Float> {
   private List<Float> data;
 
   /** Id opengl du vbo.*/
-  private int id;
+  private final int id;
 
   /** Générer un vbo de vec2 vide.*/
-  public FloatVec1Vbo() {
+  public FloatVec1Vbo(OpenglGC gc) {
     data = new LinkedList<Float>();
     id = glGenBuffers();
+
+    gc.new GlVbo(id, this);
   }
 
   @Override
   public void clear() {
-    glDeleteBuffers(id);
-    id = glGenBuffers();
     data = new LinkedList<Float>();
   }
 
