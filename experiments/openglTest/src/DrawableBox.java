@@ -10,23 +10,35 @@ public class DrawableBox {
     "in vec2 position;\n" +
     "in vec2 uvs;\n" +
     "in vec2 positionCentre;\n" +
-    "in float angle;\n" +
-    "in float echelle;\n" +
+    "in vec2 dimensions;\n" +
+    "in vec4 couleurBordure;\n" +
+    "in vec4 couleurFond;\n" +
+    "in float rayon;\n" +
+    "in float epaisseur;\n" +
 
     "out vec2 fragUvs;\n" +
-    "out float test;\n" +
+
+    "out float width;\n" +
+    "out float height;\n" +
+    "out vec4 border;\n" +
+    "out vec4 fond;\n" +
+    "out float radius;\n" +
+    "out float border_size;\n" +
 
     "void main()\n" +
     "{\n" +
 
-    "float cos_t = cos(angle);\n" +
-    "float sin_t = sin(angle);\n" +
-    "mat2 rotation = mat2(cos_t, sin_t, -sin_t, cos_t);\n" +
-    //"mat2 resize = mat2(echelle, 0.0, 0.0, echelle);\n" +
-    "mat2 resize = mat2(0.7, 0.0, 0.0, 0.2);\n" +
+    "mat2 resize = mat2(dimensions.x / 600.0, 0.0, 0.0, dimensions.y / 300.0);\n" +
 
-    "gl_Position = vec4(position*rotation*resize + positionCentre, 0.0, 1.0);\n" +
+    "gl_Position = vec4(position*resize + positionCentre, 0.0, 1.0);\n" +
     "fragUvs = uvs;\n" +
+
+    "width = dimensions.x;\n" +
+    "height = dimensions.y;\n" +
+    "border = couleurBordure;\n" +
+    "fond = couleurFond;\n" +
+    "radius = rayon;\n" +
+    "border_size = epaisseur;\n" +
     "}";
 
 
@@ -37,18 +49,16 @@ public class DrawableBox {
 
     "in vec2 fragUvs;\n" +
 
-"const vec2 u_resolution = vec2(1920, 1080);\n" +
+    "in float width;\n" +
+    "in float height;\n" +
+    "in vec4 border;\n" +
+    "in vec4 fond;\n" +
+    "in float radius;\n" +
+    "in float border_size;\n" +
 
-"const float radius = 49.;\n" +
-"const float border_size = 20.;\n" +
-"const float width = 600.0;\n" +
-"const float height = 100.0;\n" +
+    "const vec2 u_resolution = vec2(600, 300);\n" +
 
-"const vec3 fond = vec3(0.550,0.723,1.000);\n" +
-"const vec3 border = vec3(0.159,0.376,1.000);\n" +
-
-
-"void main() {\n" +
+    "void main() {\n" +
     "vec2 st = abs(fragUvs);\n" +
 
     "st.x *= width;\n" +
@@ -67,13 +77,14 @@ public class DrawableBox {
     "choisir -= step(border_size, d.x)*step(radius, d.y) + step(radius, d.x)*step(border_size, d.y);\n" +
     "choisir = max(choisir, 0.);\n" +
 
-    "fragColor = vec4(border*choisir + (1. - choisir) * fond, alpha);\n" +
-"}\n";
+    "vec4 color = border*choisir + (1. - choisir) * fond;\n" +
+    "fragColor = vec4(color.rgb, min(color.a, alpha));\n" +
+    "}\n";
 
 
   private final static float[] vertices = new float[]
   {
-      -1.0f, +1.0f,    // Top-left coordinate
+    -1.0f, +1.0f,    // Top-left coordinate
       -1.0f, -1.0f,    // Bottom-left coordinate
       +1.0f, -1.0f,    // Bottom-right coordinate
 
@@ -84,7 +95,7 @@ public class DrawableBox {
 
   private final static float[] uvs = new float[]
   {
-      -0.5f, +0.5f,    // Top-left coordinate
+    -0.5f, +0.5f,    // Top-left coordinate
       -0.5f, -0.5f,    // Bottom-left coordinate
       +0.5f, -0.5f,    // Bottom-right coordinate
 
@@ -93,19 +104,26 @@ public class DrawableBox {
       +0.5f, -0.5f     // Bottom-right
   };
 
-  private ModelInstantiator<TestInstance> drawer;
+  private ModelInstantiator<BoxInstance> drawer;
+
+  private static OpenglProgram glProg = new OpenglProgram(
+      new VertexShader(vertCode), new FragmentShader(fragCode)
+      );
 
   public DrawableBox(OpenglGC gc) {
 
-    VertexShader testVertSh = new VertexShader(vertCode);
-    FragmentShader testFragSh = new FragmentShader(fragCode);
-    OpenglProgram testProg = new OpenglProgram(testVertSh, testFragSh);
+    Model2d modele = new Model2dNoTex(gc, vertices, uvs);
+    drawer = new ModelInstantiator<>(gc, glProg, modele);
 
-    Model2d testModel = new Model2dNoTex(gc, vertices, uvs);
-    drawer = new ModelInstantiator<TestInstance>(gc, testProg, testModel);
+    BoxInstance obTest = new BoxInstance(
+        gc,
+        new FloatVec2(0,0),
+        new FloatVec2(400, 80),
+        new FloatVec4(1, 0, 0, 0.8f),
+        new FloatVec4(1, 1, 1, 0.5f),
+        30, 10
+        );
 
-
-    TestInstance obTest = new TestInstance(gc, 0, 0, 0, 0.5f);
     drawer.addObjet(obTest);
   }
 
