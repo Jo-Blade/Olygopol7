@@ -5,6 +5,7 @@ public class Jouer{
    * @param args arguments de la ligne de commande
    */
 private final static int  solde = 1000;
+private static Plateau plat;
 private static Arbitre arbitre;
 
 public static void main(String[] args) {
@@ -14,7 +15,8 @@ public static void main(String[] args) {
 	else {
 		try {
 		Joueur[] tabJoueur = creationJoueur(args);
-		arbitre = new Arbitre(tabJoueur);
+		plat= new Plateau();
+		arbitre = new Arbitre(tabJoueur, plat);
 		arbitre.arbitrer();
 		}
 
