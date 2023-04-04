@@ -4,11 +4,12 @@ import static java.lang.System.*;
 public class Arbitre {
 	
 	Joueur[] tabJoueur;
+	Plateau plateau;
 	Boolean finDuJeu =false;  
 	Scanner scanner = new Scanner(System.in);
-	
-	public Arbitre (Joueur[] tJoueur) {
+	public Arbitre (Joueur[] tJoueur, Plateau plateau) {
 		tabJoueur = tJoueur;
+		this.plateau=plateau;
 	}
 
 	public void arbitrer() {
@@ -20,12 +21,12 @@ public class Arbitre {
 	}
 	
 	public void jouerTour(Joueur J) {
-		Plateau.afficherPlateau();
+		plateau.afficherPlateau();
 		int de = J.lancerDe();
 		System.out.println("Vous avez fait" );
 		J.avancer(de);
-		Plateau.afficherPlateau();
-		CaseFonctionnelle Case = Plateau.getCase(J.getPosition());
+		plateau.afficherPlateau();
+		CaseFonctionnelle Case = plateau.getCase(J.getPosition());
 		Case.executer(J);
 		System.out.println("Voulez vous ajouter gerer vos propriété ?");
 		try {
