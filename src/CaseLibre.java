@@ -1,7 +1,7 @@
 /** Case qui n’a été achetée par personne pour le moment.
  * @author : pisento
 **/
-
+import java.util.Scanner;
 // SUPPRIMER LES ABSTRACT
 public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
 
@@ -20,8 +20,8 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
   public void executer(Joueur joueur){
 	  Scanner entree = new Scanner(System.in);
 	  System.out.print("Voulez-vous achetez la propriété ? Oui : o ; Non : n");
-	  char e = entree.nextChar();
-	  if (e == "o") {
+	  String e = entree.nextChar();
+	  if (e.equals("o")) {
 		  // creer CaseHotel et crediter
 	  }
   }
