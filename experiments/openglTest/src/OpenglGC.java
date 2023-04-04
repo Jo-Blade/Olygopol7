@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL40.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 
 /* Le but est d’utiliser des WeakReference pour détecter quand
  * un objet est libéré par le GC de java, et alors de le libérer également
@@ -13,10 +14,10 @@ import java.lang.ref.WeakReference;
 public class OpenglGC {
 
   /** Liste des Vbos actuels. */
-  private List<GlVbo> listeVbos = new ArrayList<>();
+  private List<GlVbo> listeVbos = Collections.synchronizedList(new ArrayList<>());
 
   /** Liste des Vaos actuels. */
-  private List<GlVao> listeVaos = new ArrayList<>();
+  private List<GlVao> listeVaos = Collections.synchronizedList(new ArrayList<>());
 
   /** Objet qui permet de libérer automatiquement le buffer occupé par
    * un vbo. Ne pas oublier de maintenir l’id à jour !!!!!!! (a changer)*/
@@ -80,21 +81,26 @@ public class OpenglGC {
 
   /** Libérer automatiquement les buffers opengl.*/
   public void gc() {
-    List<GlVbo> VboAGarder = new ArrayList<>();
-    List<GlVao> VaoAGarder = new ArrayList<>();
+    List<GlVbo> VboAGarder = Collections.synchronizedList(new ArrayList<>());
+    List<GlVao> VaoAGarder = Collections.synchronizedList(new ArrayList<>());
 
-    for (OpenglGC.GlVbo vbo : listeVbos) {
-      if (!vbo.gc())
-        VboAGarder.add(vbo);
+    synchronized(listeVbos) {
+      for (OpenglGC.GlVbo vbo : listeVbos) {
+        if (!vbo.gc())
+          VboAGarder.add(vbo);
+      }
+
+      listeVbos = VboAGarder;
     }
 
-    for (OpenglGC.GlVao vao : listeVaos) {
-      if (!vao.gc())
-        VaoAGarder.add(vao);
-    }
+    synchronized(listeVaos) {
+      for (OpenglGC.GlVao vao : listeVaos) {
+        if (!vao.gc())
+          VaoAGarder.add(vao);
+      }
 
-    listeVbos = VboAGarder;
-    listeVaos = VaoAGarder;
+      listeVaos = VaoAGarder;
+    }
   }
 
 }

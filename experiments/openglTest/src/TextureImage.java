@@ -8,9 +8,11 @@ import org.lwjgl.stb.STBImage;
 
 public class TextureImage extends Texture {
 
-  /** Créer une nouvelle texture avec
-   * le nom d’une image dans le dossier res. */
-  public TextureImage(String resourceName) {
+  /** Le nom de la resource.*/
+  final private String resourceName;
+
+  @Override
+  final protected void creerTexture() {
     ByteBuffer buffer;
 
     try (MemoryStack stack = MemoryStack.stackPush()){
@@ -26,11 +28,19 @@ public class TextureImage extends Texture {
             + STBImage.stbi_failure_reason());
       }
 
-      storeImage(buffer, w.get(), h.get());
+      uploadImageBuffer(buffer, w.get(), h.get());
 
     } catch(Exception e) {
       e.printStackTrace();
     }
+
+  }
+
+  /** Créer une nouvelle texture avec
+   * le nom d’une image dans le dossier res. */
+  public TextureImage(String resourceName) {
+    super();
+    this.resourceName = resourceName;
   }
 
 }

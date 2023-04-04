@@ -1,15 +1,10 @@
 /**
  * @author : pisento
  **/
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL20.*;
-
-import java.util.HashSet;
-
 import java.time.Duration;
 import java.time.Instant;
-
-import java.lang.ref.WeakReference;
+import java.util.Map;
+import java.util.HashMap;
 
 public class HelloBis {
 
@@ -82,8 +77,6 @@ public class HelloBis {
   public static void main(String[] args) {
     System.out.println("Hello Bis !");
 
-    Window testWindow = new Window(false, false, new Vec2Int(600, 300), "testWindow");
-    testWindow.show();
 
 
     VertexShader testVertSh = new VertexShader(vertCode);
@@ -95,49 +88,51 @@ public class HelloBis {
 
     float time = 0.0f;
     Instant instant = Instant.now();
-    int frame = 0;
 
-    DrawableText texte = new DrawableText(openglGc, "fps : " + frame);
+    DrawableText texte = new DrawableText(openglGc, "fps : " + 0);
     DrawableBox testBox = new DrawableBox(openglGc);
+
+    OpenglThread openglThread = new OpenglThread(openglGc);
+    openglThread.start();
+
+    openglThread.ajouterAffichage(testDrawer);
+    testBox.afficher(openglThread);
+    texte.afficher(openglThread);
+
+    Map<Integer, TestInstance> fleurs = new HashMap<>();
+
+    for (int i = 0; i < 100; i++) {
+      TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
+      testDrawer.addObjet(fleur);
+      fleurs.put(i, fleur);
+    }
+
 
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
-    while ( !glfwWindowShouldClose(testWindow.getHandle()) ) {
+    while ( openglThread.isAlive() ) {
 
       Instant newInstant = Instant.now();
       long timeElapsed = Duration.between(instant, newInstant).toMillis();
-      if (timeElapsed > 100) {
-        texte = new DrawableText(openglGc, "fps : " + 10*frame);
+      if (timeElapsed > 50) {
+        texte.cacher(openglThread);
+        texte = new DrawableText(openglGc, "fps : " + 100*openglThread.compteurFrames);
+        texte.afficher(openglThread);
         instant = newInstant;
-        frame = 0;
+        openglThread.compteurFrames = 0;
         // System.gc();
-      }
-      newInstant = null;
-      frame++;
+        newInstant = null;
 
-      time += 0.01f;
-      testDrawer.clear();
-      for (int i = 0; i < 100; i++) {
-        TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
-        testDrawer.addObjet(fleur);
-      }
-
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-      testDrawer.dessinerObjets();
-
-      testBox.dessiner();
-      texte.dessiner();
-
-
-      glfwSwapBuffers(testWindow.getHandle()); // swap the color buffers
-
-      // Poll for window events. The key callback above will only be
-      // invoked during this call.
-      glfwPollEvents();
-
-      if (time % 1 < 0.1 ) {
-        openglGc.gc();
+        time += 0.01f;
+        testDrawer.clear();
+        for (int i = 0; i < 100; i++) {
+          TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
+          TestInstance oldFleur = fleurs.get(i);
+          testDrawer.delObjet(oldFleur);
+          fleurs.remove(i);
+          testDrawer.addObjet(fleur);
+          fleurs.put(i, fleur);
+        }
       }
     }
   }

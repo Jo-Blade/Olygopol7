@@ -4,6 +4,7 @@
 **/
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -13,7 +14,7 @@ import static org.lwjgl.opengl.GL40.*;
 public class ModelInstantiator<T extends ModelInstance> {
 
   /** Id opengl du vertex array object.*/
-  private final int vaoId;
+  private int vaoId;
 
   /** Indique si les valeurs envoyées au gpu sont à jour.*/
   private boolean aJour;
@@ -23,6 +24,9 @@ public class ModelInstantiator<T extends ModelInstance> {
 
   /** Le programme opengl avec les shaders compilés.*/
   private final OpenglProgram afficheur;
+
+  /** Le gc opengl.*/
+  final private OpenglGC gc;
 
   /** La liste des objets à afficher.*/
   private List<T> objets;
@@ -41,29 +45,38 @@ public class ModelInstantiator<T extends ModelInstance> {
   public ModelInstantiator(OpenglGC gc, OpenglProgram afficheur, Model2d modele) {
     this.afficheur = afficheur;
     this.modele = modele;
-    this.vaoId = glGenVertexArrays();
-    this.objets = new ArrayList<T>();
+    this.vaoId = -1; // pas encore créé
+    this.objets = Collections.synchronizedList(new ArrayList<T>());
     this.objetsLocations = new HashSet<Integer>();
+    this.gc = gc;
+    this.aJour = false;
+  }
 
-    gc.new GlVao(vaoId, this);
+  /** Obtenir l’id du vao.*/
+  private int getVaoId() {
+    if (vaoId == -1) {
 
-    // Ajouter les vertices + uvs au vao
-    glBindVertexArray(vaoId);
-    modele.getVerticesVbo().setLocation(0);
-    modele.getUvsVbo().setLocation(1);
-    glBindVertexArray(0); // unbind the vao when done
+      this.vaoId = glGenVertexArrays();
+      gc.new GlVao(vaoId, this);
 
+      // Ajouter les vertices + uvs au vao
+      glBindVertexArray(vaoId);
+      modele.getVerticesVbo().setLocation(0);
+      modele.getUvsVbo().setLocation(1);
+      glBindVertexArray(0); // unbind the vao when done
+    }
+    return vaoId;
   }
 
   /** Ajouter un objet à la liste des objets à dessiner.
    * @param objet une instance d’un objet à dessiner
    */
   public boolean addObjet (T objet) {
-    if (objets.add(objet)) {
-      aJour = false;
-      return true;
-    }
-    return false;
+      if (objets.add(objet)) {
+        aJour = false;
+        return true;
+      }
+      return false;
   }
 
   /** Supprimer un objet de la liste des objets à dessiner.
@@ -79,7 +92,7 @@ public class ModelInstantiator<T extends ModelInstance> {
 
   /** Supprimer tous les objets de la liste des objets à dessiner.*/
   public void clear() {
-    objets = new ArrayList<T>();
+    objets.clear();
     aJour = false;
   }
 
@@ -94,15 +107,17 @@ public class ModelInstantiator<T extends ModelInstance> {
       entry.getValue().clear();
     }
 
-    for (T objet: objets) {
-      objet.appendVbos(objetsVbos);
+    synchronized (objets) {
+      for (T objet: objets) {
+        objet.appendVbos(objetsVbos);
+      }
     }
 
     objetsLocations.clear();
     this.objetsLocations = new HashSet<Integer>();
 
     // Bind the vertex array
-    glBindVertexArray(vaoId);
+    glBindVertexArray(getVaoId());
     for (Map.Entry<Integer, Vbo<?>> entry : objetsVbos.entrySet()) {
       entry.getValue().uploadToGpu();
       entry.getValue().setLocation(entry.getKey());
@@ -126,7 +141,7 @@ public class ModelInstantiator<T extends ModelInstance> {
     // Use the correct program
     afficheur.utiliser();
     // Bind the vertex array
-    glBindVertexArray(vaoId);
+    glBindVertexArray(getVaoId());
     // Utiliser le modèle pour dessiner
     modele.utiliser();
 

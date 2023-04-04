@@ -20,7 +20,11 @@ abstract public class Shader {
 
 
   /** ID opengl du shader.*/
-  private final int id;
+  private int id;
+
+
+  /** Code source du shader.*/
+  private final String codeSource;
 
 
   /** Créer un nouveau shader.*/
@@ -32,9 +36,8 @@ abstract public class Shader {
    * @param shaderType type de shader opengl (vertex, frag…) */
   public Shader(String codeSource) {
 
-    id = this.creerShader(codeSource);
-    glShaderSource(id, codeSource);
-    this.compiler();
+    this.codeSource = codeSource;
+    this.id = -1; // on met -1 pour dire que c’est pas initialisé
   }
 
 
@@ -49,6 +52,12 @@ abstract public class Shader {
 
   /** Obtenir l’id opengl du shader.*/
   public int getId() {
+    
+    if (id == -1) {
+      id = this.creerShader(codeSource);
+      glShaderSource(id, codeSource);
+      this.compiler();
+    }
     return id;
   }
 

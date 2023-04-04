@@ -131,15 +131,22 @@ public class DrawableText {
     }
   }
 
-  /** Afficher le texte.*/
-  public void dessiner() {
+  /** Donner l’instruction d’affichage.
+   * @param openglThread le thread chargé de l’affichage
+   */
+  public void afficher(OpenglThread openglThread) {
+    openglThread.ajouterAffichage(drawer);
+  }
 
-    drawer.dessinerObjets();
+  /** Donner l’instruction d’affichage.
+   * @param openglThread le thread chargé de l’affichage
+   */
+  public void cacher(OpenglThread openglThread) {
+    openglThread.retirerAffichage(drawer);
   }
 
   @Override
   public String toString() {
     return "DrawableTexte : " + texte;
   }
-
 }

@@ -11,10 +11,13 @@ public class Model2d {
   private final Texture texture;
 
   /** Le vbo avec les points du modèle.*/
-  private final FloatVec2Vbo vboVert;
+  protected final FloatVec2Vbo vboVert;
 
   /** Le vbo avec les coordonnées uvs du modèle.*/
-  private final FloatVec2Vbo vboUvs;
+  protected final FloatVec2Vbo vboUvs;
+
+  /** true si les vbos ont déjà été upload sur le gpu.*/
+  protected boolean uploaded = false;
 
   /** Nouveau modèle 2d par ses points et le nom d’une image.
    * @param vertices coordonnées des points du modèles dans l’ordre x puis y
@@ -38,9 +41,6 @@ public class Model2d {
       vboVert.push(new FloatVec2(vertices[i], vertices[i + 1]));
       vboUvs.push(new FloatVec2(uvs[i], uvs[i + 1]));
     }
-
-    vboVert.uploadToGpu();
-    vboUvs.uploadToGpu();
   }
 
   /** Obtenir la texture du modèle.
@@ -73,6 +73,13 @@ public class Model2d {
 
   /** Utiliser le modèle (load la texture si besoin).*/
   void utiliser() {
+
+    if (!uploaded) {
+      vboVert.uploadToGpu();
+      vboUvs.uploadToGpu();
+      uploaded = true;
+    }
+
     texture.loadTexture();
   }
 }

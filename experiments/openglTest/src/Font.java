@@ -10,8 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
-import org.lwjgl.system.MemoryUtil;
 import java.nio.*;
+import org.lwjgl.system.MemoryUtil;
 
 
 public class Font extends Texture {
@@ -22,10 +22,12 @@ public class Font extends Texture {
   /** La hauteur de la texture générée.*/
   public int textureHeight;
 
+  /** L’image avec tous les caractères.*/
+  private BufferedImage image;
 
   // --- Définir un glyph pour dessiner des caractères
   private Map<Character, Glyph> glyphs = new HashMap<>(); // associe a chaque lettre son glyph
-                                                                 // (= position dans la texture)
+                                                          // (= position dans la texture)
 
   /** Classe qui représente les coordonnées
    * d’un caractère dans la texture.*/
@@ -61,6 +63,7 @@ public class Font extends Texture {
   /** Créer une nouvelle texture avec
    * le nom d’une image dans le dossier res. */
   public Font(java.awt.Font font) {
+    super();
 
     int imageWidth = 0;
     int imageHeight = 0;
@@ -77,7 +80,7 @@ public class Font extends Texture {
     }
 
     // --- Creer la texture ---
-    BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+    image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
 
     // --- Dessiner chaque lettre dans la texture ---
@@ -107,7 +110,14 @@ public class Font extends Texture {
       glyphs.put(c, ch);
     }
 
+    /* Get charWidth and charHeight of image */
+    textureWidth = image.getWidth();
+    textureHeight = image.getHeight();
+  }
 
+
+  @Override
+  final protected void creerTexture() {
     // --- Créer la texture opengl ---
     /* Flip image Horizontal to get the origin to bottom left */
     AffineTransform transform = AffineTransform.getScaleInstance(1f, -1f);
@@ -115,10 +125,6 @@ public class Font extends Texture {
     AffineTransformOp operation = new AffineTransformOp(transform,
         AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
     image = operation.filter(image, null);
-
-    /* Get charWidth and charHeight of image */
-    textureWidth = image.getWidth();
-    textureHeight = image.getHeight();
 
     /* Get pixel data of image */
     int[] pixels = new int[textureWidth * textureHeight];
@@ -143,7 +149,7 @@ public class Font extends Texture {
     /* Do not forget to flip the buffer! */
     buffer.flip();
 
-    storeImage(buffer, textureWidth, textureHeight);
+    uploadImageBuffer(buffer, textureWidth, textureHeight);
   }
 
 

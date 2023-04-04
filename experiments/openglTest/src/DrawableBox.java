@@ -127,10 +127,12 @@ public class DrawableBox {
     drawer.addObjet(obTest);
   }
 
-  /** Afficher le rectangle.*/
-  public void dessiner() {
+  /** Donner l’instruction d’affichage.
+   * @param openglThread le thread chargé de l’affichage
+   */
+  public void afficher(OpenglThread openglThread) {
 
-    drawer.dessinerObjets();
+    openglThread.ajouterAffichage(drawer);
   }
 
 }

@@ -11,6 +11,13 @@ public class Model2dNoTex extends Model2d {
 
   @Override
   public void utiliser() {
+
+    if (!uploaded) {
+      vboVert.uploadToGpu();
+      vboUvs.uploadToGpu();
+      uploaded = true;
+    }
+
     // On ne fait rien car pas de texture
   }
 
