@@ -19,7 +19,7 @@ public class Joueur {
   /**
    * Constructeur de la classe
    */
-  public Joueur(int solde, int pos, String nom, char avatar) {
+  public Joueur(int solde, int pos, String nom, char avatar, String symbolePropriete) {
     assert solde != 0;
     assert nom != null;
 
@@ -27,6 +27,7 @@ public class Joueur {
     this.POSITIONjoueur = pos;
     this.NOMjoueur = nom;
     this.avatar = avatar;
+    this.symbolePropriete = symbolePropriete;
   }
 
 
@@ -67,6 +68,9 @@ public class Joueur {
    */
   public void  avancer(int dcase) {
     this.POSITIONjoueur += dcase;
+
+    // POUR CETTE PREMIERE VERSION, ON REVIENT À LA PREMIERE CASE QUAND ON DEPASSE LA CASE 20
+    this.POSITIONjoueur %= 20;
   }
 
   /**
@@ -84,7 +88,7 @@ public class Joueur {
   public void debiter(double monnaie) throws BanquerouteException{
     this.SOLDEjoueur -= monnaie;
     if (this.SOLDEjoueur <= 0) {
-      throw new BanquerouteException(joueur);
+      throw new BanquerouteException(this);
     }
   }
 

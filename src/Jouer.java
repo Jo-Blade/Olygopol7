@@ -28,9 +28,10 @@ public class Jouer{
   private static Joueur[] creationJoueur(String[] str) {
     Joueur[] tJoueur = {null, null,null,null} ;
     char[] avatar = {'a', 'b', 'c', 'd'};
+    String[] symbolePropriete = {"< >", "{ }", "| |", "( )"};
 
     for (int i=0;i<str.length; i++){
-      tJoueur[i]= new Joueur(solde, 0, str[i], avatar[i]);
+      tJoueur[i]= new Joueur(solde, 0, str[i], avatar[i], symbolePropriete[i]);
     }
     return(tJoueur);
   }

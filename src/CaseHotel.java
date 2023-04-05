@@ -26,8 +26,12 @@ public class CaseHotel implements CaseFonctionnelle, CaseGraphique {
       proprietaire.crediter(prix); // le choix a été fait de toujours
                                    // donner le prix demandé par le proprio, quitte
                                    // à ce que le joueur soit dans le négatif
+      System.out.println(joueur.getNom() + " paie " + prix + "k$ à " + proprietaire.getNom());
       joueur.debiter(prix); // peut lever une exception
 	  }
+    else {
+      System.out.println("Vous êtes chez vous, reposez vous :)");
+    }
   }
 
   @Override

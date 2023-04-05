@@ -22,7 +22,7 @@ public class Plateau {
     // ATTENTION, ON DOIT AVOIR UN SEUL SCANNER POUR TOUT LE PROGRAMME !!
     Scanner testScan = new Scanner(System.in);
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 20; i++) {
       CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan);
       listeCaseFonctionnelle.add(newCaseLibre);
       listeCaseGraphique.add(newCaseLibre);
@@ -53,7 +53,7 @@ public class Plateau {
 
 	// mettre la javadoc
 	public void afficherPlateau(Joueur[] joueurs) {	
-    plateau = new StringBuffer("--------------------------------------------------");
+    plateau = new StringBuffer("-------------------------------------------------------------------------------------------------");
 
     // afficher les cases
 	  for (CaseGraphique c : listeCaseGraphique) {

@@ -12,7 +12,7 @@ public class Arbitre {
   }
 
   public void arbitrer() {
-    int i = 1;
+    int i = 0;
 
     while (!finDuJeu) {
       try {
@@ -22,7 +22,7 @@ public class Arbitre {
         System.out.println(e.getMessage());
         finDuJeu = true;
       }
-      i = i % 4 + 1;
+      i = (i + 1) % 4;
     }
 
     System.out.println("Fin de la partie");
@@ -31,12 +31,15 @@ public class Arbitre {
   public void jouerTour(Joueur J) throws BanquerouteException {
     plateau.afficherPlateau(tabJoueur);
     int de = J.lancerDe();
-    System.out.println("Vous avez fait" );
+    System.out.println("Tour de : " + J.getNom());
+    System.out.println("Vous avez" + J.getSolde() + "k$");
+    System.out.println("Vous avez fait" + de );
     J.avancer(de);
     plateau.afficherPlateau(tabJoueur);
     CaseFonctionnelle Case = plateau.getCase(J.getPosition());
     Case.executer(J);
-    System.out.println("Voulez vous ajouter gerer vos propriété ?");
+    /* JE MET EN COMMENTAIRE CAR IMPLÉMENTATION NON TERMINÉE
+     * System.out.println("Voulez vous ajouter gerer vos propriété ?");
     try {
       String reponse = scanner.nextLine();
       if (reponse.equals("oui")) {
@@ -48,6 +51,7 @@ public class Arbitre {
     } catch (InvalideEntreeExcpetion e) {
       System.out.println("On répond generalement à une question fermé par oui ou par non.");
     }
+    */
 
   }
 
