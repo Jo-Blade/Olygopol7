@@ -104,18 +104,30 @@ public class DrawableText {
   /** Le texte qui est affiché.*/
   private String texte;
 
+  /** Le gc opengl.*/
+  private OpenglGC gc;
+
   /** Construire une boite de texte.
    * @param font la font pour écrire le texte
    * @param texte le texte à écrire
    */
   public DrawableText(OpenglGC gc, String texte) {
     this.texte = texte;
+    this.gc = gc;
     fontModel = new Model2d(gc, DrawableText.vertices, DrawableText.uvs, DrawableText.font);
 
     fontProg.setUniformFloat("texWidth", font.textureWidth);
     fontProg.setUniformFloat("texHeight", font.textureHeight);
 
     drawer = new ModelInstantiator<GlyphInstance>(gc, fontProg, fontModel);
+    changer(texte);
+  }
+
+  /** Changer le texte affiché.
+   * @param texte le nouveau texte à afficher
+   */
+  public void changer(String texte) {
+    drawer.clear();
 
     // On calcule la longueur totale du texte pour le centrer
     int x = 0;
@@ -129,6 +141,8 @@ public class DrawableText {
       drawer.addObjet(new GlyphInstance(gc, 0.003f * x, 0.003f * y, g, 0, 0.003f));
       x += g.width;
     }
+
+    drawer.valider();
   }
 
   /** Donner l’instruction d’affichage.

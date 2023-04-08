@@ -68,12 +68,17 @@ public class ModelInstantiator<T extends ModelInstance> {
     return vaoId;
   }
 
+  /** Actualiser l’affichage des objets à la prochaine frame !!!
+   * Ne pas oublier de l’appeler.*/
+  public void valider() {
+    aJour = false;
+  }
+
   /** Ajouter un objet à la liste des objets à dessiner.
    * @param objet une instance d’un objet à dessiner
    */
   public boolean addObjet (T objet) {
       if (objets.add(objet)) {
-        aJour = false;
         return true;
       }
       return false;
@@ -84,7 +89,6 @@ public class ModelInstantiator<T extends ModelInstance> {
    */
   public boolean delObjet (T objet) {
     if (objets.remove(objet)) {
-      aJour = false;
       return true;
     }
     return false;
@@ -93,7 +97,6 @@ public class ModelInstantiator<T extends ModelInstance> {
   /** Supprimer tous les objets de la liste des objets à dessiner.*/
   public void clear() {
     objets.clear();
-    aJour = false;
   }
 
 

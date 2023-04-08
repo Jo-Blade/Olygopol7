@@ -11,11 +11,17 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import java.nio.IntBuffer;
+import java.nio.DoubleBuffer;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Window {
 
   /** Opengl window handle.*/
   private long windowHandle;
+
+  /** Liste de boutons sur la fenetre.*/
+  public List<Button> listeBoutons = new ArrayList<>();
 
   /** Créer une fenêtre opengl.
    * @param AA activer ou non l’antialising
@@ -66,6 +72,29 @@ public class Window {
       glViewport(0, 0, newDimensions.x, newDimensions.y);
     });
 
+
+    // Setup a mouse callback.
+    glfwSetMouseButtonCallback(windowHandle, (windowHandle, button, action, mods) -> {
+      if ( button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE ) {
+        try ( MemoryStack stack = stackPush() ) {
+          DoubleBuffer px_pos = stack.mallocDouble(1); // double*
+          DoubleBuffer py_pos = stack.mallocDouble(1); // double*
+
+          glfwGetCursorPos(windowHandle, px_pos, py_pos);
+
+          Vec2Int currentDim = getDimensions();
+          FloatVec2 mouseCoords = new FloatVec2((float) px_pos.get(0) / (float) currentDim.x,
+              (float) py_pos.get(0) / (float) currentDim.y);
+
+          // System.out.println("x: " + mouseCoords.x + " - y: " + mouseCoords.y);
+          for (Button b : listeBoutons) {
+            if (b.isMouseSelected(mouseCoords))
+              b.cliquer();
+          }
+
+        }
+      }
+    });
 
 
     // --- VRAIMENT UTILE DE CENTRER LA FENETRE ? ---

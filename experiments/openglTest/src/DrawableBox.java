@@ -125,6 +125,8 @@ public class DrawableBox {
         );
 
     drawer.addObjet(obTest);
+    // on indique qu’on a fini de modifier le drawer
+    drawer.valider();
   }
 
   /** Donner l’instruction d’affichage.

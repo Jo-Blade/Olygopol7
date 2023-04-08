@@ -14,6 +14,9 @@ public class OpenglThread extends Thread {
   /** La fenêtre à mettre à jour.*/
   private Window fenetre;
 
+  /** Liste de boutons sur la fenetre.*/
+  public List<Button> listeBoutons = new ArrayList<>();
+
   /** Nombre d’images rendues depuis le début du programme.*/
   public int compteurFrames = 0;
 
@@ -44,10 +47,23 @@ public class OpenglThread extends Thread {
     afficheurs.remove(afficheur);
   }
 
+  /** Ajouter un bouton cliquable à la fenêtre.
+   * @param bouton le bouton à ajouter
+   */
+  public void ajouterBouton(Button bouton) {
+    if (fenetre != null)
+      fenetre.listeBoutons.add(bouton);
+
+    listeBoutons.add(bouton);
+  }
+
   /** Boucle infinie qui met à jour la fenêtre donnée.*/
   public void run() {
     fenetre = new Window(false, false, new Vec2Int(600, 300), "testWindow");
     fenetre.show();
+
+    for (Button b : listeBoutons)
+      fenetre.listeBoutons.add(b);
 
     Instant instant = Instant.now();
     while ( !glfwWindowShouldClose(fenetre.getHandle()) ) {

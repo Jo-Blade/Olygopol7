@@ -6,6 +6,9 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.HashMap;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class HelloBis {
 
   private final static OpenglGC openglGc = new OpenglGC();
@@ -73,6 +76,13 @@ public class HelloBis {
   };
 
 
+  public class Compteur {
+    public int compteur = 0;
+
+    public void inc() {
+      compteur++;
+    }
+  }
 
   public static void main(String[] args) {
     System.out.println("Hello Bis !");
@@ -89,51 +99,94 @@ public class HelloBis {
     float time = 0.0f;
     Instant instant = Instant.now();
 
-    DrawableText texte = new DrawableText(openglGc, "fps : " + 0);
-    DrawableBox testBox = new DrawableBox(openglGc);
 
     OpenglThread openglThread = new OpenglThread(openglGc);
     openglThread.start();
 
-    openglThread.ajouterAffichage(testDrawer);
+    TaquinGrille grille = new TaquinGrille(openglGc, 3, "texture.png");
+
+    new TaquinCarre(openglGc, 2, 0, 1, 0, grille);
+    new TaquinCarre(openglGc, 2, 1, 2, 0, grille);
+    new TaquinCarre(openglGc, 1, 0, 0, 1, grille);
+    new TaquinCarre(openglGc, 2, 2, 1, 1, grille);
+    new TaquinCarre(openglGc, 1, 1, 2, 1, grille);
+    new TaquinCarre(openglGc, 0, 1, 0, 2, grille);
+    new TaquinCarre(openglGc, 1, 2, 1, 2, grille);
+    new TaquinCarre(openglGc, 0, 2, 2, 2, grille);
+
+    Compteur compteurClics = new HelloBis().new Compteur();
+
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        openglThread.ajouterBouton(
+            new TaquinButton( grille,
+            new FloatVec2(1f/3f* (float) j, 1f/3f* (float) i),
+            new FloatVec2(1f/3f* (float) (j+1), 1f/3f* (float) (i+1)),
+            new Vec2Int(j, i),
+            compteurClics));
+      }
+    }
+
+    grille.afficher(openglThread);
+
+    DrawableBox testBox = new DrawableBox(openglGc);
     testBox.afficher(openglThread);
+
+    int compteur = 0;
+    DrawableText texte = new DrawableText(openglGc, "clics : 0");
     texte.afficher(openglThread);
 
-    Map<Integer, TestInstance> fleurs = new HashMap<>();
-
-    for (int i = 0; i < 100; i++) {
-      TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
-      testDrawer.addObjet(fleur);
-      fleurs.put(i, fleur);
+    while ( openglThread.isAlive() ) {
+      if (compteur != compteurClics.compteur) {
+        texte.changer("clics : " + compteurClics.compteur);
+        compteur = compteurClics.compteur;
+      }
     }
+
+    /*
+       DrawableText texte = new DrawableText(openglGc, "fps : " + 0);
+       DrawableBox testBox = new DrawableBox(openglGc);
+
+       openglThread.ajouterAffichage(testDrawer);
+       testBox.afficher(openglThread);
+       texte.afficher(openglThread);
+
+       Map<Integer, TestInstance> fleurs = new HashMap<>();
+
+       for (int i = 0; i < 100; i++) {
+       TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
+       testDrawer.addObjet(fleur);
+       fleurs.put(i, fleur);
+       }
 
 
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
     while ( openglThread.isAlive() ) {
 
-      Instant newInstant = Instant.now();
-      long timeElapsed = Duration.between(instant, newInstant).toMillis();
-      if (timeElapsed > 50) {
-        texte.cacher(openglThread);
-        texte = new DrawableText(openglGc, "fps : " + 100*openglThread.compteurFrames);
-        texte.afficher(openglThread);
-        instant = newInstant;
-        openglThread.compteurFrames = 0;
-        // System.gc();
-        newInstant = null;
+    Instant newInstant = Instant.now();
+    long timeElapsed = Duration.between(instant, newInstant).toMillis();
+    if (timeElapsed > 50) {
+    texte.cacher(openglThread);
+    texte = new DrawableText(openglGc, "fps : " + 100*openglThread.compteurFrames);
+    texte.afficher(openglThread);
+    instant = newInstant;
+    openglThread.compteurFrames = 0;
+    // System.gc();
+    newInstant = null;
 
-        time += 0.01f;
-        testDrawer.clear();
-        for (int i = 0; i < 100; i++) {
-          TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
-          TestInstance oldFleur = fleurs.get(i);
-          testDrawer.delObjet(oldFleur);
-          fleurs.remove(i);
-          testDrawer.addObjet(fleur);
-          fleurs.put(i, fleur);
-        }
-      }
+    time += 0.01f;
+    testDrawer.clear();
+    for (int i = 0; i < 100; i++) {
+    TestInstance fleur = new TestInstance(openglGc, -0.9f + 0.2f*((int) i % 10), -0.9f + 0.2f*((int) i / 10), (2*(i%2) - 1)*time, 0.1f);
+    TestInstance oldFleur = fleurs.get(i);
+    testDrawer.delObjet(oldFleur);
+    fleurs.remove(i);
+    testDrawer.addObjet(fleur);
+    fleurs.put(i, fleur);
     }
+    }
+    }
+    */
   }
 }
