@@ -13,7 +13,7 @@ public class Plateau {
 	/** Liste des cases qui implique une action.*/
 	private List<CaseGraphique> listeCaseGraphique = new ArrayList<CaseGraphique>();
 
-  /** Représentation textuelle du plateau.*/
+	/** Représentation textuelle du plateau.*/
 	private StringBuffer plateau; 
 
   /** Construire un plateau par défaut.*/
@@ -45,18 +45,17 @@ public class Plateau {
     listeCaseGraphique.set(indice, caseG);
   }
 
-	// en abstract car pas encore coder pour les autres 
-	// mettre la javadoc
+	// Obtenir la case du plateau
 	public CaseFonctionnelle getCase(int position) {
 		return listeCaseFonctionnelle.get(position);
 	}
 
-	// mettre la javadoc
+	// Affiche le plateau
 	public void afficherPlateau(Joueur[] joueurs) {	
     plateau = new StringBuffer("-------------------------------------------------------------------------------------------------");
 
     // afficher les cases
-	  for (CaseGraphique c : listeCaseGraphique) {
+	for (CaseGraphique c : listeCaseGraphique) {
 		  c.afficher(plateau);
 	  }
 
