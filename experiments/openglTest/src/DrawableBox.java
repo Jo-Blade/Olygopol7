@@ -2,7 +2,7 @@
  * @author : pisento
 **/
 
-public class DrawableBox {
+public class DrawableBox implements WindowListener {
 
   private final static String vertCode =
     "#version 330 core\n" +
@@ -16,6 +16,9 @@ public class DrawableBox {
     "in float rayon;\n" +
     "in float epaisseur;\n" +
 
+    "uniform int windowWidth;\n" +
+    "uniform int windowHeight;\n" +
+
     "out vec2 fragUvs;\n" +
 
     "out float width;\n" +
@@ -28,7 +31,7 @@ public class DrawableBox {
     "void main()\n" +
     "{\n" +
 
-    "mat2 resize = mat2(dimensions.x / 600.0, 0.0, 0.0, dimensions.y / 300.0);\n" +
+    "mat2 resize = mat2(dimensions.x / float(windowWidth), 0.0, 0.0, dimensions.y / float(windowHeight));\n" +
 
     "gl_Position = vec4(position*resize + positionCentre, 0.0, 1.0);\n" +
     "fragUvs = uvs;\n" +
@@ -56,7 +59,8 @@ public class DrawableBox {
     "in float radius;\n" +
     "in float border_size;\n" +
 
-    "const vec2 u_resolution = vec2(600, 300);\n" +
+    "uniform int windowWidth;\n" +
+    "uniform int windowHeight;\n" +
 
     "void main() {\n" +
     "vec2 st = abs(fragUvs);\n" +
@@ -65,7 +69,7 @@ public class DrawableBox {
     "st.y *= height;\n" +
 
     "float lg = length(st - vec2(width/2. - radius, height/2. - radius));\n" +
-    "float aa = max(width/u_resolution.x, height/u_resolution.y);\n" +
+    "float aa = max(width/windowWidth, height/windowHeight);\n" +
 
     "float alpha = smoothstep(lg - aa, lg, radius);\n" +
     "alpha += step(radius, length(st - vec2(width/2.,height/2.)));\n" +
@@ -110,12 +114,16 @@ public class DrawableBox {
       new VertexShader(vertCode), new FragmentShader(fragCode)
       );
 
+  private OpenglGC gc;
+  private BoxInstance obTest;
+
   public DrawableBox(OpenglGC gc) {
+    this.gc = gc;
 
     Model2d modele = new Model2dNoTex(gc, vertices, uvs);
     drawer = new ModelInstantiator<>(gc, glProg, modele);
 
-    BoxInstance obTest = new BoxInstance(
+    obTest = new BoxInstance(
         gc,
         new FloatVec2(0,0),
         new FloatVec2(400, 80),
@@ -135,6 +143,22 @@ public class DrawableBox {
   public void afficher(OpenglThread openglThread) {
 
     openglThread.ajouterAffichage(drawer);
+  }
+
+  @Override
+  public void updateWindowTaille(int windowWidth, int windowHeight) {
+    drawer.delObjet(obTest);
+
+    obTest = new BoxInstance(
+        gc,
+        new FloatVec2(-1 + 270f / (float) windowWidth, 1 - 70f / windowHeight),
+        new FloatVec2(250, 60),
+        new FloatVec4(1, 0, 0, 0.8f),
+        new FloatVec4(1, 1, 1, 0.5f),
+        15, 8
+        );
+    drawer.addObjet(obTest);
+    drawer.valider();
   }
 
 }

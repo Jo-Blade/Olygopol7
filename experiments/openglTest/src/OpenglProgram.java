@@ -34,7 +34,7 @@ public class OpenglProgram {
 
 
   /** Utiliser maintenant ce programme opengl.*/
-  public void utiliser() {
+  public void utiliser(int windowWidth, int windowHeight) {
 
     if (id == -1) {
       id = glCreateProgram();
@@ -55,6 +55,10 @@ public class OpenglProgram {
 
       mapUniforms.clear();
     }
+
+    // mettre la taille de la fenêtre dans des uniforms
+    glUniform1i(glGetUniformLocation(id, "windowWidth"), windowWidth);
+    glUniform1i(glGetUniformLocation(id, "windowHeight"), windowHeight);
   }
 
 

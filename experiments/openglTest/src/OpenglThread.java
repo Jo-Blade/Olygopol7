@@ -17,6 +17,9 @@ public class OpenglThread extends Thread {
   /** Liste de boutons sur la fenetre.*/
   public List<Button> listeBoutons = new ArrayList<>();
 
+  /** Liste des écouteurs de la taille de la fenêtre.*/
+  public List<WindowListener> listeEcouteurs = new ArrayList<>();
+
   /** Nombre d’images rendues depuis le début du programme.*/
   public int compteurFrames = 0;
 
@@ -57,6 +60,17 @@ public class OpenglThread extends Thread {
     listeBoutons.add(bouton);
   }
 
+  /** Ajouter un objet à la liste des objets qui
+   * dépendent de la taille de la fenêtre.
+   * @param objet l'objet à ajouter
+   */
+  public void ajouterEcouteur(WindowListener objet) {
+    if (fenetre != null)
+      fenetre.listeEcouteurs.add(objet);
+
+    listeEcouteurs.add(objet);
+  }
+
   /** Boucle infinie qui met à jour la fenêtre donnée.*/
   public void run() {
     fenetre = new Window(false, false, new Vec2Int(600, 300), "testWindow");
@@ -65,14 +79,18 @@ public class OpenglThread extends Thread {
     for (Button b : listeBoutons)
       fenetre.listeBoutons.add(b);
 
+    for (WindowListener e : listeEcouteurs)
+      fenetre.listeEcouteurs.add(e);
+
     Instant instant = Instant.now();
     while ( !glfwWindowShouldClose(fenetre.getHandle()) ) {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+      Vec2Int fenetreTaille = fenetre.getDimensions();
       synchronized(afficheurs) {
 
         for(ModelInstantiator<?> afficheur : afficheurs)
-          afficheur.dessinerObjets();
+          afficheur.dessinerObjets(fenetreTaille.x, fenetreTaille.y);
       }
       glfwSwapBuffers(fenetre.getHandle()); // swap the color buffers
 

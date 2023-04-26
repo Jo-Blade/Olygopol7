@@ -6,10 +6,10 @@
 abstract public class Button {
 
   /** Le point en haut à gauche de la hitbox du bouton. */
-  private FloatVec2 point1;
+  protected FloatVec2 point1;
 
   /** Le point en bas à droite de la hitbox du bouton. */
-  private FloatVec2 point2;
+  protected FloatVec2 point2;
 
   /** Créer un bouton par ses deux extrémités.
    *  @param point1 point en haut à gauche de la hitbox du bouton

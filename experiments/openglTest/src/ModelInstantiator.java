@@ -132,7 +132,7 @@ public class ModelInstantiator<T extends ModelInstance> {
     aJour = true;
   }
 
-  public void dessinerObjets() {
+  public void dessinerObjets(int windowWidth, int windowHeight) {
 
     // Si aucun objet à dessiner, on ne fait rien
     if (objets.isEmpty())
@@ -142,7 +142,7 @@ public class ModelInstantiator<T extends ModelInstance> {
       actualiser();
 
     // Use the correct program
-    afficheur.utiliser();
+    afficheur.utiliser(windowWidth, windowHeight);
     // Bind the vertex array
     glBindVertexArray(getVaoId());
     // Utiliser le modèle pour dessiner

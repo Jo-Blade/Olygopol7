@@ -1,8 +1,6 @@
 /** Vecteur de deux flottants.
  * @author : pisento
 **/
-import static org.lwjgl.opengl.GL20.*;
-
 public class FloatVec2 {
 
   /** Première coordonnée du vecteur.*/
@@ -18,6 +16,11 @@ public class FloatVec2 {
   public FloatVec2(float x, float y) {
     this.x = x;
     this.y = y;
+  }
+
+  @Override
+  public String toString() {
+    return "FloatVec2(" + x + ", " + y + ")";
   }
 
 }

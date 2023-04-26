@@ -23,6 +23,9 @@ public class Window {
   /** Liste de boutons sur la fenetre.*/
   public List<Button> listeBoutons = new ArrayList<>();
 
+  /** Liste des écouteurs de la taille de la fenêtre.*/
+  public List<WindowListener> listeEcouteurs = new ArrayList<>();
+
   /** Créer une fenêtre opengl.
    * @param AA activer ou non l’antialising
    * @param vSync activer ou non la v-sync
@@ -70,6 +73,9 @@ public class Window {
 
       Vec2Int newDimensions = this.getDimensions();
       glViewport(0, 0, newDimensions.x, newDimensions.y);
+
+      for (WindowListener e : listeEcouteurs)
+        e.updateWindowTaille(newDimensions.x, newDimensions.y);
     });
 
 

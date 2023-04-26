@@ -118,22 +118,27 @@ public class HelloBis {
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        openglThread.ajouterBouton(
+        TaquinButton bouton = 
             new TaquinButton( grille,
             new FloatVec2(1f/3f* (float) j, 1f/3f* (float) i),
             new FloatVec2(1f/3f* (float) (j+1), 1f/3f* (float) (i+1)),
             new Vec2Int(j, i),
-            compteurClics));
+            compteurClics);
+
+        openglThread.ajouterBouton(bouton);
+        openglThread.ajouterEcouteur(bouton);
       }
     }
 
     grille.afficher(openglThread);
 
     DrawableBox testBox = new DrawableBox(openglGc);
+    openglThread.ajouterEcouteur(testBox);
     testBox.afficher(openglThread);
 
     int compteur = 0;
     DrawableText texte = new DrawableText(openglGc, "clics : 0");
+    openglThread.ajouterEcouteur(texte);
     texte.afficher(openglThread);
 
     while ( openglThread.isAlive() ) {

@@ -2,7 +2,7 @@
  * @author : pisento
 **/
 
-public class DrawableText {
+public class DrawableText implements WindowListener {
 
   /** Code du vertex shader.*/
   private final static String vertCode =
@@ -16,10 +16,12 @@ public class DrawableText {
     "in float angle;\n" +
     "in float echelle;\n" +
 
+    "uniform int windowWidth;\n" +
+    "uniform int windowHeight;\n" +
+
     "out vec2 fUvs;\n" +
     "out vec2 fGlyphPos;\n" +
     "out vec2 fGlyphTaille;\n" +
-
 
     "void main()\n" +
     "{\n" +
@@ -27,9 +29,10 @@ public class DrawableText {
     "float cos_t = cos(angle);\n" +
     "float sin_t = sin(angle);\n" +
     "mat2 rotation = mat2(cos_t, sin_t, -sin_t, cos_t);\n" +
+    "mat2 winResize = mat2(600. / float(windowWidth), 0.0, 0.0, 600. / float(windowHeight));\n" +
     "mat2 resize = mat2(echelle*glyphTaille.x, 0.0, 0.0, echelle*glyphTaille.y);\n" +
 
-    "vec4 pos = vec4(vertex*rotation*resize + positionLettre, 0.0, 1.0);\n" +
+    "vec4 pos = vec4(vertex*rotation*resize*winResize + positionLettre*winResize, 0.0, 1.0);\n" +
     "gl_Position = pos;\n" +
 
     "fUvs = uvs;\n" +
@@ -107,6 +110,9 @@ public class DrawableText {
   /** Le gc opengl.*/
   private OpenglGC gc;
 
+  private int windowWidth = 600;
+  private int windowHeight = 300;
+
   /** Construire une boite de texte.
    * @param font la font pour écrire le texte
    * @param texte le texte à écrire
@@ -127,18 +133,20 @@ public class DrawableText {
    * @param texte le nouveau texte à afficher
    */
   public void changer(String texte) {
+    this.texte = texte;
     drawer.clear();
 
     // On calcule la longueur totale du texte pour le centrer
     int x = 0;
-    for (char c : texte.toCharArray())
-      x += font.getCaractere(c).width;
+    // for (char c : texte.toCharArray())
+    //   x += font.getCaractere(c).width;
 
-    x = - x / 2;
-    int y = - font.textureHeight / 2; // centrer le texte verticalement
+    x =  (int) ((50 - windowWidth) / 600.0 / 0.002);
+    int y = - font.textureHeight + (int) (-15 + (windowHeight) / 600.0 / 0.002); // centrer le texte verticalement
+    // int y = - font.textureHeight / 2;
     for (char c : texte.toCharArray()) {
       Font.Glyph g = font.getCaractere(c);
-      drawer.addObjet(new GlyphInstance(gc, 0.003f * x, 0.003f * y, g, 0, 0.003f));
+      drawer.addObjet(new GlyphInstance(gc, 0.002f * x, 0.002f * y, g, 0, 0.002f));
       x += g.width;
     }
 
@@ -162,5 +170,12 @@ public class DrawableText {
   @Override
   public String toString() {
     return "DrawableTexte : " + texte;
+  }
+
+  @Override
+  public void updateWindowTaille(int windowWidth, int windowHeight) {
+    this.windowWidth = windowWidth;
+    this.windowHeight = windowHeight;
+    changer(texte);
   }
 }
