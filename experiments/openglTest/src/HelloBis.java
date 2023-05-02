@@ -45,7 +45,7 @@ public class HelloBis {
       }
     }
 
-    grille.afficher(openglThread);
+    // grille.afficher(openglThread);
 
     DrawableBox testBox = new DrawableBox();
     openglThread.ajouterEcouteur(testBox);
@@ -56,7 +56,8 @@ public class HelloBis {
     openglThread.ajouterEcouteur(texte);
     texte.afficher(openglThread);
 
-    DrawableIsoGrid testGrid = new DrawableIsoGrid("texture.png", 1);
+    DrawableIsoGrid testGrid = new DrawableIsoGrid("isoTex.png", 5);
+    openglThread.ajouterEcouteur(testGrid);
     testGrid.afficher(openglThread);
 
     while ( openglThread.isAlive() ) {

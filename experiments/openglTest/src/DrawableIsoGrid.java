@@ -31,14 +31,20 @@ public class DrawableIsoGrid implements WindowListener {
     "out vec2 fUvs;\n" +
     "out float fIndiceTex;\n" +
 
-    "const int a = 10;\n" +
+    "const float a = 9.8;\n" +
+    "const float b = 5.6;\n" +
 
     "void main()\n" +
     "{\n" +
 
-    "mat2x3 chbase = mat2x3(a, -a, 0,   a, a, a);\n" +
+    "mat2x3 chbase = mat2x3(a, -a, 0.,   b, b, b);\n" +
     "vec2 pos1 = vertex*mat2(10.) + (positionCentre - vec3(cameraX, cameraY, cameraZ)) * chbase;\n" +
     "pos1 *= zoom;\n" +
+    "float afficher = step(-isoGridWidth/2. + 10.*zoom, ((positionCentre - vec3(cameraX, cameraY, cameraZ)) * chbase * zoom).x);\n" +
+    "afficher *= step(-isoGridHeight/2. + 20.*zoom, ((positionCentre - vec3(cameraX, cameraY, cameraZ)) * chbase * zoom).y);\n" +
+    "afficher *= step(((positionCentre - vec3(cameraX, cameraY, cameraZ)) * chbase * zoom).x, isoGridWidth/2. - 10.*zoom);\n" +
+    "afficher *= step(((positionCentre - vec3(cameraX, cameraY, cameraZ)) * chbase * zoom).y, isoGridHeight/2. - 20.*zoom);\n" +
+    "pos1 *= afficher;\n" +
 
     "mat2 resize = mat2(2./windowWidth, 0, 0, 2./windowHeight);\n" +
     "gl_Position = vec4(vec2(-1., 1.) + resize * (pos1 + vec2(isoGridPosX, - isoGridPosY) + vec2(isoGridWidth / 2., - isoGridHeight / 2.)), 0.0, 1.0);\n" +
@@ -66,23 +72,23 @@ public class DrawableIsoGrid implements WindowListener {
 
   private final static float[] vertices = new float[]
   {
-    -1.0f, +1.0f,    // Top-left coordinate
-      -1.0f,  -1.0f,    // Bottom-left coordinate
-      +1.0f, -1.0f,    // Bottom-right coordinate
+    -1.0f, +2.0f,    // Top-left coordinate
+      -1.0f,  -2.0f,    // Bottom-left coordinate
+      +1.0f, -2.0f,    // Bottom-right coordinate
 
-      +1.0f, +1.0f,    // Top-right
-      -1.0f, +1.0f,    // Top-left
-      +1.0f, -1.0f     // Bottom-right
+      +1.0f, +2.0f,    // Top-right
+      -1.0f, +2.0f,    // Top-left
+      +1.0f, -2.0f     // Bottom-right
   };
 
   private final static float[] uvs = new float[]
   {
-    +0.0f, +1.0f,
-      +0.0f, +0.0f,
-      +1.0f, +0.0f,
-      +1.0f, +1.0f,
+    +0.0f, +0.0f,
       +0.0f, +1.0f,
+      +1.0f, +1.0f,
       +1.0f, +0.0f,
+      +0.0f, +0.0f,
+      +1.0f, +1.0f,
   };
 
 
@@ -116,16 +122,20 @@ public class DrawableIsoGrid implements WindowListener {
     oglProg.setUniformFloat("isoGridHeight", 300);
     oglProg.setUniformFloat("isoGridPosX", 0);
     oglProg.setUniformFloat("isoGridPosY", 0);
-    oglProg.setUniformFloat("cameraX", 0);
+    oglProg.setUniformFloat("cameraX", 1);
     oglProg.setUniformFloat("cameraY", 0);
     oglProg.setUniformFloat("cameraZ", 0);
-    oglProg.setUniformFloat("widthRatioTex", 1);
-    oglProg.setUniformFloat("zoom", 10);
+    oglProg.setUniformFloat("widthRatioTex", 1f / (float) nombreElements);
+    oglProg.setUniformFloat("zoom", 5);
 
     drawer = new ModelInstantiator<>(oglProg, modele);
+    drawer.addObjet(new IsoImgInstance(2,1,0,1));
+    drawer.addObjet(new IsoImgInstance(1,1,0.3f,2));
+    drawer.addObjet(new IsoImgInstance(0,1,0,1));
     drawer.addObjet(new IsoImgInstance(2,0,0,0));
-    drawer.addObjet(new IsoImgInstance(1,0,0,0));
-    drawer.addObjet(new IsoImgInstance(0,0,0,0));
+    drawer.addObjet(new IsoImgInstance(1,0,0,3));
+    drawer.addObjet(new IsoImgInstance(1,0,0,4));
+    drawer.addObjet(new IsoImgInstance(0,0,0,3));
   }
 
   /** Donner l’instruction d’affichage.
@@ -144,5 +154,10 @@ public class DrawableIsoGrid implements WindowListener {
 
   @Override
   public void updateWindowTaille(int windowWidth, int windowHeight) {
+    // oglProg.setUniformFloat("isoGridPosX", windowWidth/2 - windowHeight/4);
+    // oglProg.setUniformFloat("isoGridPosY", windowHeight/2 - windowHeight/4);
+    oglProg.setUniformFloat("isoGridWidth", windowWidth);
+    oglProg.setUniformFloat("isoGridHeight", windowHeight);
+    oglProg.setUniformFloat("zoom", 5);
   }
 }
