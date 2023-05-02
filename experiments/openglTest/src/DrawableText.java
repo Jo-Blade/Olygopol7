@@ -13,7 +13,6 @@ public class DrawableText implements WindowListener {
     "in vec2 positionLettre;\n" +
     "in vec2 glyphPos;\n" +
     "in vec2 glyphTaille;\n" +
-    "in float angle;\n" +
     "in float echelle;\n" +
 
     "uniform int windowWidth;\n" +
@@ -26,18 +25,14 @@ public class DrawableText implements WindowListener {
     "void main()\n" +
     "{\n" +
 
-    "float cos_t = cos(angle);\n" +
-    "float sin_t = sin(angle);\n" +
-    "mat2 rotation = mat2(cos_t, sin_t, -sin_t, cos_t);\n" +
-    "mat2 winResize = mat2(600. / float(windowWidth), 0.0, 0.0, 600. / float(windowHeight));\n" +
-    "mat2 resize = mat2(echelle*glyphTaille.x, 0.0, 0.0, echelle*glyphTaille.y);\n" +
-
-    "vec4 pos = vec4(vertex*rotation*resize*winResize + positionLettre*winResize, 0.0, 1.0);\n" +
-    "gl_Position = pos;\n" +
+    "mat2 resize = echelle * mat2(50. / float(windowWidth), 0.0, 0.0, (50. * glyphTaille.y) / (float(windowHeight) * glyphTaille.x));\n" +
+    "mat2 chbase = mat2(1. / float(windowWidth), 0., 0., - 1. / float(windowHeight));\n" +
+    "gl_Position = vec4(resize*vertex + chbase*positionLettre + vec2(-1.0, 1.0), 0.0, 1.0);\n" +
 
     "fUvs = uvs;\n" +
     "fGlyphPos = glyphPos;\n" +
     "fGlyphTaille = glyphTaille;\n" +
+
     "}";
 
   /** Code du fragment shader.*/
@@ -64,18 +59,18 @@ public class DrawableText implements WindowListener {
 
   private final static float[] vertices = new float[]
   {
-      0.0f, +1.0f,    // Top-left coordinate
-      0.0f, 0.0f,    // Bottom-left coordinate
-      +1.0f, 0.0f,    // Bottom-right coordinate
+    0.0f, 0.0f,    // Top-left coordinate
+      0.0f,  -1.0f,    // Bottom-left coordinate
+      +1.0f, -1.0f,    // Bottom-right coordinate
 
-      +1.0f, +1.0f,    // Top-right
-      0.0f, +1.0f,    // Top-left
-      +1.0f, 0.0f     // Bottom-right
+      +1.0f, 0.0f,    // Top-right
+      0.0f, 0.0f,    // Top-left
+      +1.0f, -1.0f     // Bottom-right
   };
 
   private final static float[] uvs = new float[]
   {
-      +0.0f, +1.0f,
+    +0.0f, +1.0f,
       +0.0f, +0.0f,
       +1.0f, +0.0f,
       +1.0f, +1.0f,
@@ -107,9 +102,6 @@ public class DrawableText implements WindowListener {
   /** Le texte qui est affiché.*/
   private String texte;
 
-  /** Le gc opengl.*/
-  private OpenglGC gc;
-
   private int windowWidth = 600;
   private int windowHeight = 300;
 
@@ -117,15 +109,14 @@ public class DrawableText implements WindowListener {
    * @param font la font pour écrire le texte
    * @param texte le texte à écrire
    */
-  public DrawableText(OpenglGC gc, String texte) {
+  public DrawableText(String texte) {
     this.texte = texte;
-    this.gc = gc;
-    fontModel = new Model2d(gc, DrawableText.vertices, DrawableText.uvs, DrawableText.font);
+    fontModel = new Model2d(DrawableText.vertices, DrawableText.uvs, DrawableText.font);
 
     fontProg.setUniformFloat("texWidth", font.textureWidth);
     fontProg.setUniformFloat("texHeight", font.textureHeight);
 
-    drawer = new ModelInstantiator<GlyphInstance>(gc, fontProg, fontModel);
+    drawer = new ModelInstantiator<GlyphInstance>(fontProg, fontModel);
     changer(texte);
   }
 
@@ -137,17 +128,16 @@ public class DrawableText implements WindowListener {
     drawer.clear();
 
     // On calcule la longueur totale du texte pour le centrer
-    int x = 0;
+    int x = 40;
     // for (char c : texte.toCharArray())
     //   x += font.getCaractere(c).width;
 
-    x =  (int) ((50 - windowWidth) / 600.0 / 0.002);
-    int y = - font.textureHeight + (int) (-15 + (windowHeight) / 600.0 / 0.002); // centrer le texte verticalement
+    int y = 10;
     // int y = - font.textureHeight / 2;
     for (char c : texte.toCharArray()) {
       Font.Glyph g = font.getCaractere(c);
-      drawer.addObjet(new GlyphInstance(gc, 0.002f * x, 0.002f * y, g, 0, 0.002f));
-      x += g.width;
+      drawer.addObjet(new GlyphInstance(x, y, g, 1));
+      x += g.width + 5;
     }
 
     drawer.valider();

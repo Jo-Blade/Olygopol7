@@ -28,11 +28,7 @@ public class OpenglThread extends Thread {
     Collections.synchronizedList(new ArrayList<>());
 
   /** Le gc pour les resources opengl.*/
-  private OpenglGC gc;
-
-  public OpenglThread(OpenglGC gc) {
-    this.gc = gc;
-  }
+  public static OpenglGC gc = new OpenglGC();
 
   /** Ajouter un afficheur à la liste des éléments à afficher.
    * @param afficheur un instancieur de modèle à afficher

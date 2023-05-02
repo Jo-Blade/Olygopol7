@@ -16,19 +16,15 @@ public class TaquinCarre implements ModelInstance {
   /** Le centre des uvs sur la textue.*/
   private final FloatVec2 centreTex;
 
-  /** Le garbage collector pour opengl.*/
-  private final OpenglGC gc;
-
   /** Créer un objet d’instance par ses propriétés.
    * @param centreX la coordonnée x du centre
    * @param centreY la coordonnée y du centre
    * @param centreTexX la coordonnée uv x du centre sur la texture
    * @param centreTexY la coordonnée uv y du centre sur la texture
    */
-  public TaquinCarre(OpenglGC gc, float centreX, float centreY, float centreTexX, float centreTexY, TaquinGrille grille) {
+  public TaquinCarre(float centreX, float centreY, float centreTexX, float centreTexY, TaquinGrille grille) {
     this.centre = new FloatVec2(centreX, centreY);
     this.centreTex = new FloatVec2(centreTexX, centreTexY);
-    this.gc = gc;
     this.grille = grille;
     grille.addPiece(this);
   }
@@ -37,8 +33,8 @@ public class TaquinCarre implements ModelInstance {
   public Map<Integer, Vbo<?>> initVbos () {
 
     Map<Integer, Vbo<?>> map = new HashMap<Integer, Vbo<?>>();
-    map.put(2, new FloatVec2Vbo(gc));
-    map.put(3, new FloatVec2Vbo(gc));
+    map.put(2, new FloatVec2Vbo());
+    map.put(3, new FloatVec2Vbo());
     return map;
   }
 

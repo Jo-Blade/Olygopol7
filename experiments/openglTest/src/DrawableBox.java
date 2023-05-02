@@ -69,16 +69,18 @@ public class DrawableBox implements WindowListener {
     "st.y *= height;\n" +
 
     "float lg = length(st - vec2(width/2. - radius, height/2. - radius));\n" +
-    "float aa = max(width/windowWidth, height/windowHeight);\n" +
+    // "float aa = max(6/windowWidth, 6/windowHeight);\n" +
+    // "float aa = 1.5;\n" +
+    // "float aa = 0;\n" +
 
-    "float alpha = smoothstep(lg - aa, lg, radius);\n" +
+    "float alpha = smoothstep(lg - 1, lg + 1, radius);\n" +
     "alpha += step(radius, length(st - vec2(width/2.,height/2.)));\n" +
 
     "float radius2 = radius - border_size;\n" +
-    "float choisir = smoothstep(radius2 - aa, radius2 + aa, lg);\n" +
+    "float choisir = smoothstep(radius2 - 1.5, radius2, lg);\n" +
 
     "vec2 d = vec2(width/2., height/2.) - st;\n" +
-    "choisir -= step(border_size, d.x)*step(radius, d.y) + step(radius, d.x)*step(border_size, d.y);\n" +
+    "choisir -= step(border_size + 1, d.x)*step(radius2, d.y) + step(radius2, d.x)*step(border_size + 1, d.y);\n" +
     "choisir = max(choisir, 0.);\n" +
 
     "vec4 color = border*choisir + (1. - choisir) * fond;\n" +
@@ -114,17 +116,13 @@ public class DrawableBox implements WindowListener {
       new VertexShader(vertCode), new FragmentShader(fragCode)
       );
 
-  private OpenglGC gc;
   private BoxInstance obTest;
 
-  public DrawableBox(OpenglGC gc) {
-    this.gc = gc;
-
-    Model2d modele = new Model2dNoTex(gc, vertices, uvs);
-    drawer = new ModelInstantiator<>(gc, glProg, modele);
+  public DrawableBox() {
+    Model2d modele = new Model2dNoTex(vertices, uvs);
+    drawer = new ModelInstantiator<>(glProg, modele);
 
     obTest = new BoxInstance(
-        gc,
         new FloatVec2(0,0),
         new FloatVec2(400, 80),
         new FloatVec4(1, 0, 0, 0.8f),
@@ -150,12 +148,11 @@ public class DrawableBox implements WindowListener {
     drawer.delObjet(obTest);
 
     obTest = new BoxInstance(
-        gc,
         new FloatVec2(-1 + 270f / (float) windowWidth, 1 - 70f / windowHeight),
         new FloatVec2(250, 60),
         new FloatVec4(1, 0, 0, 0.8f),
         new FloatVec4(1, 1, 1, 0.5f),
-        15, 8
+        20, 5
         );
     drawer.addObjet(obTest);
     drawer.valider();

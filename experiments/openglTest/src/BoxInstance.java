@@ -26,9 +26,6 @@ public class BoxInstance implements ModelInstance {
   /** L'épaisseur de la bordure.*/
   private final float epaisseurBordure;
 
-  /** Le garbage collector pour opengl.*/
-  private final OpenglGC gc;
-
   /** Créer un objet d’instance par ses propriétés.
    * @param centre centre de la boite
    * @param dimensions taille de la boite
@@ -37,7 +34,7 @@ public class BoxInstance implements ModelInstance {
    * @param rayonBordure border-radius
    * @param epaisseurBordure épaisseur de bordure
    */
-  public BoxInstance(OpenglGC gc, FloatVec2 centre, FloatVec2 dimensions,
+  public BoxInstance(FloatVec2 centre, FloatVec2 dimensions,
       FloatVec4 couleurBordure, FloatVec4 couleurFond, float rayonBordure,
       float epaisseurBordure) {
     this.centre = centre;
@@ -46,20 +43,18 @@ public class BoxInstance implements ModelInstance {
     this.couleurFond = couleurFond;
     this.rayonBordure = rayonBordure;
     this.epaisseurBordure = epaisseurBordure;
-
-    this.gc = gc;
   }
 
   @Override
   public Map<Integer, Vbo<?>> initVbos () {
 
     Map<Integer, Vbo<?>> map = new HashMap<Integer, Vbo<?>>();
-    map.put(2, new FloatVec2Vbo(gc));
-    map.put(3, new FloatVec2Vbo(gc));
-    map.put(4, new FloatVec4Vbo(gc));
-    map.put(5, new FloatVec4Vbo(gc));
-    map.put(6, new FloatVec1Vbo(gc));
-    map.put(7, new FloatVec1Vbo(gc));
+    map.put(2, new FloatVec2Vbo());
+    map.put(3, new FloatVec2Vbo());
+    map.put(4, new FloatVec4Vbo());
+    map.put(5, new FloatVec4Vbo());
+    map.put(6, new FloatVec1Vbo());
+    map.put(7, new FloatVec1Vbo());
     return map;
   }
 

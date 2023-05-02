@@ -22,9 +22,9 @@ public class FloatVec2Vbo implements Vbo<FloatVec2> {
   final private OpenglGC gc;
 
   /** Générer un vbo de vec2 vide.*/
-  public FloatVec2Vbo(OpenglGC gc) {
+  public FloatVec2Vbo() {
     data = new ArrayList<FloatVec2>();
-    this.gc = gc;
+    this.gc = OpenglThread.gc;
     this.id = -1; // signifie que le vbo n’est pas encore créé
   }
 

@@ -35,6 +35,7 @@ public class OpenglGC {
     public boolean gc() {
       if (vbo.get() == null) {
         glDeleteBuffers(id);
+        // System.out.println("test");
         return true;
       }
       return false;
@@ -65,6 +66,7 @@ public class OpenglGC {
     public boolean gc() {
       if (vao.get() == null) {
         glDeleteVertexArrays(id);
+        // System.out.println("test");
         return true;
       }
       return false;

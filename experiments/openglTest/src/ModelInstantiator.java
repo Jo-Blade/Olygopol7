@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
 import static org.lwjgl.opengl.GL40.*;
@@ -42,13 +41,13 @@ public class ModelInstantiator<T extends ModelInstance> {
    * @param modele le modèle 2d avec la texture
    * et les vbos communs à tous les objets
    */
-  public ModelInstantiator(OpenglGC gc, OpenglProgram afficheur, Model2d modele) {
+  public ModelInstantiator(OpenglProgram afficheur, Model2d modele) {
     this.afficheur = afficheur;
     this.modele = modele;
     this.vaoId = -1; // pas encore créé
     this.objets = Collections.synchronizedList(new ArrayList<T>());
     this.objetsLocations = new HashSet<Integer>();
-    this.gc = gc;
+    this.gc = OpenglThread.gc;
     this.aJour = false;
   }
 

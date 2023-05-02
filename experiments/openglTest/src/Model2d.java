@@ -23,7 +23,7 @@ public class Model2d {
    * @param vertices coordonnées des points du modèles dans l’ordre x puis y
    * @param resourceName nom d’une image pour créer une nouvelle texture
    */
-  public Model2d(OpenglGC gc, float[] vertices, float[] uvs, Texture texture) {
+  public Model2d(float[] vertices, float[] uvs, Texture texture) {
     this.vertices = vertices;
     this.texture = texture;
 
@@ -35,8 +35,8 @@ public class Model2d {
       throw new IncompatibleTailleException(
           "Il doit y avoir autant de coordonnées uvs que de points.");
 
-    vboVert = new FloatVec2Vbo(gc);
-    vboUvs  = new FloatVec2Vbo(gc);
+    vboVert = new FloatVec2Vbo();
+    vboUvs  = new FloatVec2Vbo();
     for (int i = 0; i < vertices.length; i += 2) {
       vboVert.push(new FloatVec2(vertices[i], vertices[i + 1]));
       vboUvs.push(new FloatVec2(uvs[i], uvs[i + 1]));

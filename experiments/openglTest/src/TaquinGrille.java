@@ -82,15 +82,15 @@ public class TaquinGrille {
    * @param nombreCote nombre de pieces du puzzle par coté
    * @param image nom de l’image à reconstruire
    */
-  public TaquinGrille(OpenglGC gc, int nombreCote, String image) {
+  public TaquinGrille(int nombreCote, String image) {
     this.estOccupe = false;
 
-    Model2d modele = new Model2d(gc, TaquinGrille.vertices, TaquinGrille.uvs,
+    Model2d modele = new Model2d(TaquinGrille.vertices, TaquinGrille.uvs,
         new TextureImage(image));
     OpenglProgram programme = new OpenglProgram(vertexShader, fragmentShader);
     programme.setUniformFloat("nbrCote", nombreCote);
 
-    drawer = new ModelInstantiator<>(gc, programme, modele);
+    drawer = new ModelInstantiator<>(programme, modele);
   }
 
   /** Deplacer les pieces après le clic sur une case.*/
