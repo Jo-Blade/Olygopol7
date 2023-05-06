@@ -109,6 +109,26 @@ public class DrawableIsoGrid implements WindowListener {
   /** Le programme opengl pour afficher la grille.*/
   private static OpenglProgram oglProg = new OpenglProgram(vertShader, fragShader);
 
+  private class Test extends Thread {
+    private IsoImgInstance j = new IsoImgInstance(1,0,0.5f,4);
+
+    public void run() {
+      for(int i = 1; i <= 500; i++) {
+        drawer.delObjet(j);
+        j = new IsoImgInstance(1f + (float) i / 100f, 0,0.5f,4);
+        drawer.addObjet(j);
+        drawer.valider();
+
+        // oglProg.setUniformFloat("cameraX", 1f + (float) i / 100f);
+        // oglProg.setUniformFloat("cameraY", 0);
+        try {
+          Thread.sleep(20);
+        } catch (Exception e) {
+        }
+      }
+    }
+  }
+
   /** Construire une boite de texte.
    * @param ressourceName le nom de l'image qui contient tous les éléments affichables
    * ils doivent tous être de même hauteur, de même largeur et collés
@@ -122,20 +142,46 @@ public class DrawableIsoGrid implements WindowListener {
     oglProg.setUniformFloat("isoGridHeight", 300);
     oglProg.setUniformFloat("isoGridPosX", 0);
     oglProg.setUniformFloat("isoGridPosY", 0);
-    oglProg.setUniformFloat("cameraX", 1);
-    oglProg.setUniformFloat("cameraY", 0);
+    oglProg.setUniformFloat("cameraX", 0);
+    oglProg.setUniformFloat("cameraY", -2);
     oglProg.setUniformFloat("cameraZ", 0);
     oglProg.setUniformFloat("widthRatioTex", 1f / (float) nombreElements);
     oglProg.setUniformFloat("zoom", 5);
 
     drawer = new ModelInstantiator<>(oglProg, modele);
-    drawer.addObjet(new IsoImgInstance(2,1,0,1));
-    drawer.addObjet(new IsoImgInstance(1,1,0.3f,2));
-    drawer.addObjet(new IsoImgInstance(0,1,0,1));
-    drawer.addObjet(new IsoImgInstance(2,0,0,0));
-    drawer.addObjet(new IsoImgInstance(1,0,0,3));
-    drawer.addObjet(new IsoImgInstance(1,0,0,4));
     drawer.addObjet(new IsoImgInstance(0,0,0,3));
+    drawer.addObjet(new IsoImgInstance(0,0,0,4));
+    drawer.addObjet(new IsoImgInstance(1,0,0.5f,3));
+    drawer.addObjet(new IsoImgInstance(2,0,0.5f,3));
+    drawer.addObjet(new IsoImgInstance(2,-1,0,1));
+    drawer.addObjet(new IsoImgInstance(3,0,0.5f,3));
+    drawer.addObjet(new IsoImgInstance(4,0,0.5f,3));
+    drawer.addObjet(new IsoImgInstance(5,0,0.5f,3));
+    drawer.addObjet(new IsoImgInstance(6,0,0.5f,3));
+    drawer.addObjet(new IsoImgInstance(0,-1,-0.5f,3));
+    drawer.addObjet(new IsoImgInstance(0,-2,-0.5f,3));
+    drawer.addObjet(new IsoImgInstance(0,-2,-0.5f,4));
+    drawer.addObjet(new IsoImgInstance(0,-3,-0.5f,3));
+    drawer.addObjet(new IsoImgInstance(0,-4,-0.5f,3));
+    drawer.addObjet(new IsoImgInstance(0,-5,-0.5f,3));
+    drawer.addObjet(new IsoImgInstance(0,-6,-0.5f,3));
+    drawer.addObjet(new IsoImgInstance(1,-1,0,1));
+    drawer.addObjet(new IsoImgInstance(1,-2,-0.5f,0));
+    drawer.addObjet(new IsoImgInstance(1,-3,-0.5f,2));
+    drawer.addObjet(new IsoImgInstance(1,-4,-0.5f,2));
+    drawer.addObjet(new IsoImgInstance(1,-5,-0.5f,1));
+    drawer.addObjet(new IsoImgInstance(1,-6,-0.5f,0));
+    drawer.addObjet(new IsoImgInstance(0,1,0.5f,0));
+    drawer.addObjet(new IsoImgInstance(1,1,1,1));
+    drawer.addObjet(new IsoImgInstance(2,1,1,1));
+    drawer.addObjet(new IsoImgInstance(3,1,1,2));
+    drawer.addObjet(new IsoImgInstance(4,1,1,0));
+    drawer.addObjet(new IsoImgInstance(5,1,1,0));
+    drawer.addObjet(new IsoImgInstance(6,1,1,0));
+    drawer.addObjet(new IsoImgInstance(2,0,0.5f,4));
+    drawer.valider();
+
+    new Test().start();
   }
 
   /** Donner l’instruction d’affichage.

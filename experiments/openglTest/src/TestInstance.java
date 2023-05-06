@@ -5,7 +5,7 @@
 import java.util.Map;
 import java.util.HashMap;
 
-public class TestInstance implements ModelInstance {
+public class TestInstance extends ModelInstance {
 
   /** Le centre de l’objet à instancier.*/
   private final FloatVec2 centre;

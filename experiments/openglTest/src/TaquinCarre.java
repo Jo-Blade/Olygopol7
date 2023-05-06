@@ -5,7 +5,7 @@
 import java.util.Map;
 import java.util.HashMap;
 
-public class TaquinCarre implements ModelInstance {
+public class TaquinCarre extends ModelInstance {
 
   /** Grille à laquelle appartient l’objet.*/
   private TaquinGrille grille;

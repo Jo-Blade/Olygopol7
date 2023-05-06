@@ -97,9 +97,16 @@ public class OpenglThread extends Thread {
 
       Instant newInstant = Instant.now();
       long timeElapsed = Duration.between(instant, newInstant).toMillis();
-      if (timeElapsed > 20) {
+      if (timeElapsed > 50) {
         gc.gc();
         instant = newInstant;
+      }
+
+      try {
+        Thread.sleep(1);
+      }
+      catch(Exception e) {
+        System.out.println(e);
       }
     }
   }

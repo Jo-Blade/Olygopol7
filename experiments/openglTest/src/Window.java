@@ -14,6 +14,8 @@ import java.nio.IntBuffer;
 import java.nio.DoubleBuffer;
 import java.util.List;
 import java.util.ArrayList;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Window {
 
@@ -25,6 +27,8 @@ public class Window {
 
   /** Liste des écouteurs de la taille de la fenêtre.*/
   public List<WindowListener> listeEcouteurs = new ArrayList<>();
+
+  private Instant lastWinUpdate = Instant.now();
 
   /** Créer une fenêtre opengl.
    * @param AA activer ou non l’antialising
@@ -70,12 +74,17 @@ public class Window {
     // --- DEVRAIT SUPPRIMER LA LAMBDA EXPRESSION ET FAIRE UN VRAI ÉCOUTEUR D’ÉVÉNEMENTS ---
     // changer l'echelle quand on redimensionne la fenetre
     glfwSetWindowRefreshCallback(windowHandle, (window) -> {
+      Instant newInstant = Instant.now();
+      long timeElapsed = Duration.between(lastWinUpdate, newInstant).toMillis();
 
-      Vec2Int newDimensions = this.getDimensions();
-      glViewport(0, 0, newDimensions.x, newDimensions.y);
+      if (timeElapsed > 50) {
+        Vec2Int newDimensions = this.getDimensions();
+        glViewport(0, 0, newDimensions.x, newDimensions.y);
+        for (WindowListener e : listeEcouteurs)
+          e.updateWindowTaille(newDimensions.x, newDimensions.y);
 
-      for (WindowListener e : listeEcouteurs)
-        e.updateWindowTaille(newDimensions.x, newDimensions.y);
+        lastWinUpdate = Instant.now();
+      }
     });
 
 

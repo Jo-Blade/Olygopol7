@@ -4,7 +4,7 @@
 import java.util.Map;
 import java.util.HashMap;
 
-public class IsoImgInstance implements ModelInstance {
+public class IsoImgInstance extends ModelInstance {
 
   /** Le centre de l’objet à instancier.*/
   private final FloatVec3 positionCentre;
@@ -21,6 +21,7 @@ public class IsoImgInstance implements ModelInstance {
   public IsoImgInstance(float centreX, float centreY, float centreZ, float indiceTex) {
     this.positionCentre = new FloatVec3(centreX, centreY, centreZ);
     this.indiceTex = indiceTex;
+    setZIndex(- Math.floor(centreX) - Math.floor(centreY) + centreZ);
   }
 
   @Override

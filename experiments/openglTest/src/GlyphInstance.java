@@ -4,7 +4,7 @@
 import java.util.Map;
 import java.util.HashMap;
 
-public class GlyphInstance implements ModelInstance {
+public class GlyphInstance extends ModelInstance {
 
   /** Position dans la texture.*/
   private final FloatVec2 glyphPos;

@@ -1,6 +1,8 @@
 /**
  * @author : pisento
  **/
+import java.time.Duration;
+import java.time.Instant;
 
 public class HelloBis {
 
@@ -45,13 +47,13 @@ public class HelloBis {
       }
     }
 
-    // grille.afficher(openglThread);
+    grille.afficher(openglThread);
 
     DrawableBox testBox = new DrawableBox();
     openglThread.ajouterEcouteur(testBox);
     testBox.afficher(openglThread);
 
-    int compteur = 0;
+    // int compteur = 0;
     DrawableText texte = new DrawableText("clics : 0");
     openglThread.ajouterEcouteur(texte);
     texte.afficher(openglThread);
@@ -60,11 +62,28 @@ public class HelloBis {
     openglThread.ajouterEcouteur(testGrid);
     testGrid.afficher(openglThread);
 
+    Instant instant = Instant.now();
     while ( openglThread.isAlive() ) {
-      if (compteur != compteurClics.compteur) {
-        texte.changer("clics : " + compteurClics.compteur);
-        compteur = compteurClics.compteur;
+      Instant newInstant = Instant.now();
+      long timeElapsed = Duration.between(instant, newInstant).toMillis();
+      if (timeElapsed > 100) {
+        texte.changer("fps : " + 10*openglThread.compteurFrames);
+        openglThread.compteurFrames = 0;
+        instant = newInstant;
       }
+
+
+      // on met un délai pour ne pas bouffer tout le temps processeur
+      try {
+        Thread.sleep(1);
+      }
+      catch(Exception e) {
+        System.out.println(e);
+      }
+      // if (compteur != compteurClics.compteur) {
+      //   texte.changer("clics : " + compteurClics.compteur);
+      //   compteur = compteurClics.compteur;
+      // }
     }
   }
 }

@@ -70,6 +70,7 @@ public class ModelInstantiator<T extends ModelInstance> {
   /** Actualiser l’affichage des objets à la prochaine frame !!!
    * Ne pas oublier de l’appeler.*/
   public void valider() {
+    Collections.sort(objets);
     aJour = false;
   }
 

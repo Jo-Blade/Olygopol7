@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 // infos à renseigner: position centre, largeur, hauteur, couleurs, épaisseur bordure, rayon bordure
 //
-public class BoxInstance implements ModelInstance {
+public class BoxInstance extends ModelInstance {
 
   /** Le centre de l’objet à instancier.*/
   private final FloatVec2 centre;
