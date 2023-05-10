@@ -12,3 +12,4 @@ tmp/
 local.properties
 .factorypath
 src-gen/
+/target/

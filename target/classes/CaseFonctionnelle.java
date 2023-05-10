@@ -4,8 +4,9 @@
 **/
 
 public interface CaseFonctionnelle {
-
+  // case chance et caisse de communauté
+	
   // mettre la javadoc
-  public void executer(Joueur joueur);
-
+  public void executer(Joueur joueur) throws BanquerouteException;
+  	// lancer un évènement depuis une pile d'évènement ?
 }

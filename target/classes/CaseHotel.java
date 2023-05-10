@@ -10,9 +10,28 @@ public class CaseHotel implements CaseFonctionnelle, CaseGraphique {
   /** Propriétaire de la case.*/
   private Joueur proprietaire;
 
-  @Override
-  public void executer(Joueur joueur){
+  /** Prix d'achat de la propriété (case).*/
+  private final int prix;
+  
+  public CaseHotel(int position, Joueur proprietaire, int prix) {
+	  this.proprietaire = proprietaire;
+	  this.position = position;
+    this.prix = prix;
+  }
 
+  @Override
+  public void executer (Joueur joueur) throws BanquerouteException {
+	  if (joueur != this.proprietaire) {
+		  // crediter du loyer (A mettre en place)
+      proprietaire.crediter(prix); // le choix a été fait de toujours
+                                   // donner le prix demandé par le proprio, quitte
+                                   // à ce que le joueur soit dans le négatif
+      System.out.println(joueur.getNom() + " paie " + prix + "k$ à " + proprietaire.getNom());
+      joueur.debiter(prix); // peut lever une exception
+	  }
+    else {
+      System.out.println("Vous êtes chez vous, reposez vous :)");
+    }
   }
 
   @Override
