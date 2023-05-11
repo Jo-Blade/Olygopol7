@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Fragment Shader GLSL.
  * @author : pisento
 **/

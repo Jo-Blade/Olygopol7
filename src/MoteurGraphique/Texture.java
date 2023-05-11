@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Texture (matrice de pixels) que l’on peut appliquer
  * à un modèle 2d.
  * @author : pisento

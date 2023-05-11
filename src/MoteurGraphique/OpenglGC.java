@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Création d’un garbage collector pour les objets opengl.
  * @author : pisento
 **/

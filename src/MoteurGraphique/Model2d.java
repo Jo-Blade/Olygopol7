@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Modèle 2d: vertices + texture.
  * @author : pisento
 **/

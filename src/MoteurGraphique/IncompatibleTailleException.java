@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Exception lancée si on a des arguments en paramètre de fonction
    de taille incorrecte.
  * @author : pisento

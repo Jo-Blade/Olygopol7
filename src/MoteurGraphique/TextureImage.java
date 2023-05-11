@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Texture créé à partir d’une image.
  * @author : pisento
  **/

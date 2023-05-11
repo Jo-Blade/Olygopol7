@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Un bouton du jeu du taquin.
  * @author : pisento
 **/

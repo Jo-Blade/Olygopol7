@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Créer une texture qui contient tous les caractère
  * d’une police de caractères.
  * @author : pisento

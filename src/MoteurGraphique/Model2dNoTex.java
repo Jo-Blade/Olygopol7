@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Un modèle 2d sans texture associée.
  * @author : pisento
 **/

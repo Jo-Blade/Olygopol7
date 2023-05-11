@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Vecteur de 2 entiers.
  * @author : pisento
 **/

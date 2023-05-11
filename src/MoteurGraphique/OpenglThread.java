@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Thread principal opengl pour le rafraichissement de l’écran.
  * @author : pisento
 **/

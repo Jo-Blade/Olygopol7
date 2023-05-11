@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Fenêtre Opengl où l’on peut dessiner.
  * @author : pisento
 **/

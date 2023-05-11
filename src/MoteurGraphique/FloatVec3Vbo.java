@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Vertex Buffer Object opengl qui contient un tableau de vec2.
  * @author : pisento
  **/

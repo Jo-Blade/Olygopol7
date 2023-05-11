@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Une instance d’un modèle,
  * pour instancier plusieurs modèles en un seul call à draw.
  * @author : pisento

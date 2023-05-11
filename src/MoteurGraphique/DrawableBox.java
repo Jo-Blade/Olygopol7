@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Un rectangle avec une bordure.
  * @author : pisento
 **/

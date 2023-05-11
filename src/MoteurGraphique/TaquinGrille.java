@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Grille du jeu de taquin.
  * @author : pisento
 **/

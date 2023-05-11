@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Énumération des 4 directions principales.
  * @author : pisento
 **/

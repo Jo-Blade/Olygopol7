@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Vecteur de deux flottants.
  * @author : pisento
 **/
