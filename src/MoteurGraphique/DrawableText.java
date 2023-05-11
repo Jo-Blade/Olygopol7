@@ -112,11 +112,15 @@ public class DrawableText {
   /** Le texte qui est affiché.*/
   private String texte;
 
-  /** Construire une boite de texte.
-   * @param font la font pour écrire le texte
+  /** Construire un texte affichable
    * @param texte le texte à écrire
+   * @param couleurR composante rouge de la couleur (entre 0 et 1)
+   * @param couleurG composante vert de la couleur
+   * @param couleurB composante bleue de la couleur
+   * @param couleurA composante alpha de la couleur
    */
-  public DrawableText(String texte) {
+  public DrawableText(String texte, double couleurR, double couleurG,
+      double couleurB, double couleurA) {
     this.texte = texte;
     fontModel = new Model2d(DrawableText.vertices, DrawableText.uvs, DrawableText.font);
 
@@ -159,6 +163,8 @@ public class DrawableText {
     this.positionX = positionX;
     this.positionY = positionY;
     this.fontSize = fontSize;
+
+    changer(texte);
   }
 
   /** Donner l’instruction d’affichage.
