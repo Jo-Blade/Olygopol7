@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 import java.util.Scanner;
 
 public class Arbitre {

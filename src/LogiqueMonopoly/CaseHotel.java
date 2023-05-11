@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 /** Case sur laquelle un joueur a placé un hotel
  * @author : pisento
 **/

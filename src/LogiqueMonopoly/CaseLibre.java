@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 /** Case qui n’a été achetée par personne pour le moment.
  * @author : pisento
 **/
