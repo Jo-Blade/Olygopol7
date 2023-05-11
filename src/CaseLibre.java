@@ -16,12 +16,14 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
 
   /** Plateau sur lequel est situé la case.*/
   private final Plateau plateau;
+  private final Joueur[] tabJoueur;
 
   public CaseLibre(int position, int prix, Plateau plateau, Scanner entree, Joueur[] tJoueur) {
 	  this.position = position;
 	  this.prix = prix;
     this.plateau = plateau;
     this.entree = entree;
+    this.tabJoueur=tJoueur;
   }
   
   @Override
