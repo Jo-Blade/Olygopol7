@@ -24,9 +24,18 @@ public class Plateau {
     Scanner testScan = new Scanner(System.in);
 
     for (int i = 0; i < 20; i++) {
-      CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan);
-      listeCaseFonctionnelle.add(newCaseLibre);
-      listeCaseGraphique.add(newCaseLibre);
+
+    	if ((i+1)%5 == 0) {
+    	  CaseChance newCaseChance = new CaseChance(i);
+          listeCaseFonctionnelle.add(newCaseChance);
+          listeCaseGraphique.add(newCaseChance);
+    	}
+    	else {  
+    	  CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan, null);
+          listeCaseFonctionnelle.add(newCaseLibre);
+          listeCaseGraphique.add(newCaseLibre);
+    	}
+
     }
   }
 
