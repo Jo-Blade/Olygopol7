@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 /** Case du plateau qui peut être affichée.
  * @author : pisento
 **/

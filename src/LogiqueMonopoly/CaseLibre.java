@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 /** Case qui n’a été achetée par personne pour le moment.
  * @author : pisento
 **/
@@ -16,12 +17,14 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
 
   /** Plateau sur lequel est situé la case.*/
   private final Plateau plateau;
+  private final Joueur[] tabJoueur;
 
-  public CaseLibre(int position, int prix, Plateau plateau, Scanner entree) {
+  public CaseLibre(int position, int prix, Plateau plateau, Scanner entree, Joueur[] tJoueur) {
 	  this.position = position;
 	  this.prix = prix;
     this.plateau = plateau;
     this.entree = entree;
+    this.tabJoueur=tJoueur;
   }
   
   @Override
@@ -43,6 +46,15 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
         joueur.crediter(prix);
       }
 
+	  }else if (e.equals("n")) {
+		  // Proposer à chaque joueur et recupérer leur enchères
+		  for (int i = 0; i < tabJoueur.length; i++) {
+			  System.out.println("Voulez-vous enchérir, si oui, proposez un prix.");
+			  // if un chiffre entrée avec bouton "valider", enregistrer le prix associé au joueur
+			  // sinon, i++
+			  
+		  }
+		  
 	  }
   }
 
