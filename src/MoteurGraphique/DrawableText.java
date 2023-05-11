@@ -1,8 +1,18 @@
+package MoteurGraphique;
 /** Un texte affichable à l’écran.
  * @author : pisento
 **/
 
-public class DrawableText implements WindowListener {
+public class DrawableText {
+
+  /** La distance au bord gauche de l'écran. */
+  private int positionX;
+
+  /** La distance au bord haut de l'écran. */
+  private int positionY;
+
+  /** La taille du texte. */
+  private double fontSize;
 
   /** Code du vertex shader.*/
   private final static String vertCode =
@@ -102,9 +112,6 @@ public class DrawableText implements WindowListener {
   /** Le texte qui est affiché.*/
   private String texte;
 
-  private int windowWidth = 600;
-  private int windowHeight = 300;
-
   /** Construire une boite de texte.
    * @param font la font pour écrire le texte
    * @param texte le texte à écrire
@@ -128,19 +135,30 @@ public class DrawableText implements WindowListener {
     drawer.clear();
 
     // On calcule la longueur totale du texte pour le centrer
-    int x = 40;
+    int x = this.positionX;
     // for (char c : texte.toCharArray())
     //   x += font.getCaractere(c).width;
 
-    int y = 10;
+    int y = this.positionY;
     // int y = - font.textureHeight / 2;
     for (char c : texte.toCharArray()) {
       Font.Glyph g = font.getCaractere(c);
-      drawer.addObjet(new GlyphInstance(x, y, g, 1));
+      drawer.addObjet(new GlyphInstance(x, y, g, (float) this.fontSize));
       x += g.width + 5;
     }
 
     drawer.valider();
+  }
+
+  /** Redimensionner et repositionner le texte à l'écran
+   * @param positionX la distance au bord gauche de l'écran (en pixels)
+   * @param positionY la distance au bord haut de l'écran (en pixels)
+   * @param fontSize la taille de la police
+   */
+  public void redimensionner(int positionX, int positionY, double fontSize) {
+    this.positionX = positionX;
+    this.positionY = positionY;
+    this.fontSize = fontSize;
   }
 
   /** Donner l’instruction d’affichage.
@@ -162,10 +180,4 @@ public class DrawableText implements WindowListener {
     return "DrawableTexte : " + texte;
   }
 
-  @Override
-  public void updateWindowTaille(int windowWidth, int windowHeight) {
-    this.windowWidth = windowWidth;
-    this.windowHeight = windowHeight;
-    changer(texte);
-  }
 }
