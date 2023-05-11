@@ -3,29 +3,30 @@ import MoteurGraphique.*;
 
 public class BoutonFinTour implements WindowListener {
 	
-	private DrawableText t;
-	private DrawableBox b; 
+	final private DrawableText texte;
+	final private DrawableBox boxe; 
 	 
 	
-	public void BoutonFinTour(DrawableBox box ,DrawableText texte  ) {
-		this.t = tour;
-		this.b = box;
+	public BoutonFinTour() {
+		this.boxe = new DrawableBox();
+		this.texte = new DrawableText("Fin du tour");
+	
 	}
 	
 	
-	public void afficher(DrawableBox box) {
+	public void afficher(OpenglThread aff) {
+		boxe.afficher(aff);
+		texte.afficher(aff);
 		
 	}
-	
-	
-	public void afficher()
-	
-	//public void updateWindowTaille(int windowWidth, int windowHeight) {
-	 
-	
-	
-	
-	
+
+
+
+	@Override
+	public void updateWindowTaille(int windowWidth, int windowHeight) {
+		//box.redimensioner(windowWitdth-40, windowHeight-25, windowWitdth-10, windowHeight-10);
+		
+	}
 	
 
 }
