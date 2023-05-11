@@ -16,7 +16,7 @@ public class JoueurScore implements WindowListener{
 		 this.numeroLigne = l;
 		 this.aff = aff;
 		 this.nom = new DrawableText(joueur.getNom(),0.5,0.5,0.5,1);
-		 this.solde = new DrawableText("joueur.getSolde()",0,1,0,1);
+		 this.solde = new DrawableText("" + joueur.getSolde() ,0,1,0,1);
 		 nom.afficher(aff);
 		 solde .afficher(aff);
 	 }
