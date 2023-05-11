@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Une instance d'une boite avec des bordures.
  * @author : pisento
 **/

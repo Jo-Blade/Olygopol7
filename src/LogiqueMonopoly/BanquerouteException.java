@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 
 public class BanquerouteException extends Exception{
 	/**

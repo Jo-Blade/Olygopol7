@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Vertex Shader GLSL.
  * @author : pisento
 **/

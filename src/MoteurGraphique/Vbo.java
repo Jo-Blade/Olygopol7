@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Interface d’un vertex buffer object.
  * @author : pisento
 **/

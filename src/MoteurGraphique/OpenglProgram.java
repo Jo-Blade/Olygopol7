@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Programme opengl qui contient plusieurs
  * shaders prets à l’emploi.
  * @author : pisento

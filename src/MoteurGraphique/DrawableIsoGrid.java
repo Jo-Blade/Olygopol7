@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Un texte affichable à l’écran.
  * @author : pisento
 **/

@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Shader Opengl/GLSL.
  * @author : pisento
 **/

@@ -8,8 +8,8 @@ public class BoutonFinTour implements WindowListener {
 	 
 	
 	public BoutonFinTour() {
-		this.boxe = new DrawableBox();
-		this.texte = new DrawableText("Fin du tour");
+		this.boxe = new DrawableBox(0,0,0,0,1,0,0,1);
+		this.texte = new DrawableText("Fin du tour",0,0,0,1);
 	
 	}
 	
@@ -23,9 +23,9 @@ public class BoutonFinTour implements WindowListener {
 
 
 	@Override
-	public void updateWindowTaille(int windowWidth, int windowHeight) {
-		//box.redimensioner(windowWitdth-40, windowHeight-25, windowWitdth-10, windowHeight-10);
-		
+	public void updateWindowTaille(int windowWidth, int windowHeight ) {
+		boxe.redimensionner(windowWidth-40, windowHeight-25, windowWidth-10, windowHeight-10, 1,1.);
+		texte.redimensionner(windowHeight-25, windowHeight-17,1.);
 	}
 	
 

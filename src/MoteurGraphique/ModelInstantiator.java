@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Instantier un ensemble d’objets ayant le même modèle
  * et les même shaders.
  * @author : pisento

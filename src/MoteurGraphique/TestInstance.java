@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Un exemple de type d’instance pour un modèle dont chaque
  * objet doit préciser la position du centre et un angle.
  * @author : pisento

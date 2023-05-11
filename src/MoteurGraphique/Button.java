@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Un bouton qui peut être cliqué.
  * Attention, la classe run sera lancée dans le thread opengl
  * @author : pisento

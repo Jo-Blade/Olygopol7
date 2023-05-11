@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 /** Le plateau du Monopoly
  * @author : pisento
 **/

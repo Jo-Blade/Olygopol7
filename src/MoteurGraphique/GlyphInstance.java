@@ -1,3 +1,4 @@
+package MoteurGraphique;
 /** Instance d’un caractère.
  * @author : pisento
 **/

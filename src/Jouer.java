@@ -1,3 +1,7 @@
+import LogiqueMonopoly.Arbitre;
+import LogiqueMonopoly.Joueur;
+import LogiqueMonopoly.Plateau;
+
 public class Jouer{
 
   /** Point d’entrée du programme.
