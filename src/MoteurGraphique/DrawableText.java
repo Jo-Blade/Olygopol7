@@ -157,7 +157,7 @@ public class DrawableText {
       Font.Glyph g = font.getCaractere(c);
       drawer.addObjet(new GlyphInstance(x, y, g, (float) this.fontSize,
             couleur.r, couleur.g, couleur.b, couleur.a));
-      x += fontSize * (g.width - 5);
+      x += fontSize * (g.width - 13);
     }
 
     drawer.valider();

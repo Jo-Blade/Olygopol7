@@ -118,10 +118,10 @@ public class DrawableBox {
       );
 
   /** Point suppérieur gauche du rectangle. */
-  private FloatVec2 point1;
+  private FloatVec2 coin;
 
-  /** Point inférieur droit du rectangle. */
-  private FloatVec2 point2;
+  /** Dimensions du rectangle. */
+  private FloatVec2 dimensions;
 
   /** Couleur du fond. */
   private FloatVec4 couleurFond;
@@ -159,18 +159,18 @@ public class DrawableBox {
   }
 
   /** Redimensionner et repositionner le rectangle à l'écran
-   * @param positionX1 la distance au bord gauche de l'écran (en pixels)
-   * @param positionY1 la distance au bord haut de l'écran (en pixels)
-   * @param positionX2 la distance au bord gauche de l'écran (en pixels)
-   * @param positionY2 la distance au bord haut de l'écran (en pixels)
+   * @param positionX la distance au bord gauche de l'écran (en pixels)
+   * @param positionY la distance au bord haut de l'écran (en pixels)
+   * @param largeur la largeur du rectangle (en pixels)
+   * @param hauteur la hauteur du rectangle (en pixels)
    * @param epaisseurBord l'epaisseur de la bordure
    * @param rayon le rayon du bord arrondi
    */
-  public void redimensionner(int positionX1, int positionY1, int positionX2, int positionY2,
+  public void redimensionner(int positionX, int positionY, int largeur, int hauteur,
       double epaisseurBord, double rayon) {
 
-    this.point1 = new FloatVec2(positionX1, positionY1);
-    this.point2 = new FloatVec2(positionX2, positionY2);
+    this.coin = new FloatVec2(positionX, positionY);
+    this.dimensions = new FloatVec2(largeur, hauteur);
     this.epaisseurBord = (float) epaisseurBord;
     this.rayonBord = (float) rayon;
 
@@ -190,8 +190,8 @@ public class DrawableBox {
     drawer.clear();
 
     drawer.addObjet(new BoxInstance(
-        point1,
-        point2,
+        coin,
+        dimensions,
         couleurBord,
         couleurFond,
         rayonBord, epaisseurBord 

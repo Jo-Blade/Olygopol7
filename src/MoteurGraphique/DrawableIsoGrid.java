@@ -141,7 +141,7 @@ public class DrawableIsoGrid implements WindowListener {
 
     oglProg.setUniformFloat("isoGridWidth", 300);
     oglProg.setUniformFloat("isoGridHeight", 300);
-    oglProg.setUniformFloat("isoGridPosX", 0);
+    oglProg.setUniformFloat("isoGridPosX", 110);
     oglProg.setUniformFloat("isoGridPosY", 0);
     oglProg.setUniformFloat("cameraX", 0);
     oglProg.setUniformFloat("cameraY", -2);
@@ -203,7 +203,7 @@ public class DrawableIsoGrid implements WindowListener {
   public void updateWindowTaille(int windowWidth, int windowHeight) {
     // oglProg.setUniformFloat("isoGridPosX", windowWidth/2 - windowHeight/4);
     // oglProg.setUniformFloat("isoGridPosY", windowHeight/2 - windowHeight/4);
-    oglProg.setUniformFloat("isoGridWidth", windowWidth);
+    oglProg.setUniformFloat("isoGridWidth", windowWidth - 180 - 110);
     oglProg.setUniformFloat("isoGridHeight", windowHeight);
     oglProg.setUniformFloat("zoom", 5);
   }

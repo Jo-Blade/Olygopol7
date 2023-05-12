@@ -24,10 +24,19 @@ public class Plateau {
     Scanner testScan = new Scanner(System.in);
 
     for (int i = 0; i < 20; i++) {
-      // IL FAUT CHANGER LE NULL PAR LE TABLEAU DES JOUEURS !!!
-      CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan, null);
-      listeCaseFonctionnelle.add(newCaseLibre);
-      listeCaseGraphique.add(newCaseLibre);
+
+    	if ((i+1)%5 == 0) {
+    	  CaseChance newCaseChance = new CaseChance(i);
+          listeCaseFonctionnelle.add(newCaseChance);
+          listeCaseGraphique.add(newCaseChance);
+    	}
+    	else {  
+        // IL FAUT CHANGER LE NULL PAR LE TABLEAU DES JOUEURS !!!
+    	  CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan, null);
+          listeCaseFonctionnelle.add(newCaseLibre);
+          listeCaseGraphique.add(newCaseLibre);
+    	}
+
     }
   }
 

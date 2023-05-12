@@ -23,8 +23,8 @@ public class BoutonFinTour implements WindowListener {
 
 	@Override
 	public void updateWindowTaille(int windowWidth, int windowHeight ) {
-		boxe.redimensionner(windowWidth - 210, windowHeight - 37, 200, 33, 2, 10);
-		texte.redimensionner(windowWidth - 200, windowHeight - 37, .5);
+		boxe.redimensionner(windowWidth - 170, windowHeight - 37, 160, 33, 2, 15);
+		texte.redimensionner(windowWidth - 160, windowHeight - 37, .5);
 	}
 	
 

@@ -8,6 +8,7 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
 
   /** Le Scanner pour lire l’entrée utilisateur.*/
   Scanner entree;
+  
 
   /** Numéro de la case.*/
   private final int position;
@@ -47,16 +48,31 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
       }
 
 	  }else if (e.equals("n")) {
+		  int[] encheres = new int[4];
 		  // Proposer à chaque joueur et recupérer leur enchères
 		  for (int i = 0; i < tabJoueur.length; i++) {
 			  System.out.println("Voulez-vous enchérir, si oui, proposez un prix.");
-			  // if un chiffre entrée avec bouton "valider", enregistrer le prix associé au joueur
-			  // sinon, i++
+			  String string = entree.nextLine();
+			  if (string.equals("n")) {
+				  encheres[i] = 0;
+				  i++;
+			  } else {
+				  try {
+					  int n = Integer.parseInt(e);
+					  encheres[i] = n;
+					  i++;
+				  }catch(NumberFormatException e2) {
+					  System.out.println("Vous devez donnez un entier.");
+				  }
+				  
+				  }
+			  }
+	
 			  
 		  }
 		  
 	  }
-  }
+  
 
   @Override
   public void afficher(StringBuffer buffer) {

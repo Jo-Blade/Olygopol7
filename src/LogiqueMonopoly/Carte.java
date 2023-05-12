@@ -1,6 +1,6 @@
 package LogiqueMonopoly;
 
-public interface carte {
+public interface Carte {
 
     public String executer(Joueur j) throws BanquerouteException;
 }

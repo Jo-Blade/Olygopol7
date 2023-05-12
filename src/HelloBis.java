@@ -32,8 +32,29 @@ public class HelloBis {
     openglThread.ajouterEcouteur(bFinTour);
     bFinTour.afficher(openglThread);
 
-    JoueurScore j1Score = new JoueurScore(new Joueur(10, 0, "j1", 'x', "< >"), 0, openglThread);
+    JoueurScore j1Score = new JoueurScore(new Joueur(10000, 0, "j1", 'x', "< >"), 0, openglThread);
     openglThread.ajouterEcouteur(j1Score);
+
+    JoueurScore j2Score = new JoueurScore(new Joueur(8000, 0, "joueur2", 'x', "< >"), 1, openglThread);
+    openglThread.ajouterEcouteur(j2Score);
+
+    JoueurScore j3Score = new JoueurScore(new Joueur(1000, 0, "Téo", 'x', "< >"), 2, openglThread);
+    openglThread.ajouterEcouteur(j3Score);
+
+    JoueurScore j4Score = new JoueurScore(new Joueur(230, 0, "Emile", 'x', "< >"), 3, openglThread);
+    openglThread.ajouterEcouteur(j4Score);
+
+    BoutonPropriete bProp = new BoutonPropriete();
+    bProp.afficher(openglThread);
+    openglThread.ajouterEcouteur(bProp);
+
+    BoutonDe1 bDe1 = new BoutonDe1();
+    bDe1.afficher(openglThread);
+    openglThread.ajouterEcouteur(bDe1);
+
+    BoutonDe2 bDe2 = new BoutonDe2();
+    bDe2.afficher(openglThread);
+    openglThread.ajouterEcouteur(bDe2);
 
     while ( openglThread.isAlive() ) {
       // on met un délai pour ne pas bouffer tout le temps processeur
