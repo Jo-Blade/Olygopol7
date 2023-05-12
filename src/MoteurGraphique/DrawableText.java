@@ -14,6 +14,9 @@ public class DrawableText {
   /** La taille du texte. */
   private double fontSize;
 
+  /** La couleur du texte.*/
+  private final FloatVec4 couleur;
+
   /** Code du vertex shader.*/
   private final static String vertCode =
     "#version 330 core\n" +
@@ -24,6 +27,7 @@ public class DrawableText {
     "in vec2 glyphPos;\n" +
     "in vec2 glyphTaille;\n" +
     "in float echelle;\n" +
+    "in vec4 couleur;\n" +
 
     "uniform int windowWidth;\n" +
     "uniform int windowHeight;\n" +
@@ -31,17 +35,19 @@ public class DrawableText {
     "out vec2 fUvs;\n" +
     "out vec2 fGlyphPos;\n" +
     "out vec2 fGlyphTaille;\n" +
+    "out vec4 fCouleur;\n" +
 
     "void main()\n" +
     "{\n" +
 
     "mat2 resize = echelle * mat2(50. / float(windowWidth), 0.0, 0.0, (50. * glyphTaille.y) / (float(windowHeight) * glyphTaille.x));\n" +
-    "mat2 chbase = mat2(1. / float(windowWidth), 0., 0., - 1. / float(windowHeight));\n" +
+    "mat2 chbase = mat2(2. / float(windowWidth), 0., 0., - 2. / float(windowHeight));\n" +
     "gl_Position = vec4(resize*vertex + chbase*positionLettre + vec2(-1.0, 1.0), 0.0, 1.0);\n" +
 
     "fUvs = uvs;\n" +
     "fGlyphPos = glyphPos;\n" +
     "fGlyphTaille = glyphTaille;\n" +
+    "fCouleur = couleur;\n" +
 
     "}";
 
@@ -54,6 +60,7 @@ public class DrawableText {
     "in vec2 fUvs;\n" +
     "in vec2 fGlyphPos;\n" +
     "in vec2 fGlyphTaille;\n" +
+    "in vec4 fCouleur;\n" +
 
     "uniform float texWidth;\n" +
     "uniform float texHeight;\n" +
@@ -64,7 +71,7 @@ public class DrawableText {
     "mat2 gliphResize = mat2(fGlyphTaille.x / texWidth, 0.0, 0.0, fGlyphTaille.y / texHeight);\n" +
     "vec2 translation = vec2(fGlyphPos.x / texWidth, fGlyphPos.y / texHeight);\n" +
     "vec4 color = texture(textureSampler, translation + fUvs*gliphResize);\n" +
-    "fragColor = vec4(0.0, 0.0, 0.0, color.a);\n" +
+    "fragColor = vec4(fCouleur.r, fCouleur.g, fCouleur.b, min(fCouleur.a, color.a));\n" +
     "}";
 
   private final static float[] vertices = new float[]
@@ -128,6 +135,7 @@ public class DrawableText {
     fontProg.setUniformFloat("texHeight", font.textureHeight);
 
     drawer = new ModelInstantiator<GlyphInstance>(fontProg, fontModel);
+    this.couleur = new FloatVec4((float) couleurR, (float) couleurG, (float) couleurB, (float) couleurA);
     changer(texte);
   }
 
@@ -139,7 +147,7 @@ public class DrawableText {
     drawer.clear();
 
     // On calcule la longueur totale du texte pour le centrer
-    int x = this.positionX;
+    float x = this.positionX;
     // for (char c : texte.toCharArray())
     //   x += font.getCaractere(c).width;
 
@@ -147,8 +155,9 @@ public class DrawableText {
     // int y = - font.textureHeight / 2;
     for (char c : texte.toCharArray()) {
       Font.Glyph g = font.getCaractere(c);
-      drawer.addObjet(new GlyphInstance(x, y, g, (float) this.fontSize));
-      x += g.width + 5;
+      drawer.addObjet(new GlyphInstance(x, y, g, (float) this.fontSize,
+            couleur.r, couleur.g, couleur.b, couleur.a));
+      x += fontSize * (g.width - 5);
     }
 
     drawer.valider();

@@ -4,6 +4,8 @@
 import java.time.Duration;
 import java.time.Instant;
 import MoteurGraphique.*;
+import Interfacegraphique.*;
+import LogiqueMonopoly.*;
 
 public class HelloBis {
 
@@ -21,59 +23,19 @@ public class HelloBis {
     OpenglThread openglThread = new OpenglThread();
     openglThread.start();
 
-    TaquinGrille grille = new TaquinGrille(3, "texture.png");
-
-    new TaquinCarre(2, 0, 1, 0, grille);
-    new TaquinCarre(2, 1, 2, 0, grille);
-    new TaquinCarre(1, 0, 0, 1, grille);
-    new TaquinCarre(2, 2, 1, 1, grille);
-    new TaquinCarre(1, 1, 2, 1, grille);
-    new TaquinCarre(0, 1, 0, 2, grille);
-    new TaquinCarre(1, 2, 1, 2, grille);
-    new TaquinCarre(0, 2, 2, 2, grille);
-
-    Compteur compteurClics = new HelloBis().new Compteur();
-
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        TaquinButton bouton = 
-          new TaquinButton( grille,
-              new FloatVec2(1f/3f* (float) j, 1f/3f* (float) i),
-              new FloatVec2(1f/3f* (float) (j+1), 1f/3f* (float) (i+1)),
-              new Vec2Int(j, i),
-              compteurClics);
-
-        openglThread.ajouterBouton(bouton);
-        openglThread.ajouterEcouteur(bouton);
-      }
-    }
-
-    grille.afficher(openglThread);
-
-    DrawableBox testBox = new DrawableBox();
-    openglThread.ajouterEcouteur(testBox);
-    testBox.afficher(openglThread);
-
-    // int compteur = 0;
-    DrawableText texte = new DrawableText("clics : 0");
-    openglThread.ajouterEcouteur(texte);
-    texte.afficher(openglThread);
 
     DrawableIsoGrid testGrid = new DrawableIsoGrid("isoTex.png", 5);
     openglThread.ajouterEcouteur(testGrid);
     testGrid.afficher(openglThread);
 
-    Instant instant = Instant.now();
+    BoutonFinTour bFinTour = new BoutonFinTour();
+    openglThread.ajouterEcouteur(bFinTour);
+    bFinTour.afficher(openglThread);
+
+    JoueurScore j1Score = new JoueurScore(new Joueur(10, 0, "j1", 'x', "< >"), 0, openglThread);
+    openglThread.ajouterEcouteur(j1Score);
+
     while ( openglThread.isAlive() ) {
-      Instant newInstant = Instant.now();
-      long timeElapsed = Duration.between(instant, newInstant).toMillis();
-      if (timeElapsed > 100) {
-        texte.changer("fps : " + 10*openglThread.compteurFrames);
-        openglThread.compteurFrames = 0;
-        instant = newInstant;
-      }
-
-
       // on met un délai pour ne pas bouffer tout le temps processeur
       try {
         Thread.sleep(1);
@@ -81,10 +43,6 @@ public class HelloBis {
       catch(Exception e) {
         System.out.println(e);
       }
-      // if (compteur != compteurClics.compteur) {
-      //   texte.changer("clics : " + compteurClics.compteur);
-      //   compteur = compteurClics.compteur;
-      // }
     }
   }
 }

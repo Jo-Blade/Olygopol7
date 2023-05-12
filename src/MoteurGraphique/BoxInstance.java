@@ -5,12 +5,10 @@ package MoteurGraphique;
 import java.util.Map;
 import java.util.HashMap;
 
-// infos à renseigner: position centre, largeur, hauteur, couleurs, épaisseur bordure, rayon bordure
-//
 public class BoxInstance extends ModelInstance {
 
-  /** Le centre de l’objet à instancier.*/
-  private final FloatVec2 centre;
+  /** Le coin supérieur gauche de l’objet à instancier.*/
+  private final FloatVec2 coin;
 
   /** Les dimensions (largeur, hauteur) de la boite.*/
   private final FloatVec2 dimensions;
@@ -28,17 +26,17 @@ public class BoxInstance extends ModelInstance {
   private final float epaisseurBordure;
 
   /** Créer un objet d’instance par ses propriétés.
-   * @param centre centre de la boite
+   * @param coin coin suppérieur gauche de la boite
    * @param dimensions taille de la boite
    * @param couleurBordure couleur de la bordure
    * @param couleurFond couleur du fond
    * @param rayonBordure border-radius
    * @param epaisseurBordure épaisseur de bordure
    */
-  public BoxInstance(FloatVec2 centre, FloatVec2 dimensions,
+  public BoxInstance(FloatVec2 coin, FloatVec2 dimensions,
       FloatVec4 couleurBordure, FloatVec4 couleurFond, float rayonBordure,
       float epaisseurBordure) {
-    this.centre = centre;
+    this.coin = coin;
     this.dimensions = dimensions;
     this.couleurBordure = couleurBordure;
     this.couleurFond = couleurFond;
@@ -67,7 +65,7 @@ public class BoxInstance extends ModelInstance {
       switch (entry.getKey()) {
 
         case 2:
-          ((FloatVec2Vbo) entry.getValue()).push(centre);
+          ((FloatVec2Vbo) entry.getValue()).push(coin);
           break;
         case 3:
           ((FloatVec2Vbo) entry.getValue()).push(dimensions);

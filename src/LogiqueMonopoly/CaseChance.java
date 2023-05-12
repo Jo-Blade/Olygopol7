@@ -1,9 +1,10 @@
+package LogiqueMonopoly;
 /** Case qui n’a été achetée par personne pour le moment.
  * @author : pisento
 **/
 import java.util.Scanner;
-// SUPPRIMER LES ABSTRACT
-public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
+
+public class CaseChance implements CaseFonctionnelle, CaseGraphique {
 
   /** Le Scanner pour lire l’entrée utilisateur.*/
   Scanner entree;
@@ -20,6 +21,7 @@ public class CaseLibre implements CaseFonctionnelle, CaseGraphique {
   public CaseChance(int position, Plateau plateau) {
 	    this.position = position;
         this.plateau = plateau;
+        this.prix = 0;
   }
   
   @Override

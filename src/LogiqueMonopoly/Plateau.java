@@ -24,7 +24,8 @@ public class Plateau {
     Scanner testScan = new Scanner(System.in);
 
     for (int i = 0; i < 20; i++) {
-      CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan);
+      // IL FAUT CHANGER LE NULL PAR LE TABLEAU DES JOUEURS !!!
+      CaseLibre newCaseLibre = new CaseLibre(i, 10, this, testScan, null);
       listeCaseFonctionnelle.add(newCaseLibre);
       listeCaseGraphique.add(newCaseLibre);
     }

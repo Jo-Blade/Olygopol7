@@ -3,14 +3,14 @@ package MoteurGraphique;
  * @author : pisento
 **/
 
-public class DrawableBox implements WindowListener {
+public class DrawableBox {
 
   private final static String vertCode =
     "#version 330 core\n" +
 
     "in vec2 position;\n" +
     "in vec2 uvs;\n" +
-    "in vec2 positionCentre;\n" +
+    "in vec2 point1;\n" +
     "in vec2 dimensions;\n" +
     "in vec4 couleurBordure;\n" +
     "in vec4 couleurFond;\n" +
@@ -32,9 +32,9 @@ public class DrawableBox implements WindowListener {
     "void main()\n" +
     "{\n" +
 
-    "mat2 resize = mat2(dimensions.x / float(windowWidth), 0.0, 0.0, dimensions.y / float(windowHeight));\n" +
+    "mat2 resize = 2*mat2(dimensions.x / float(windowWidth), 0.0, 0.0, dimensions.y / float(windowHeight));\n" +
 
-    "gl_Position = vec4(position*resize + positionCentre, 0.0, 1.0);\n" +
+    "gl_Position = vec4(vec2(-1., 1.) + position*resize + vec2(2. / float(windowWidth), -2. / float(windowHeight))*point1, 0.0, 1.0);\n" +
     "fragUvs = uvs;\n" +
 
     "width = dimensions.x;\n" +
@@ -91,12 +91,12 @@ public class DrawableBox implements WindowListener {
 
   private final static float[] vertices = new float[]
   {
-    -1.0f, +1.0f,    // Top-left coordinate
-      -1.0f, -1.0f,    // Bottom-left coordinate
+    +0.0f, +0.0f,    // Top-left coordinate
+      +0.0f, -1.0f,    // Bottom-left coordinate
       +1.0f, -1.0f,    // Bottom-right coordinate
 
-      +1.0f, +1.0f,    // Top-right
-      -1.0f, +1.0f,    // Top-left
+      +1.0f, +0.0f,    // Top-right
+      +0.0f, +0.0f,    // Top-left
       +1.0f, -1.0f     // Bottom-right
   };
 
@@ -117,23 +117,64 @@ public class DrawableBox implements WindowListener {
       new VertexShader(vertCode), new FragmentShader(fragCode)
       );
 
-  private BoxInstance obTest;
+  /** Point suppérieur gauche du rectangle. */
+  private FloatVec2 point1;
 
-  public DrawableBox() {
+  /** Point inférieur droit du rectangle. */
+  private FloatVec2 point2;
+
+  /** Couleur du fond. */
+  private FloatVec4 couleurFond;
+
+  /** Couleur du bord. */
+  private FloatVec4 couleurBord;
+
+  /** Epaisseur de la bordure. */
+  private float epaisseurBord;
+
+  /** Rayon du bord arrondi. */
+  private float rayonBord;
+
+  /** Créer un rectangle affichable.
+   * @param couleurFondR composante rouge du fond (entre 0 et 1)
+   * @param couleurFondG composante rouge du fond (entre 0 et 1)
+   * @param couleurFondB composante rouge du fond (entre 0 et 1)
+   * @param couleurFondA composante rouge du fond (entre 0 et 1)
+   * @param couleurBordR composante rouge du fond (entre 0 et 1)
+   * @param couleurBordG composante rouge du fond (entre 0 et 1)
+   * @param couleurBordB composante rouge du fond (entre 0 et 1)
+   * @param couleurBordA composante rouge du fond (entre 0 et 1)
+   */
+  public DrawableBox(double couleurFondR, double couleurFondG, double couleurFondB, double couleurFondA,
+      double couleurBordR, double couleurBordG, double couleurBordB, double couleurBordA) {
+
     Model2d modele = new Model2dNoTex(vertices, uvs);
     drawer = new ModelInstantiator<>(glProg, modele);
 
-    obTest = new BoxInstance(
-        new FloatVec2(0,0),
-        new FloatVec2(400, 80),
-        new FloatVec4(1, 0, 0, 0.8f),
-        new FloatVec4(1, 1, 1, 0.5f),
-        30, 10
-        );
+    this.couleurFond = new FloatVec4((float) couleurFondR, (float) couleurFondG,
+        (float) couleurFondB, (float) couleurFondA);
 
-    drawer.addObjet(obTest);
-    // on indique qu’on a fini de modifier le drawer
-    drawer.valider();
+    this.couleurBord = new FloatVec4((float) couleurBordR, (float) couleurBordG,
+        (float) couleurBordB, (float) couleurBordA);
+  }
+
+  /** Redimensionner et repositionner le rectangle à l'écran
+   * @param positionX1 la distance au bord gauche de l'écran (en pixels)
+   * @param positionY1 la distance au bord haut de l'écran (en pixels)
+   * @param positionX2 la distance au bord gauche de l'écran (en pixels)
+   * @param positionY2 la distance au bord haut de l'écran (en pixels)
+   * @param epaisseurBord l'epaisseur de la bordure
+   * @param rayon le rayon du bord arrondi
+   */
+  public void redimensionner(int positionX1, int positionY1, int positionX2, int positionY2,
+      double epaisseurBord, double rayon) {
+
+    this.point1 = new FloatVec2(positionX1, positionY1);
+    this.point2 = new FloatVec2(positionX2, positionY2);
+    this.epaisseurBord = (float) epaisseurBord;
+    this.rayonBord = (float) rayon;
+
+    changer();
   }
 
   /** Donner l’instruction d’affichage.
@@ -144,18 +185,19 @@ public class DrawableBox implements WindowListener {
     openglThread.ajouterAffichage(drawer);
   }
 
-  @Override
-  public void updateWindowTaille(int windowWidth, int windowHeight) {
-    drawer.delObjet(obTest);
+  /** Changer le rectangle dessiné. */
+  private void changer() {
+    drawer.clear();
 
-    obTest = new BoxInstance(
-        new FloatVec2(-1 + 270f / (float) windowWidth, 1 - 70f / windowHeight),
-        new FloatVec2(250, 60),
-        new FloatVec4(1, 0, 0, 0.8f),
-        new FloatVec4(1, 1, 1, 0.5f),
-        20, 5
-        );
-    drawer.addObjet(obTest);
+    drawer.addObjet(new BoxInstance(
+        point1,
+        point2,
+        couleurBord,
+        couleurFond,
+        rayonBord, epaisseurBord 
+        ));
+
+    // on indique qu’on a fini de modifier le drawer
     drawer.valider();
   }
 

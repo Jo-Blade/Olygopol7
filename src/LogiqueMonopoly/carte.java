@@ -1,3 +1,4 @@
+package LogiqueMonopoly;
 
 public interface carte {
 
