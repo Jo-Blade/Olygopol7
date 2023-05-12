@@ -3,8 +3,9 @@ package Interfacegraphique;
 import LogiqueMonopoly.Joueur;
 import MoteurGraphique.DrawableText;
 import MoteurGraphique.OpenglThread;
+import MoteurGraphique.WindowListener;
 
-public class BoutonPropriete {
+public class BoutonPropriete implements WindowListener {
 
 	final private DrawableImage Image;
 	

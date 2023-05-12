@@ -1,8 +1,9 @@
 package Interfacegraphique;
 
 import MoteurGraphique.OpenglThread;
+import MoteurGraphique.WindowListener;
 
-public class BoutonReglage {
+public class BoutonReglage implements WindowListener{
 	
 	final private DrawableImage Reglage;
 	

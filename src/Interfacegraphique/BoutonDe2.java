@@ -1,8 +1,9 @@
 package Interfacegraphique;
 
 import MoteurGraphique.OpenglThread;
+import MoteurGraphique.WindowListener;
 
-public class BoutonDe2 {
+public class BoutonDe2 implements WindowListener {
 	
 	final private DrawableImage De;
 	

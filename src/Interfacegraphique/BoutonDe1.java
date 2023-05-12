@@ -1,11 +1,12 @@
 package Interfacegraphique;
 import Interfacegraphique.DrawableImage;
 import MoteurGraphique.OpenglThread;
+import MoteurGraphique.WindowListener;
 
-public class BoutonDe1 {
+public class BoutonDe1 implements WindowListener {
 	final private DrawableImage De;
 	
-	 public BoutonDe() {
+	 public BoutonDe1() {
 		 this.De = new DrawableImage("de1");
 	 }
 		
@@ -18,6 +19,6 @@ public class BoutonDe1 {
 	 @Override
 		public void updateWindowTaille(int windowWidth, int windowHeight ) {
 			
-			De.redimensionner(30, windowHeight - 20, 40, windowHeight - 10);
+			De.redimensionner(10, windowHeight - 20, 20, windowHeight - 10);
 		}
 }

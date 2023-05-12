@@ -1,8 +1,9 @@
 package Interfacegraphique;
 
 import MoteurGraphique.OpenglThread;
+import MoteurGraphique.WindowListener;
 
-public class BoutonSon {
+public class BoutonSon implements WindowListener{
 
 	final private DrawableImage Son;
 	

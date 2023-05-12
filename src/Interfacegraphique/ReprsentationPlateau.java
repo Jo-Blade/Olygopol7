@@ -1,8 +1,9 @@
 package Interfacegraphique;
 
 import MoteurGraphique.OpenglThread;
+import MoteurGraphique.WindowListener;
 
-public class ReprsentationPlateau {
+public class ReprsentationPlateau implements WindowListener{
 	
 	final private DrawableImage Plateau;
 	
