@@ -8,7 +8,7 @@ public class BoutonPropriete {
 
 	final private DrawableImage Image;
 	
-	 public JoueurScore() {
+	 public BoutonPropriete() {
 		 this.Image = new DrawableImage("propriété");
 	 }
 		
@@ -21,6 +21,6 @@ public class BoutonPropriete {
 	 @Override
 		public void updateWindowTaille(int windowWidth, int windowHeight ) {
 			
-			Image.redimensionner(windowWidth-60, windowHeight/2-25, windowWidth-20, windowHeight/2-55 );
+			Image.redimensionner(windowWidth-60, windowHeight/2-55, windowWidth-20, windowHeight/2-25 );
 		}
 }
