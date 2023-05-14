@@ -31,6 +31,7 @@ public class HelloBis {
     BoutonFinTour bFinTour = new BoutonFinTour();
     openglThread.ajouterEcouteur(bFinTour);
     bFinTour.afficher(openglThread);
+    openglThread.ajouterBouton(bFinTour);
 
     JoueurScore j1Score = new JoueurScore(new Joueur(10000, 0, "j1", 'x', "< >"), 0, openglThread);
     openglThread.ajouterEcouteur(j1Score);
@@ -47,6 +48,7 @@ public class HelloBis {
     BoutonPropriete bProp = new BoutonPropriete();
     bProp.afficher(openglThread);
     openglThread.ajouterEcouteur(bProp);
+    openglThread.ajouterBouton(bProp);
 
     BoutonDe1 bDe1 = new BoutonDe1();
     bDe1.afficher(openglThread);

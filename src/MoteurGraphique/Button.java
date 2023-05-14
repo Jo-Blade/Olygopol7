@@ -22,7 +22,7 @@ abstract public class Button {
   }
 
   /** Indique si ce bouton est sélectionné par la souris.
-   * @param coordonneesSouris les coordonnées de la souris comprises entre -1 et 1 (façon opengl)
+   * @param coordonneesSouris les coordonnées de la souris en pixels
    * @return True si le bouton est sélectionné
    */
   public boolean isMouseSelected(FloatVec2 coordonneesSouris) {

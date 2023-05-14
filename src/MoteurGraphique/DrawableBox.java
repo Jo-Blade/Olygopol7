@@ -158,6 +158,28 @@ public class DrawableBox {
         (float) couleurBordB, (float) couleurBordA);
   }
 
+  /** Changer les couleurs de la boite
+   * @param couleurFondR composante rouge du fond (entre 0 et 1)
+   * @param couleurFondG composante rouge du fond (entre 0 et 1)
+   * @param couleurFondB composante rouge du fond (entre 0 et 1)
+   * @param couleurFondA composante rouge du fond (entre 0 et 1)
+   * @param couleurBordR composante rouge du fond (entre 0 et 1)
+   * @param couleurBordG composante rouge du fond (entre 0 et 1)
+   * @param couleurBordB composante rouge du fond (entre 0 et 1)
+   * @param couleurBordA composante rouge du fond (entre 0 et 1)
+   */
+  public void changerCouleur(double couleurFondR, double couleurFondG, double couleurFondB, double couleurFondA,
+      double couleurBordR, double couleurBordG, double couleurBordB, double couleurBordA) {
+
+    this.couleurFond = new FloatVec4((float) couleurFondR, (float) couleurFondG,
+        (float) couleurFondB, (float) couleurFondA);
+
+    this.couleurBord = new FloatVec4((float) couleurBordR, (float) couleurBordG,
+        (float) couleurBordB, (float) couleurBordA);
+
+    changer();
+  }
+
   /** Redimensionner et repositionner le rectangle à l'écran
    * @param positionX la distance au bord gauche de l'écran (en pixels)
    * @param positionY la distance au bord haut de l'écran (en pixels)

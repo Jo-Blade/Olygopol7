@@ -15,7 +15,7 @@ public class DrawableText {
   private double fontSize;
 
   /** La couleur du texte.*/
-  private final FloatVec4 couleur;
+  private FloatVec4 couleur;
 
   /** Code du vertex shader.*/
   private final static String vertCode =
@@ -161,6 +161,20 @@ public class DrawableText {
     }
 
     drawer.valider();
+  }
+
+
+  /** Construire un texte affichable
+   * @param couleurR composante rouge de la couleur (entre 0 et 1)
+   * @param couleurG composante vert de la couleur
+   * @param couleurB composante bleue de la couleur
+   * @param couleurA composante alpha de la couleur
+   */
+  public void changerCouleur(double couleurR, double couleurG,
+      double couleurB, double couleurA) {
+
+    this.couleur = new FloatVec4((float) couleurR, (float) couleurG, (float) couleurB, (float) couleurA);
+    changer(texte);
   }
 
   /** Redimensionner et repositionner le texte à l'écran

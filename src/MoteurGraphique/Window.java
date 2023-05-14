@@ -97,10 +97,7 @@ public class Window {
           DoubleBuffer py_pos = stack.mallocDouble(1); // double*
 
           glfwGetCursorPos(windowHandle, px_pos, py_pos);
-
-          Vec2Int currentDim = getDimensions();
-          FloatVec2 mouseCoords = new FloatVec2((float) px_pos.get(0) / (float) currentDim.x,
-              (float) py_pos.get(0) / (float) currentDim.y);
+          FloatVec2 mouseCoords = new FloatVec2((float) px_pos.get(0), (float) py_pos.get(0));
 
           // System.out.println("x: " + mouseCoords.x + " - y: " + mouseCoords.y);
           for (Button b : listeBoutons) {
