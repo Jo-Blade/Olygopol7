@@ -1,0 +1,1 @@
+mvn compile exec:java -D exec.mainClass=Jouer -D exec.args="a b c d"

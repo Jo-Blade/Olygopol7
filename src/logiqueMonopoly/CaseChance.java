@@ -1,0 +1,24 @@
+package logiqueMonopoly;
+
+public class CaseChance implements CaseFonctionnelle, CaseGraphique {
+
+	/** Numéro de la case.*/
+	private int position;
+	
+	public CaseChance(int position) {
+		 this.position = position;
+	}
+
+  @Override
+	public void executer(Joueur j) throws BanquerouteException {
+		CarteChance CarteChanceTire = new CarteChance(j);
+		System.out.println(CarteChanceTire.getMessage());
+	}
+
+  @Override
+	public void afficher(StringBuffer buffer) {
+      // A completer
+	  System.out.println(position);
+	}
+
+}

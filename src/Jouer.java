@@ -1,14 +1,14 @@
-import LogiqueMonopoly.Arbitre;
-import LogiqueMonopoly.Joueur;
-import LogiqueMonopoly.Plateau;
+import logiqueMonopoly.Arbitre;
+import logiqueMonopoly.Joueur;
+import logiqueMonopoly.Plateau;
 
 public class Jouer{
 
   /** Point d’entrée du programme.
    * @param args arguments de la ligne de commande
    */
-  private final static int  solde = 1000;
-  private static Plateau plat;
+public final static int  solde = 1000;
+public static Plateau plat;
   private static Arbitre arbitre;
 
   public static void main(String[] args) {

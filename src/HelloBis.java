@@ -1,11 +1,10 @@
 /**
  * @author : pisento
  **/
-import java.time.Duration;
-import java.time.Instant;
-import MoteurGraphique.*;
-import Interfacegraphique.*;
-import LogiqueMonopoly.*;
+import interfacegraphique.*;
+import logiqueMonopoly.*;
+import moteurGraphique.drawable.DrawableIsoGrid;
+import moteurGraphique.glThread.OpenglThread;
 
 public class HelloBis {
 
