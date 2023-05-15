@@ -17,8 +17,8 @@ public class CaseChance implements CaseFonctionnelle, CaseGraphique {
 
   @Override
 	public void afficher(StringBuffer buffer) {
-		// C'est bon IDE de merde on va utiliser position ici
-		int mabite = position;
+		// C'est bon l'IDE on va utiliser position ici
+		int nv = position;
 	}
 
 }
