@@ -40,11 +40,11 @@ public class Arbitre {
     CaseFonctionnelle Case = plateau.getCase(J.getPosition());
     Case.executer(J);
     /* JE MET EN COMMENTAIRE CAR IMPLÉMENTATION NON TERMINÉE
-     * System.out.println("Voulez vous ajouter gerer vos propriété ?");
+     * System.out.println("Voulez vous gerer vos propriété ?");
     try {
       String reponse = scanner.nextLine();
       if (reponse.equals("oui")) {
-        //Accees au menu propriete
+        //Appel de Menu propriete
       }
       else if (!reponse.equals("non")) {
         throw new InvalideEntreeExcpetion();
