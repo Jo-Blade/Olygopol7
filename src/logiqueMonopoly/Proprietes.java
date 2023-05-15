@@ -1,4 +1,4 @@
-package LogiqueMonopoly;
+package logiqueMonopoly;
 
 // On fait cette classe parce qu'on a besoin d'accèder au propriété des gens dans le menue propriété sans parcourire tout le plateau à chaque fois
 
