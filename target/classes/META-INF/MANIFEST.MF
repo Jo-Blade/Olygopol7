@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: pisento
-Build-Jdk: 17.0.6
+Built-By: tpisenti
+Build-Jdk: 11.0.18
 Created-By: Maven Integration for Eclipse
 

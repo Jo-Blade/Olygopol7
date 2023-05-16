@@ -76,8 +76,10 @@ public class Font extends Texture {
       char c = (char) i;
       BufferedImage ch = createCharImage(font, c);
 
+      if (ch != null) {
       imageWidth += ch.getWidth();
       imageHeight = Math.max(imageHeight, ch.getHeight());
+      }
     }
 
     // --- Creer la texture ---

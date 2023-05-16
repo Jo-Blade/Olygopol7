@@ -1,4 +1,4 @@
-package LogiqueMonopoly;
+package logiqueMonopoly;
 
 public class MenuPropriete {
 	/* 
