@@ -57,6 +57,10 @@ public class HelloBis {
     bDe2.afficher(openglThread);
     openglThread.ajouterEcouteur(bDe2);
 
+    PopupAchat popup = new PopupAchat();
+    popup.afficher(openglThread);
+    openglThread.ajouterEcouteur(popup);
+
     while ( openglThread.isAlive() ) {
       // on met un délai pour ne pas bouffer tout le temps processeur
       try {
