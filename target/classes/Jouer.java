@@ -1,6 +1,8 @@
 import logiqueMonopoly.Arbitre;
 import logiqueMonopoly.Joueur;
 import logiqueMonopoly.Plateau;
+import moteurGraphique.glThread.*;
+import interfacegraphique.*;
 
 public class Jouer{
 
@@ -17,9 +19,10 @@ public static Plateau plat;
     }
     else {
       try {
-        Joueur[] tabJoueur = creationJoueur(args);
         plat= new Plateau();
+        Joueur[] tabJoueur = creationJoueur(args, plat);
         arbitre = new Arbitre(tabJoueur, plat);
+        InterfaceGraphique.glThread.start();
         arbitre.arbitrer();
       }
 
@@ -29,13 +32,12 @@ public static Plateau plat;
     }
   }
 
-  private static Joueur[] creationJoueur(String[] str) {
+  private static Joueur[] creationJoueur(String[] str, Plateau plateau) {
     Joueur[] tJoueur = {null, null,null,null} ;
-    char[] avatar = {'a', 'b', 'c', 'd'};
     String[] symbolePropriete = {"< >", "{ }", "| |", "( )"};
 
     for (int i=0;i<str.length; i++){
-      tJoueur[i]= new Joueur(solde, 0, str[i], avatar[i], symbolePropriete[i]);
+      tJoueur[i]= new Joueur(solde, 0, str[i], new Pion(plateau), symbolePropriete[i]);
     }
     return(tJoueur);
   }

@@ -1,6 +1,5 @@
 package interfacegraphique;
 import moteurGraphique.drawable.*;
-import moteurGraphique.glThread.OpenglThread;
 import moteurGraphique.window.*;
 import moteurGraphique.vecteur.*;
 import logiqueMonopoly.Joueur;
@@ -15,8 +14,6 @@ public class BoutonDe extends Button implements WindowListener {
   /** Si le dé a été cliqué.*/
   private boolean estClique = false;
 
-  private OpenglThread glThread = null;
-
   public BoutonDe() {
     super(new FloatVec2(0,0), new FloatVec2(0,0));
     this.de = new DrawableImage("de.png");
@@ -25,10 +22,9 @@ public class BoutonDe extends Button implements WindowListener {
   }
 
   /** Afficher le de bloque jusqu'a qu'on demande a tirer le dé.*/
-  public void afficher(OpenglThread aff) {
-    aff.ajouterEcouteur(this);
-    deBloque.afficher(aff);
-    this.glThread = aff;
+  public void afficher() {
+    InterfaceGraphique.glThread.ajouterEcouteur(this);
+    deBloque.afficher(InterfaceGraphique.glThread);
   }
 
   public void executer() {
@@ -39,15 +35,15 @@ public class BoutonDe extends Button implements WindowListener {
   /** Tirer le dé, méthode bloquante.*/
   public int tirer(Joueur jCourant) {
     /* On débloque le dé.*/
-    deBloque.cacher(glThread);
-    de.afficher(glThread);
+    deBloque.cacher(InterfaceGraphique.glThread);
+    de.afficher(InterfaceGraphique.glThread);
 
     /* On le rend cliquable.*/
-    glThread.ajouterBouton(this);
+    InterfaceGraphique.glThread.ajouterBouton(this);
 
     /* On attend jusqu'à que le joueur clique sur le dé.*/
     estClique = false;
-    while (!estClique && glThread.isAlive()) {
+    while (!estClique && InterfaceGraphique.glThread.isAlive()) {
       try {
         Thread.sleep(1);
       } catch (InterruptedException e) {
@@ -59,9 +55,9 @@ public class BoutonDe extends Button implements WindowListener {
     animationClic(nombreTire);
 
     /* On rebloque le dé.*/
-    glThread.retirerBouton(this);
-    de.cacher(glThread);
-    deBloque.afficher(glThread);
+    InterfaceGraphique.glThread.retirerBouton(this);
+    de.cacher(InterfaceGraphique.glThread);
+    deBloque.afficher(InterfaceGraphique.glThread);
     return nombreTire;
   }
 
@@ -89,7 +85,7 @@ public class BoutonDe extends Button implements WindowListener {
     DrawableText numeroAffiche = new DrawableText("" + numero, 1, 0, 0, 1);
     numeroAffiche.redimensionner((int) point1.x, (int) point1.y - 50, 1);
 
-    numeroAffiche.afficher(glThread);
+    numeroAffiche.afficher(InterfaceGraphique.glThread);
     for (double i = 0.0; i < 1.; i += 0.1) {
       numeroAffiche.changerCouleur(1,0,0,i);
       try {
@@ -110,7 +106,7 @@ public class BoutonDe extends Button implements WindowListener {
       } catch (InterruptedException e) {
       }
     }
-    numeroAffiche.cacher(glThread);
+    numeroAffiche.cacher(InterfaceGraphique.glThread);
   }
 
   @Override

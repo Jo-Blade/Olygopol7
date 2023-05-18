@@ -1,5 +1,6 @@
 package logiqueMonopoly;
 import java.util.Random;
+import interfacegraphique.*;
 
 public class Joueur {
   int SOLDEjoueur;
@@ -7,6 +8,9 @@ public class Joueur {
   private int POSITIONjoueur; //normalment on la tire de la classe plateau, ce n'est donc pas un entier. J'écris ca au début pour ne pas avcoir d'erreur
   private String NOMjoueur;
   private final int maxAVANCER = 6;
+
+  /** Le pion graphique du joueur.*/
+  private final Pion pion;
 
   /** Caractère qui permet d’afficher le joueur. */
   private char avatar;
@@ -20,15 +24,17 @@ public class Joueur {
   /**
    * Constructeur de la classe
    */
-  public Joueur(int solde, int pos, String nom, char avatar, String symbolePropriete) {
+  public Joueur(int solde, int pos, String nom, Pion pion, String symbolePropriete) {
     assert solde != 0;
     assert nom != null;
 
     this.SOLDEjoueur = solde;
     this.POSITIONjoueur = pos;
     this.NOMjoueur = nom;
-    this.avatar = avatar;
+    this.pion = pion;
     this.symbolePropriete = symbolePropriete;
+
+    pion.afficher();
   }
 
 
@@ -72,6 +78,7 @@ public class Joueur {
 
     // POUR CETTE PREMIERE VERSION, ON REVIENT À LA PREMIERE CASE QUAND ON DEPASSE LA CASE 20
     this.POSITIONjoueur %= 20;
+    pion.avancer(dcase);
   }
 
   /**

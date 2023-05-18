@@ -1,7 +1,6 @@
 package interfacegraphique;
 
 import moteurGraphique.drawable.DrawableImage;
-import moteurGraphique.glThread.OpenglThread;
 import moteurGraphique.vecteur.FloatVec2;
 import moteurGraphique.window.Button;
 import moteurGraphique.window.WindowListener;
@@ -16,14 +15,20 @@ public class BoutonPropriete extends Button implements WindowListener {
      updateWindowTaille(600, 300);
 	 }
 		
-	 
-	 public void afficher(OpenglThread aff) {
-			Image.afficher(aff);
+	 public void afficher() {
+			Image.afficher(InterfaceGraphique.glThread);
+      InterfaceGraphique.glThread.ajouterBouton(this);
 		}
 
    @Override
    public void executer() {
-     System.out.println("Ouvrir le menu des propriétés");
+     /* Desactiver le clic.*/
+     InterfaceGraphique.glThread.retirerBouton(this);
+     String[] texte = {"Fonctionnalité non disponible !", "En cours de développement.", ":("};
+     Popup pop = new Popup("Gestion des propriétés", texte);
+     pop.afficher();
+     /* Reactiver le clic.*/
+     InterfaceGraphique.glThread.ajouterBouton(this);
    }
 	 
 	 @Override

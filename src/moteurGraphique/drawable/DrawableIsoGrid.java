@@ -10,12 +10,12 @@ import moteurGraphique.window.WindowListener;
 
 /** Un texte affichable à l’écran.
  * @author : pisento
-**/
+ **/
 
-public class DrawableIsoGrid implements WindowListener {
+public class DrawableIsoGrid {
 
   /** Code du vertex shader.*/
-public final static String vertCode =
+  public final static String vertCode =
     "#version 330 core\n" +
 
     "in vec2 vertex;\n" +
@@ -79,7 +79,7 @@ public final static String vertCode =
     "{\n" +
     "fragColor = texture(textureSampler, (vec2(fIndiceTex, 0) + fUvs)*mat2(widthRatioTex, 0., 0., 1.));\n" +
     "}";
-public final static float[] vertices = new float[]
+  public final static float[] vertices = new float[]
   {
     -1.0f, +2.0f,    // Top-left coordinate
       -1.0f,  -2.0f,    // Bottom-left coordinate
@@ -89,7 +89,7 @@ public final static float[] vertices = new float[]
       -1.0f, +2.0f,    // Top-left
       +1.0f, -2.0f     // Bottom-right
   };
-public final static float[] uvs = new float[]
+  public final static float[] uvs = new float[]
   {
     +0.0f, +0.0f,
       +0.0f, +1.0f,
@@ -112,30 +112,10 @@ public final static float[] uvs = new float[]
   private static VertexShader vertShader = new VertexShader(vertCode);
 
   /** Le fragment Shader après compilation.*/
-public static FragmentShader fragShader = new FragmentShader(fragCode);
+  public static FragmentShader fragShader = new FragmentShader(fragCode);
 
   /** Le programme opengl pour afficher la grille.*/
-public static OpenglProgram oglProg = new OpenglProgram(vertShader, fragShader);
-
-  private class Test extends Thread {
-    private IsoImgInstance j = new IsoImgInstance(1,0,0.5f,4);
-
-    public void run() {
-      for(int i = 1; i <= 500; i++) {
-        drawer.delObjet(j);
-        j = new IsoImgInstance(1f + (float) i / 100f, 0,0.5f,4);
-        drawer.addObjet(j);
-        drawer.valider();
-
-        oglProg.setUniformFloat("cameraX", 1f + (float) i / 100f);
-        oglProg.setUniformFloat("cameraY", 0);
-        try {
-          Thread.sleep(20);
-        } catch (Exception e) {
-        }
-      }
-    }
-  }
+  public static OpenglProgram oglProg = new OpenglProgram(vertShader, fragShader);
 
   /** Construire une boite de texte.
    * @param ressourceName le nom de l'image qui contient tous les éléments affichables
@@ -146,50 +126,37 @@ public static OpenglProgram oglProg = new OpenglProgram(vertShader, fragShader);
   public DrawableIsoGrid(String ressourceName, int nombreElements) {
     modele = new Model2d(DrawableIsoGrid.vertices, DrawableIsoGrid.uvs, new TextureImage(ressourceName));
 
-    oglProg.setUniformFloat("isoGridWidth", 300);
-    oglProg.setUniformFloat("isoGridHeight", 300);
-    oglProg.setUniformFloat("isoGridPosX", 110);
+    oglProg.setUniformFloat("isoGridWidth", 0);
+    oglProg.setUniformFloat("isoGridHeight", 0);
+    oglProg.setUniformFloat("isoGridPosX", 0);
     oglProg.setUniformFloat("isoGridPosY", 0);
     oglProg.setUniformFloat("cameraX", 0);
-    oglProg.setUniformFloat("cameraY", -2);
+    oglProg.setUniformFloat("cameraY", 0);
     oglProg.setUniformFloat("cameraZ", 0);
     oglProg.setUniformFloat("widthRatioTex", 1f / (float) nombreElements);
-    oglProg.setUniformFloat("zoom", 5);
+    oglProg.setUniformFloat("zoom", 0);
 
     drawer = new ModelInstantiator<>(oglProg, modele);
-    drawer.addObjet(new IsoImgInstance(0,0,0,3));
-    drawer.addObjet(new IsoImgInstance(0,0,0,4));
-    drawer.addObjet(new IsoImgInstance(1,0,0.5f,3));
-    drawer.addObjet(new IsoImgInstance(2,0,0.5f,3));
-    drawer.addObjet(new IsoImgInstance(2,-1,0,1));
-    drawer.addObjet(new IsoImgInstance(3,0,0.5f,3));
-    drawer.addObjet(new IsoImgInstance(4,0,0.5f,3));
-    drawer.addObjet(new IsoImgInstance(5,0,0.5f,3));
-    drawer.addObjet(new IsoImgInstance(6,0,0.5f,3));
-    drawer.addObjet(new IsoImgInstance(0,-1,-0.5f,3));
-    drawer.addObjet(new IsoImgInstance(0,-2,-0.5f,3));
-    drawer.addObjet(new IsoImgInstance(0,-2,-0.5f,4));
-    drawer.addObjet(new IsoImgInstance(0,-3,-0.5f,3));
-    drawer.addObjet(new IsoImgInstance(0,-4,-0.5f,3));
-    drawer.addObjet(new IsoImgInstance(0,-5,-0.5f,3));
-    drawer.addObjet(new IsoImgInstance(0,-6,-0.5f,3));
-    drawer.addObjet(new IsoImgInstance(1,-1,0,1));
-    drawer.addObjet(new IsoImgInstance(1,-2,-0.5f,0));
-    drawer.addObjet(new IsoImgInstance(1,-3,-0.5f,2));
-    drawer.addObjet(new IsoImgInstance(1,-4,-0.5f,2));
-    drawer.addObjet(new IsoImgInstance(1,-5,-0.5f,1));
-    drawer.addObjet(new IsoImgInstance(1,-6,-0.5f,0));
-    drawer.addObjet(new IsoImgInstance(0,1,0.5f,0));
-    drawer.addObjet(new IsoImgInstance(1,1,1,1));
-    drawer.addObjet(new IsoImgInstance(2,1,1,1));
-    drawer.addObjet(new IsoImgInstance(3,1,1,2));
-    drawer.addObjet(new IsoImgInstance(4,1,1,0));
-    drawer.addObjet(new IsoImgInstance(5,1,1,0));
-    drawer.addObjet(new IsoImgInstance(6,1,1,0));
-    drawer.addObjet(new IsoImgInstance(2,0,0.5f,4));
-    drawer.valider();
+  }
 
-    new Test().start();
+  /** Ajouter un objet à afficher.
+   * @param objet le nouvel objet à afficher
+   * @return True si un objet a été ajouté
+   */
+  public boolean ajouter(IsoImgInstance objet) {
+    boolean test = drawer.addObjet(objet);
+    drawer.valider();
+    return test;
+  }
+
+  /** Retirer un objet à afficher.
+   * @param objet le nouvel objet à afficher
+   * @return True si un objet a été retiré
+   */
+  public boolean retirer(IsoImgInstance objet) {
+    boolean test = drawer.delObjet(objet);
+    drawer.valider();
+    return test;
   }
 
   /** Donner l’instruction d’affichage.
@@ -206,12 +173,30 @@ public static OpenglProgram oglProg = new OpenglProgram(vertShader, fragShader);
     openglThread.retirerAffichage(drawer);
   }
 
-  @Override
-  public void updateWindowTaille(int windowWidth, int windowHeight) {
-    // oglProg.setUniformFloat("isoGridPosX", windowWidth/2 - windowHeight/4);
-    // oglProg.setUniformFloat("isoGridPosY", windowHeight/2 - windowHeight/4);
-    oglProg.setUniformFloat("isoGridWidth", windowWidth - 180 - 110);
-    oglProg.setUniformFloat("isoGridHeight", windowHeight);
-    oglProg.setUniformFloat("zoom", 5);
+  /** Redimensionner la grille à l'écran.
+   * @param isoGridPosX la distance au bord gauche de l'écran
+   * @param isoGridPosY la distance au bord haut de l'écran
+   * @param isoGridWidth la largeur de la grille à l'écran
+   * @param isoGridHeight la hauteur de la grille à l'écran
+   */
+  public void redimensionner(int isoGridPosX, int isoGridPosY,
+      int isoGridWidth, int isoGridHeight) {
+    oglProg.setUniformFloat("isoGridPosX", isoGridPosX);
+    oglProg.setUniformFloat("isoGridPosY", isoGridPosY);
+    oglProg.setUniformFloat("isoGridWidth", isoGridWidth);
+    oglProg.setUniformFloat("isoGridHeight", isoGridHeight);
+  }
+
+  /** Repositionner la caméra de l'espace isométrique.
+   * @param posX coordonnée X centrée
+   * @param posY coordonnée Y centrée
+   * @param posZ coordonnée Z centrée
+   * @param zoom le zoom utilisé
+   */
+  public void setCamera(double posX, double posY, double posZ, double zoom) {
+    oglProg.setUniformFloat("cameraX", (float) posX);
+    oglProg.setUniformFloat("cameraY", (float) posY);
+    oglProg.setUniformFloat("cameraZ", (float) posZ);
+    oglProg.setUniformFloat("zoom", (float) zoom);
   }
 }

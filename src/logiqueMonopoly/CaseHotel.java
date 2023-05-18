@@ -1,23 +1,23 @@
-package logiqueMonopoly;
 /** Case sur laquelle un joueur a placé un hotel
  * @author : pisento
 **/
+package logiqueMonopoly;
+import interfacegraphique.*;
 
-public class CaseHotel implements CaseFonctionnelle, CaseGraphique {
-
-  /** Numéro de la case.*/
-  private int position;
+public class CaseHotel implements CaseFonctionnelle {
 
   /** Propriétaire de la case.*/
   private Joueur proprietaire;
 
   /** Prix d'achat de la propriété (case).*/
   private final int prix;
+
+  private final CaseProprieteGraphique caseG;
   
-  public CaseHotel(int position, Joueur proprietaire, int prix) {
+  public CaseHotel(CaseProprieteGraphique caseG, Joueur proprietaire, int prix) {
 	  this.proprietaire = proprietaire;
-	  this.position = position;
     this.prix = prix;
+    this.caseG = caseG;
   }
 
   @Override
@@ -27,21 +27,19 @@ public class CaseHotel implements CaseFonctionnelle, CaseGraphique {
       proprietaire.crediter(prix); // le choix a été fait de toujours
                                    // donner le prix demandé par le proprio, quitte
                                    // à ce que le joueur soit dans le négatif
-      System.out.println(joueur.getNom() + " paie " + prix + "k$ à " + proprietaire.getNom());
+      String[] message = {"Vous payez " + prix + "k$", "à " + proprietaire.getNom()};
+      new Popup("evenement", message).afficher();
       joueur.debiter(prix); // peut lever une exception
 	  }
     else {
-      System.out.println("Vous êtes chez vous, reposez vous :)");
+      String[] message = {"Vous êtes chez vous,", "reposez vous :)"};
+      new Popup("evenement", message).afficher();
     }
   }
 
   @Override
-  public void afficher(StringBuffer buffer) {
-
-    String symboleAAfficher = proprietaire.getSymbolePropriete();
-    buffer.replace(position*4, position*4 + symboleAAfficher.length(),
-        symboleAAfficher);
-
+  public CaseGraphique getCaseGraphique() {
+    return caseG;
   }
 
 }

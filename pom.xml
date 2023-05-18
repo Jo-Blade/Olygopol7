@@ -137,7 +137,7 @@
           <!-- ... -->
           <archive>
             <manifest>
-              <mainClass>HelloBis</mainClass>
+              <mainClass>Jouer</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

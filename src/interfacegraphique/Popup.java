@@ -3,27 +3,29 @@
 **/
 package interfacegraphique;
 
-import logiqueMonopoly.*;
 import moteurGraphique.drawable.*;
 import moteurGraphique.window.*;
 import moteurGraphique.vecteur.FloatVec2;
 
-public class PopupAchat implements WindowListener {
+public class Popup implements WindowListener {
 
   /** Si la popup a été fermée.*/
-  private int reponseUtilisateur;
+  private boolean exited;
 
   /** L'encadré de la popup.*/
   private DrawableBox encadre;
 
+  /** Le titre affiché par la popup.*/
+  private DrawableText title;
+
+  /** Le texte du titre affiché par la popup.*/
+  private String titleString;
+
   /** Les lignes de texte affichés par la popup.*/
-  private DrawableText[] lignes = new DrawableText[3];
+  private DrawableText[] lignes;
 
-  /** La reponse "oui".*/
-  private reponse boutonOui;
-
-  /** La reponse "non".*/
-  private reponse boutonNon;
+  /** La reponse "ok".*/
+  private reponse boutonOK;
 
   /** Les boutons pour répondre à la popup (oui, non).*/
   private class reponse extends Button {
@@ -42,23 +44,19 @@ public class PopupAchat implements WindowListener {
     /** Le texte de la réponse.*/
     private String reponse;
 
-    /** La valeur associée à la réponse.*/
-    private int reponseValue;
-
     /** Créer un bouton réponse avec sa couleur et son texte.
      * @param label le texte du bouton
      * @param couleurR la composante rouge de la couleur (entre 0 et 1)
      * @param couleurG la composante verte de la couleur (entre 0 et 1)
      * @param couleurB la composante bleue de la couleur (entre 0 et 1)
      */
-    public reponse(String label, int reponseValue, double couleurR, double couleurG, double couleurB) {
+    public reponse(String label, double couleurR, double couleurG, double couleurB) {
       super(new FloatVec2(0,0), new FloatVec2(0,0));
 
       this.encadre = new DrawableBox(couleurR,couleurG,couleurB,1,
           couleurR,couleurG,couleurB,0);
       this.reponse = label;
       this.label = new DrawableText(label,1,1,1,1);
-      this.reponseValue = reponseValue;
     }
 
     /** Repositionner le bouton à l'écran.
@@ -77,8 +75,8 @@ public class PopupAchat implements WindowListener {
 
     @Override
     public void executer() {
-      PopupAchat.this.cacher();
-      reponseUtilisateur = reponseValue;
+      System.out.println("réponse : " + label);
+      Popup.this.cacher();
     }
 
     public void afficher() {
@@ -97,60 +95,63 @@ public class PopupAchat implements WindowListener {
   /** Créer une nouvelle popup d'achat à partir d'une case que l'on peut acheter.
    * @param caseAchetable la case à acheter
    */
-  public PopupAchat(CaseLibre terrain) {
+  public Popup(String title, String[] texte) {
     this.encadre = new DrawableBox(0.8,0.8,0.8,0.8,1,1,1,0.6);
-    this.lignes[0] = new DrawableText("Voulez-vous acheter ?",0,0,0,1);
-    this.lignes[1] = new DrawableText("nom  : " + terrain.getNom(),1,0,0,1);
-    this.lignes[2] = new DrawableText("prix : " + terrain.getPrix(),1,0,0,1);
+    this.title = new DrawableText(title, 0.1, 0.5, 0, 1);
+    this.titleString = title;
+    this.lignes = new DrawableText[texte.length];
+    for (int i = 0; i < texte.length; i++)
+      this.lignes[i] = new DrawableText(texte[i],0,0,0,1);
 
-    this.boutonOui = new reponse("oui", 1, 0.1, 0.5, 0);
-    this.boutonNon = new reponse("non", 2, 1, 0, 0);
+    this.boutonOK = new reponse("OK", 0.1, 0.5, 0);
 
-    this.reponseUtilisateur = 0;
+    this.exited = false;
     updateWindowTaille(600, 300);
   }
 
   @Override
   public void updateWindowTaille(int windowWidth, int windowHeight) {
-    encadre.redimensionner(windowWidth / 2 - 200, windowHeight / 2, 400, 140, 2, 15);
+    encadre.redimensionner(windowWidth / 2 - 200, windowHeight / 2, 400,
+        30*(1 + lignes.length) + Popup.reponse.hauteur + 2, 2, 15);
 
-    lignes[0].redimensionner(windowWidth / 2 - 140, windowHeight / 2, .5);
-    for (int i = 1; i < lignes.length; i++)
-      lignes[i].redimensionner(windowWidth / 2 - 180, windowHeight / 2 + 30*i, .5);
+    title.redimensionner(windowWidth / 2  - (10*titleString.length()) / 2,
+        windowHeight / 2, .5);
 
-    boutonOui.repositionner(windowWidth / 2 - 120, windowHeight / 2 + 90);
-    boutonNon.repositionner(windowWidth / 2 + 50, windowHeight / 2 + 90);
+    for (int i = 0; i < lignes.length; i++)
+      lignes[i].redimensionner(windowWidth / 2 - 180, windowHeight / 2 + 30*(1 + i), .5);
+
+    boutonOK.repositionner(windowWidth / 2  - Popup.reponse.largeur / 2,
+        windowHeight / 2 + 30*(1 + lignes.length));
   }
 
   public void cacher() {
     encadre.cacher(InterfaceGraphique.glThread);
+    title.cacher(InterfaceGraphique.glThread);
     for (DrawableText l : lignes)
       l.cacher(InterfaceGraphique.glThread);
 
-    boutonOui.cacher();
-    boutonNon.cacher();
+    boutonOK.cacher();
+    exited = true;
   }
 
-  public boolean afficher() {
+  public void afficher() {
     InterfaceGraphique.glThread.ajouterEcouteur(this);
-    reponseUtilisateur = 0;
+    exited = false;
 
     encadre.afficher(InterfaceGraphique.glThread);
+    title.afficher(InterfaceGraphique.glThread);
     for (DrawableText l : lignes)
       l.afficher(InterfaceGraphique.glThread);
 
-    boutonOui.afficher();
-    boutonNon.afficher();
+    boutonOK.afficher();
 
     /* Attendre cliqué ou fenetre fermée.*/
-    while (reponseUtilisateur == 0 && InterfaceGraphique.glThread.isAlive()) {
+    while (!exited && InterfaceGraphique.glThread.isAlive()) {
       try {
         Thread.sleep(1);
       } catch (InterruptedException e) {
       }
     }
-
-    return reponseUtilisateur == 1;
   }
 
 }

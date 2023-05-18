@@ -1,6 +1,7 @@
 package logiqueMonopoly;
+import interfacegraphique.*;
 
-public class CaseChance implements CaseFonctionnelle, CaseGraphique {
+public class CaseChance implements CaseFonctionnelle {
 
 	/** Numéro de la case.*/
 	private int position;
@@ -16,9 +17,8 @@ public class CaseChance implements CaseFonctionnelle, CaseGraphique {
 	}
 
   @Override
-	public void afficher(StringBuffer buffer) {
-      // A completer
-	  System.out.println(position);
-	}
+  public CaseGraphique getCaseGraphique() {
+    return null;
+  }
 
 }

@@ -14,33 +14,48 @@ public class BoutonFinTour extends Button implements WindowListener {
 	
 	public BoutonFinTour() {
     super(new FloatVec2(0,0), new FloatVec2(0,0));
-		this.boxe = new DrawableBox(0,0,0,0,1,0,0,1);
-		this.texte = new DrawableText("Fin du tour",1,0,0,1);
+		this.boxe = new DrawableBox(0,0,0,0,1,0,0,0.2);
+		this.texte = new DrawableText("Fin du tour",1,0,0,0.2);
     updateWindowTaille(600, 300);
 	}
 	
 	
-	public void afficher(OpenglThread aff) {
-    aff.ajouterEcouteur(this);
-    aff.ajouterBouton(this);
+	public void afficher() {
+    InterfaceGraphique.glThread.ajouterEcouteur(this);
 
-		boxe.afficher(aff);
-		texte.afficher(aff);
+		boxe.afficher(InterfaceGraphique.glThread);
+		texte.afficher(InterfaceGraphique.glThread);
 	}
 
-  private boolean isActive = true;
+  /** Attendre la fin du tour, méthode bloquante.*/
+  public void attendreFinTour() {
+    /* On débloque le bouton.*/
+    boxe.changerCouleur(0,0,0,0,1,0,0,1);
+    texte.changerCouleur(1,0,0,1);
+
+    /* On le rend cliquable.*/
+    InterfaceGraphique.glThread.ajouterBouton(this);
+
+    /* On attend jusqu'à que le joueur clique sur le bouton.*/
+    estClique = false;
+    while (!estClique && InterfaceGraphique.glThread.isAlive()) {
+      try {
+        Thread.sleep(1);
+      } catch (InterruptedException e) {
+      }
+    }
+
+    /* On rebloque le bouton.*/
+    InterfaceGraphique.glThread.retirerBouton(this);
+    boxe.changerCouleur(0,0,0,0,1,0,0,0.2);
+    texte.changerCouleur(1,0,0,0.2);
+  }
+
+  private boolean estClique = false;
 
   @Override
   public void executer() {
-    isActive = !isActive;
-    if (isActive) {
-      boxe.changerCouleur(0,0,0,0,1,0,0,1);
-      texte.changerCouleur(1,0,0,1);
-    } else {
-      System.out.println("Bouton Fin Tour");
-      boxe.changerCouleur(0,0,0,0,0,0,0,0.2);
-      texte.changerCouleur(0,0,0,0.2);
-    }
+    estClique = true;
   }
 
   @Override

@@ -1,16 +1,18 @@
 package logiqueMonopoly;
-import java.util.Scanner;
+
+import interfacegraphique.*;
 
 public class Arbitre {
 
   Joueur[] tabJoueur;
   Plateau plateau;
   Boolean finDuJeu =false;  
-  Scanner scanner = new Scanner(System.in);
   public Arbitre (Joueur[] tJoueur, Plateau plateau) {
     tabJoueur = tJoueur;
     this.plateau=plateau;
   }
+
+  private InterfaceGraphique interfaceG = new InterfaceGraphique();
 
   public void arbitrer() {
     int i = 0;
@@ -26,17 +28,20 @@ public class Arbitre {
       i = (i + 1) % 4;
     }
 
+    String[] message = {"Veillez fermer la fenetre"};
+    Popup pop = new Popup("Fin de la partie", message);
+    pop.afficher();
     System.out.println("Fin de la partie");
   }
 
   public void jouerTour(Joueur J) throws BanquerouteException {
-    plateau.afficherPlateau(tabJoueur);
-    int de = J.lancerDe();
+    CaseGraphique cGJ = plateau.getCase(J.getPosition()).getCaseGraphique();
+    plateau.plateauGraphique.plateau.setCamera(cGJ.getX(), cGJ.getY(), cGJ.getZ(), 3);
+    int de = interfaceG.boutonDe.tirer(J);
     System.out.println("Tour de : " + J.getNom());
     System.out.println("Vous avez" + J.getSolde() + "k$");
     System.out.println("Vous avez fait" + de );
     J.avancer(de);
-    plateau.afficherPlateau(tabJoueur);
     CaseFonctionnelle Case = plateau.getCase(J.getPosition());
     Case.executer(J);
     /* JE MET EN COMMENTAIRE CAR IMPLÉMENTATION NON TERMINÉE
@@ -54,6 +59,7 @@ public class Arbitre {
     }
     */
 
+    interfaceG.boutonFinTour.attendreFinTour();
   }
 
 
