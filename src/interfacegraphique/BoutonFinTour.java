@@ -21,6 +21,9 @@ public class BoutonFinTour extends Button implements WindowListener {
 	
 	
 	public void afficher(OpenglThread aff) {
+    aff.ajouterEcouteur(this);
+    aff.ajouterBouton(this);
+
 		boxe.afficher(aff);
 		texte.afficher(aff);
 	}

@@ -64,6 +64,16 @@ public class OpenglThread extends Thread {
     listeBoutons.add(bouton);
   }
 
+  /** Retirer un bouton cliquable à la fenêtre.
+   * @param bouton le bouton à ajouter
+   */
+  public void retirerBouton(Button bouton) {
+    if (fenetre != null)
+      fenetre.listeBoutons.remove(bouton);
+
+    listeBoutons.remove(bouton);
+  }
+
   /** Ajouter un objet à la liste des objets qui
    * dépendent de la taille de la fenêtre.
    * @param objet l'objet à ajouter

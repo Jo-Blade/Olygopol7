@@ -10,6 +10,9 @@ import moteurGraphique.glThread.OpenglThread;
 
 public class PopupAchat implements WindowListener {
 
+  /** Si la popup a été fermée.*/
+  private boolean exited;
+
   /** L'encadré de la popup.*/
   private DrawableBox encadre;
 
@@ -71,12 +74,24 @@ public class PopupAchat implements WindowListener {
     @Override
     public void executer() {
       System.out.println("réponse : " + label);
+      PopupAchat.this.cacher(aff);
     }
+
+    /** Dernier afficheur utilisé pour afficher l'objet.*/
+    private OpenglThread aff = null;
 
     public void afficher(OpenglThread aff) {
       encadre.afficher(aff);
       label.afficher(aff);
       aff.ajouterBouton(this);
+
+      this.aff = aff;
+    }
+
+    public void cacher(OpenglThread aff) {
+      encadre.cacher(aff);
+      label.cacher(aff);
+      aff.retirerBouton(this);
     }
   }
 
@@ -92,6 +107,7 @@ public class PopupAchat implements WindowListener {
     this.boutonOui = new reponse("oui", 0.1, 0.5, 0);
     this.boutonNon = new reponse("non", 1, 0, 0);
 
+    this.exited = false;
     updateWindowTaille(600, 300);
   }
 
@@ -107,13 +123,35 @@ public class PopupAchat implements WindowListener {
     boutonNon.repositionner(windowWidth / 2 + 50, windowHeight / 2 + 90);
   }
 
+  public void cacher(OpenglThread aff) {
+    encadre.cacher(aff);
+    for (DrawableText l : lignes)
+      l.cacher(aff);
+
+    boutonOui.cacher(aff);
+    boutonNon.cacher(aff);
+
+    exited = true;
+  }
+
   public void afficher(OpenglThread aff) {
+    aff.ajouterEcouteur(this);
+    exited = false;
+
     encadre.afficher(aff);
     for (DrawableText l : lignes)
       l.afficher(aff);
 
     boutonOui.afficher(aff);
     boutonNon.afficher(aff);
+
+    /* Attendre cliqué ou fenetre fermée.*/
+    while (!exited && aff.isAlive()) {
+      try {
+        Thread.sleep(1);
+      } catch (InterruptedException e) {
+      }
+    }
   }
 
 }

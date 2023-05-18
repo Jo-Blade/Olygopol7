@@ -211,6 +211,15 @@ public static OpenglProgram glProg = new OpenglProgram(
     openglThread.ajouterAffichage(drawer);
   }
 
+  /** Ne plus afficher.
+   * @param openglThread le thread chargé de l’affichage
+   */
+  public void cacher(OpenglThread openglThread) {
+
+    openglThread.retirerAffichage(drawer);
+  }
+
+
   /** Changer le rectangle dessiné. */
   private void changer() {
     drawer.clear();

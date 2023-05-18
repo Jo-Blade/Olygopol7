@@ -91,6 +91,13 @@ public static OpenglProgram glProg = new OpenglProgram(
     openglThread.ajouterAffichage(drawer);
   }
 
+  /** Cacher l'image de l'écran.
+   * @param openglThread le thread opengl
+   */
+  public void cacher(OpenglThread openglThread) {
+    openglThread.retirerAffichage(drawer);
+  }
+
   /** Redimensionner et repositionner l'image à l'écran.
    * @param positionX la distance au bord gauche de l'écran (en pixels)
    * @param positionY la distance au bord haut de l'écran (en pixels)
