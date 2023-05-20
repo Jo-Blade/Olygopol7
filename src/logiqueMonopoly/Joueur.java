@@ -2,7 +2,7 @@ package logiqueMonopoly;
 import java.util.Random;
 import interfacegraphique.*;
 
-public class Joueur {
+public class Joueur implements Comparable<Joueur> {
   int SOLDEjoueur;
   Joueur joueur;
   private int POSITIONjoueur; //normalment on la tire de la classe plateau, ce n'est donc pas un entier. J'écris ca au début pour ne pas avcoir d'erreur
@@ -114,5 +114,12 @@ public class Joueur {
    */
   public String getSymbolePropriete() {
     return symbolePropriete;
+  }
+
+  // On rend les joueurs comparables vis à vis de leur
+  // solde pour le classement.
+  @Override
+  public int compareTo(Joueur j) {
+    return ((Integer) SOLDEjoueur).compareTo(j.getSolde());
   }
 }

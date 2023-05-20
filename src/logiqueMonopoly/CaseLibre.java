@@ -51,6 +51,7 @@ public class CaseLibre implements CaseFonctionnelle {
         caseGraphique.achat(plateau.plateauGraphique);
 
       } catch (BanquerouteException exception) {
+        joueur.crediter(prix);
         System.out.println("Vous n’avez pas assez d’argent pour cette transaction");
         String[] messageErreur = {"Vous n'avez pas", "assez d'argent !"};
         Popup erreur = new Popup("erreur", messageErreur);

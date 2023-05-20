@@ -16,7 +16,6 @@ public class BoutonFinTour extends Button implements WindowListener {
     super(new FloatVec2(0,0), new FloatVec2(0,0));
 		this.boxe = new DrawableBox(0,0,0,0,1,0,0,0.2);
 		this.texte = new DrawableText("Fin du tour",1,0,0,0.2);
-    updateWindowTaille(600, 300);
 	}
 	
 	

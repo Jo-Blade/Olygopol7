@@ -106,7 +106,6 @@ public class Popup implements WindowListener {
     this.boutonOK = new reponse("OK", 0.1, 0.5, 0);
 
     this.exited = false;
-    updateWindowTaille(600, 300);
   }
 
   @Override

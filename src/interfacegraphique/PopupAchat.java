@@ -107,7 +107,6 @@ public class PopupAchat implements WindowListener {
     this.boutonNon = new reponse("non", 2, 1, 0, 0);
 
     this.reponseUtilisateur = 0;
-    updateWindowTaille(600, 300);
   }
 
   @Override

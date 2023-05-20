@@ -18,6 +18,7 @@ public class BoutonPropriete extends Button implements WindowListener {
 	 public void afficher() {
 			Image.afficher(InterfaceGraphique.glThread);
       InterfaceGraphique.glThread.ajouterBouton(this);
+      InterfaceGraphique.glThread.ajouterEcouteur(this);
 		}
 
    @Override
@@ -33,10 +34,10 @@ public class BoutonPropriete extends Button implements WindowListener {
 	 
 	 @Override
 		public void updateWindowTaille(int windowWidth, int windowHeight ) {
-			Image.redimensionner(windowWidth - 180, windowHeight/2 - 30, 169, 122);
+			Image.redimensionner(windowWidth - 170, windowHeight/2 - 30, 169, 122);
       
       // mettre a jour la hitbox du bouton
-      point1 = new FloatVec2(windowWidth - 180, windowHeight/2 - 30);
-      point2 = new FloatVec2(windowWidth - 180 + 169, windowHeight/2 - 30 + 122);
+      point1 = new FloatVec2(windowWidth - 170, windowHeight/2 - 30);
+      point2 = new FloatVec2(windowWidth - 170 + 169, windowHeight/2 - 30 + 122);
 		}
 }

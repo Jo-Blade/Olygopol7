@@ -1,35 +1,37 @@
 package interfacegraphique;
 import logiqueMonopoly.*;
 import moteurGraphique.drawable.DrawableText;
-import moteurGraphique.glThread.OpenglThread;
 import moteurGraphique.window.WindowListener;
 
 public class JoueurScore implements WindowListener{
 	 private DrawableText nom;
 	 private DrawableText solde;
 	 final private int  numeroLigne;
-	 final private OpenglThread aff;
+
+   private Joueur j;
 
    private int windowWidth = 600;
 	 
-	 public JoueurScore(Joueur joueur, int l, OpenglThread aff) {
+	 public JoueurScore(Joueur joueur, int l) {
 		 this.numeroLigne = l;
-		 this.aff = aff;
+     this.j = joueur;
 
 		 this.nom = new DrawableText(joueur.getNom(),0.5,0.5,0.5,1);
-     this.solde = new DrawableText(joueur.getSolde() / 1000. + "k",0,1,0,1);
+     this.solde = new DrawableText(joueur.getSolde() + "k$",0,1,0,1);
 	 }
 	 
 	 public void changerJoueur(Joueur joueur) {
+     this.j = joueur;
+
      nom.changer(joueur.getNom());
-     solde.changer(joueur.getSolde() / 1000. + "k");
+     solde.changer(joueur.getSolde() + "k$");
 	 }
 
    public void afficher() {
-     nom.afficher(aff);
-     solde.afficher(aff);
+     nom.afficher(InterfaceGraphique.glThread);
+     solde.afficher(InterfaceGraphique.glThread);
      redimensionner();
-     aff.ajouterEcouteur(this);
+     InterfaceGraphique.glThread.ajouterEcouteur(this);
    }
 
    private void redimensionner() {
@@ -38,6 +40,18 @@ public class JoueurScore implements WindowListener{
      solde.redimensionner(windowWidth - 80, numeroLigne*25, .5);
    }
 
+   /** Change la couleur pour montré que c'est le joueur
+    * qui joue son tour si j est le joueur courant.
+    */
+   public void select(Joueur j) {
+     if (this.j == j) {
+       nom.changerCouleur(0.7,0.5,0,1);
+       solde.changerCouleur(0.7,0.5,0,1);
+     } else {
+       nom.changerCouleur(0.5,0.5,0.5,1);
+       solde.changerCouleur(0,1,0,1);
+     }
+   }
 
    @Override
    public void updateWindowTaille(int windowWidth, int windowHeight ) {

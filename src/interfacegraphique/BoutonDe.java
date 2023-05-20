@@ -18,7 +18,6 @@ public class BoutonDe extends Button implements WindowListener {
     super(new FloatVec2(0,0), new FloatVec2(0,0));
     this.de = new DrawableImage("de.png");
     this.deBloque = new DrawableImage("deBloque.png");
-    updateWindowTaille(600, 300);
   }
 
   /** Afficher le de bloque jusqu'a qu'on demande a tirer le dé.*/
@@ -112,11 +111,11 @@ public class BoutonDe extends Button implements WindowListener {
   @Override
   public void updateWindowTaille(int windowWidth, int windowHeight ) {
 
-    de.redimensionner(63, windowHeight - 64, 47, 54);
-    deBloque.redimensionner(63, windowHeight - 64, 47, 54);
+    de.redimensionner(20, windowHeight - 64, 47, 54);
+    deBloque.redimensionner(20, windowHeight - 64, 47, 54);
 
     // mettre a jour la hitbox du bouton
-    point1 = new FloatVec2(63, windowHeight - 64);
-    point2 = new FloatVec2(110, windowHeight - 10);
+    point1 = new FloatVec2(23, windowHeight - 64);
+    point2 = new FloatVec2(70, windowHeight - 10);
   }
 }

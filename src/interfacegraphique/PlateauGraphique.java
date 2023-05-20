@@ -12,12 +12,11 @@ public class PlateauGraphique implements WindowListener {
 
   public PlateauGraphique() {
     this.plateau = new DrawableIsoGrid("isoTex.png", 5);
-    updateWindowTaille(600,300);
   }
 
   @Override
   public void updateWindowTaille(int windowWidth, int windowHeight) {
-    plateau.redimensionner(70,0,windowWidth - 100,windowHeight);
+    plateau.redimensionner(60,0,windowWidth - 180 - 60,windowHeight);
   }
 
 }

@@ -79,8 +79,14 @@ public class OpenglThread extends Thread {
    * @param objet l'objet à ajouter
    */
   public void ajouterEcouteur(WindowListener objet) {
-    if (fenetre != null)
+    if (fenetre != null) {
       fenetre.listeEcouteurs.add(objet);
+      Vec2Int dimensions = fenetre.getDimensions();
+      objet.updateWindowTaille(dimensions.x, dimensions.y);
+    }
+    else {
+      objet.updateWindowTaille(600, 300);
+    }
 
     listeEcouteurs.add(objet);
   }
