@@ -75,9 +75,6 @@ public class Joueur implements Comparable<Joueur> {
    */
   public void  avancer(int dcase) {
     this.POSITIONjoueur += dcase;
-
-    // POUR CETTE PREMIERE VERSION, ON REVIENT À LA PREMIERE CASE QUAND ON DEPASSE LA CASE 20
-    this.POSITIONjoueur %= 20;
     pion.avancer(dcase);
   }
 

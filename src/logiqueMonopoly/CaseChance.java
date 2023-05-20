@@ -13,10 +13,7 @@ public class CaseChance implements CaseFonctionnelle {
 	public void executer(Joueur j) throws BanquerouteException {
     caseG.animation();
 		CarteChance CarteChanceTire = new CarteChance(j);
-		System.out.println(CarteChanceTire.getMessage());
-
-    String[] message = {"Votre mauvais algorithme de", "max itération a fait cramer", "un ordinateur au lancement.", "Payez 300k$ de réparations."};
-    new Popup("Chance", message).afficher();
+    new Popup("Chance", CarteChanceTire.getMessage()).afficher();
 	}
 
   @Override

@@ -50,6 +50,7 @@ public class BoutonDe extends Button implements WindowListener {
     }
 
     int nombreTire = jCourant.lancerDe();
+
     /* On peut éventuellement jouer une animation ici.*/
     animationClic(nombreTire);
 
@@ -111,11 +112,11 @@ public class BoutonDe extends Button implements WindowListener {
   @Override
   public void updateWindowTaille(int windowWidth, int windowHeight ) {
 
-    de.redimensionner(20, windowHeight - 64, 47, 54);
-    deBloque.redimensionner(20, windowHeight - 64, 47, 54);
+    de.redimensionner(10, windowHeight - 64, 47, 54);
+    deBloque.redimensionner(10, windowHeight - 64, 47, 54);
 
     // mettre a jour la hitbox du bouton
-    point1 = new FloatVec2(23, windowHeight - 64);
-    point2 = new FloatVec2(70, windowHeight - 10);
+    point1 = new FloatVec2(10, windowHeight - 64);
+    point2 = new FloatVec2(60, windowHeight - 10);
   }
 }

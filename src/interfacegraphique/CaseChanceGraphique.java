@@ -32,14 +32,33 @@ public class CaseChanceGraphique implements CaseGraphique {
     this.posZ = posZ;
   }
 
+  private PlateauGraphique plat = null;
+
   /** Joue une animation pour tirer une carte chance.*/
   public void animation() {
     // rajouter une animation sympa
+    IsoImgInstance confettis = new IsoImgInstance((float) posX, (float) posY, (float) posZ, 5);
+    plat.plateau.ajouter(confettis);
+    for (int i = 6; i < 10; i++) {
+      try {
+        Thread.sleep(60);
+      } catch (InterruptedException e) {
+      }
+      plat.plateau.retirer(confettis);
+      confettis = new IsoImgInstance((float) posX, (float) posY, (float) posZ, i);
+      plat.plateau.ajouter(confettis);
+    }
+    try {
+      Thread.sleep(60);
+    } catch (InterruptedException e) {
+    }
+    plat.plateau.retirer(confettis);
   }
 
   @Override
   public void ajouter(PlateauGraphique plateau) {
     plateau.plateau.ajouter(caseAtteignable);
+    plat = plateau;
   }
 
   @Override

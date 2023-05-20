@@ -9,7 +9,7 @@ public class Jouer{
   /** Point d’entrée du programme.
    * @param args arguments de la ligne de commande
    */
-public final static int  solde = 1000;
+public final static int  solde = 1200;
 public static Plateau plat;
   private static Arbitre arbitre;
 
