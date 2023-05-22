@@ -18,10 +18,10 @@ public class DrawableIsoGrid {
   public final static String vertCode =
     "#version 330 core\n" +
 
-    "in vec2 vertex;\n" +
-    "in vec2 uvs;\n" +
-    "in vec3 positionCentre;\n" +
-    "in float indiceTex;\n" +
+    "layout (location = 0) in vec2 vertex;\n" +
+    "layout (location = 1) in vec2 uvs;\n" +
+    "layout (location = 2) in vec3 positionCentre;\n" +
+    "layout (location = 3) in float indiceTex;\n" +
 
     "uniform int windowWidth;\n" +
     "uniform int windowHeight;\n" +

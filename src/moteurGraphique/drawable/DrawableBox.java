@@ -16,14 +16,14 @@ public class DrawableBox {
 public final static String vertCode =
     "#version 330 core\n" +
 
-    "in vec2 position;\n" +
-    "in vec2 uvs;\n" +
-    "in vec2 point1;\n" +
-    "in vec2 dimensions;\n" +
-    "in vec4 couleurBordure;\n" +
-    "in vec4 couleurFond;\n" +
-    "in float rayon;\n" +
-    "in float epaisseur;\n" +
+    "layout (location = 0) in vec2 position;\n" +
+    "layout (location = 1) in vec2 uvs;\n" +
+    "layout (location = 2) in vec2 point1;\n" +
+    "layout (location = 3) in vec2 dimensions;\n" +
+    "layout (location = 4) in vec4 couleurBordure;\n" +
+    "layout (location = 5) in vec4 couleurFond;\n" +
+    "layout (location = 6) in float rayon;\n" +
+    "layout (location = 7) in float epaisseur;\n" +
 
     "uniform int windowWidth;\n" +
     "uniform int windowHeight;\n" +

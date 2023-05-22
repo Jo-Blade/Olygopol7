@@ -30,13 +30,13 @@ public class DrawableText {
   private final static String vertCode =
     "#version 330 core\n" +
 
-    "in vec2 vertex;\n" +
-    "in vec2 uvs;\n" +
-    "in vec2 positionLettre;\n" +
-    "in vec2 glyphPos;\n" +
-    "in vec2 glyphTaille;\n" +
-    "in float echelle;\n" +
-    "in vec4 couleur;\n" +
+    "layout (location = 0) in vec2 vertex;\n" +
+    "layout (location = 1) in vec2 uvs;\n" +
+    "layout (location = 2) in vec2 positionLettre;\n" +
+    "layout (location = 3) in vec2 glyphPos;\n" +
+    "layout (location = 4) in vec2 glyphTaille;\n" +
+    "layout (location = 5) in float echelle;\n" +
+    "layout (location = 6) in vec4 couleur;\n" +
 
     "uniform int windowWidth;\n" +
     "uniform int windowHeight;\n" +

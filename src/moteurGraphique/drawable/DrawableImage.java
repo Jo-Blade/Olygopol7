@@ -15,10 +15,10 @@ public class DrawableImage {
 public final static String vertCode =
     "#version 330 core\n" +
 
-    "in vec2 position;\n" +
-    "in vec2 uvs;\n" +
-    "in vec2 point1;\n" +
-    "in vec2 dimensions;\n" +
+    "layout (location = 0) in vec2 position;\n" +
+    "layout (location = 1) in vec2 uvs;\n" +
+    "layout (location = 2) in vec2 point1;\n" +
+    "layout (location = 3) in vec2 dimensions;\n" +
 
     "uniform int windowWidth;\n" +
     "uniform int windowHeight;\n" +
