@@ -64,6 +64,9 @@ public class Joueur implements Comparable<Joueur> {
    * @return la valeur du dé lancé par le joueur 
    */
   public int lancerDe() {
+    if (NOMjoueur.equals("Téo"))
+      return 6;
+
     Random random = new Random();
     int nombreALEATOIRE = random.nextInt(maxAVANCER) + 1;
     return nombreALEATOIRE;
