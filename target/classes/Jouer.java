@@ -18,16 +18,15 @@ public static Plateau plat;
       afficherRegle();
     }
     else {
-      try {
+      if (args.length == 4) {
         plat= new Plateau();
         Joueur[] tabJoueur = creationJoueur(args, plat);
         arbitre = new Arbitre(tabJoueur, plat);
         InterfaceGraphique.glThread.start();
         arbitre.arbitrer();
       }
-
-      catch (ArrayIndexOutOfBoundsException e) {
-        System.out.println("Merci de rentrer Moins de 4 Joueurs.");
+      else {
+        System.out.println("usage : java -jar monopoly.jar pseudo1 pseudo2 pseudo3 pseudo4");
       }
     }
   }
