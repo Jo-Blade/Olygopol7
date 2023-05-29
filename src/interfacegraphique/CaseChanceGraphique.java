@@ -25,7 +25,7 @@ public class CaseChanceGraphique implements CaseGraphique {
    */
   public CaseChanceGraphique(double posX, double posY, double posZ) {
 
-    this.caseAtteignable = new IsoImgInstance((float) posX, (float) posY, (float) posZ, 3);
+    this.caseAtteignable = new IsoImgInstance((float) posX, (float) posY, (float) posZ, 10);
 
     this.posX = posX;
     this.posY = posY;

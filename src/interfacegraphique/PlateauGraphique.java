@@ -11,7 +11,7 @@ public class PlateauGraphique implements WindowListener {
   public final DrawableIsoGrid plateau;
 
   public PlateauGraphique() {
-    this.plateau = new DrawableIsoGrid("isoTex.png", 10);
+    this.plateau = new DrawableIsoGrid("isoTex.png", 11);
   }
 
   @Override
