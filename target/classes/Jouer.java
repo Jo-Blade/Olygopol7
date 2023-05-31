@@ -14,7 +14,7 @@ public static Plateau plat;
   private static Arbitre arbitre;
 
   public static void main(String[] args) {
-    if (args[0].equals("-r")) {
+    if (args.length == 1 && args[0].equals("-r")) {
       afficherRegle();
     }
     else {
@@ -27,6 +27,7 @@ public static Plateau plat;
       }
       else {
         System.out.println("usage : java -jar monopoly.jar pseudo1 pseudo2 pseudo3 pseudo4");
+        System.out.println("règles: java -jar monopoly.jar -r");
       }
     }
   }
