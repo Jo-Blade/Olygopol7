@@ -8,7 +8,6 @@ tmp/
 .settings/
 *.swp
 *.bak
-*.jar
 local.properties
 .factorypath
 src-gen/
