@@ -1,0 +1,4 @@
+* Le diagramme de classe est illisible.  Il ne faut pas faire apparaître
+  toutes les méthodes (ni forcément toutes les classes).  Il faut donner un
+  diagramme de classe qui permet de comprendre l'architecture même si tous les
+  détails ne sont pas donnés.

@@ -1,8 +1,0 @@
-LANCER L’APP POUR TESTER
-
-mvn exec:java -D exec.mainClass=HelloWorld
-
-
-PACKAGER L’APP EN UN .JAR EXECUTABLE
-
-mvn assembly:assembly

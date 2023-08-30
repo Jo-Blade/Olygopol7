@@ -1,8 +1,8 @@
 import logiqueMonopoly.Arbitre;
 import logiqueMonopoly.Joueur;
 import logiqueMonopoly.Plateau;
-import moteurGraphique.glThread.*;
-import interfacegraphique.*;
+import interfacegraphique.InterfaceGraphique;
+import interfacegraphique.Pion;
 
 public class Jouer{
 
@@ -44,6 +44,6 @@ public static Plateau plat;
 
   private static void afficherRegle() {
     System.out.println("Bienvenue sur notre jeu de monopoly.");
-    System.out.println("Le jeu se déroule avec 4 joueurs, pour le lancer, executer le programme en ajoutant les noms des joueurs séparé par des @");
+    System.out.println("Le jeu se déroule avec 4 joueurs, pour le lancer, executer le programme en ajoutant les noms des joueurs séparés par des ' '");
   }
 }
