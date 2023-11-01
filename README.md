@@ -1,12 +1,22 @@
 # Olygopol7
 
+![Image du jeu de Taquin](./DemoTaquin.png)
+
+![Vidéo du jeu de Monopoly](./DemoMonopoly.webm)
+
 Ce projet a été réalisé en tant que projet long de l'UE « Technologie Objet » de la première année de l'école d'ingénieur Enseeiht.
 
-Il a consisté en la réalisation d'un moteur de jeu 2D en java avec OpenGl puis en la réalisation d'un
-jeu de taquin et d'un jeu de monopoly utilisant ce moteur.
+Il a consisté en la réalisation d'un **moteur de jeu 2D en java avec OpenGl** puis en la réalisation d'un
+**jeu de taquin** et d'un **jeu de monopoly utilisant ce moteur**.
 
 Vous trouverez plus de détails en lisant les rapports de projet dans le dossier "livrables" et
 la présentation orale "presentation.pdf" qui ont participé à la notation du projet.
+
+## Ressources utiles
+
+- [Rapport final du projet](./livrables/rapport3.pdf)
+- [Présentation du projet](./livrables/presentation.pdf)
+- Les diagrammes UML du projet dans le dossier doc/architectures
 
 ## Utilisation
 
