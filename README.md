@@ -2,6 +2,8 @@
 
 ![Image du jeu de Taquin](./DemoTaquin.png)
 
+![Image du jeu de Monopoly](./DemoMonopoly.png)
+
 ![Vidéo du jeu de Monopoly](./DemoMonopoly.webm)
 
 Ce projet a été réalisé en tant que projet long de l'UE « Technologie Objet » de la première année de l'école d'ingénieur Enseeiht.
