@@ -16,6 +16,7 @@ if (( $# == 0 )); then
 
 elif [ $1 == "--taquin" ]; then
   MAINCLASS=jeuTaquin.JouerTaquin # Lancer le jeu du taquin si le premier argument est "--taquin"
+  ARGS="$2"
 fi
 
 # Executer le projet (on lance la première commande si c'est linux et l'autre si c'est macos)

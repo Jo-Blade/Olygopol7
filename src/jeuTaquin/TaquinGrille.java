@@ -59,7 +59,7 @@ public class TaquinGrille {
     "int winMin = min(windowWidth, windowHeight);\n" +
     "float echelle = 1. / nbrCote;\n" +
     "mat2 resize = mat2(winMin * echelle / windowWidth, 0.0, 0.0, winMin * echelle / windowHeight);\n" +
-    "vec2 centre = vec2(-1,1) + vec2(positionCentre.x, - positionCentre.y);\n" +
+    "vec2 centre = vec2(-(nbrCote - 1.0) / 2.0,(nbrCote - 1.0) / 2.0) + vec2(positionCentre.x, - positionCentre.y);\n" +
     "gl_Position = vec4(position*resize + 2.*resize*centre, 0.0, 1.0);\n" +
     "fragUvs = echelle*uvs + echelle*centreUv;\n" +
     "}";
