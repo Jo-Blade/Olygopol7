@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 LWJGL="lwjgl/* lwjgl-opengl/* lwjgl-glfw/* lwjgl-stb/*"
 DOSSIERS="src src/logiqueMonopoly src/interfacegraphique src/moteurGraphique/drawable src/moteurGraphique/drawable/instance src/moteurGraphique/glThread src/moteurGraphique/glType src/moteurGraphique/vecteur src/moteurGraphique/window src/jeuTaquin"
 CP=$(echo $LWJGL | sed "s/\([^ ]*\)/lib\/\1/g" | tr ' ' ':')

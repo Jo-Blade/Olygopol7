@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 LWJGL="lwjgl/* lwjgl-opengl/* lwjgl-glfw/* lwjgl-stb/*"
 CP=$(echo $LWJGL | sed "s/\([^ ]*\)/lib\/\1/g" | tr ' ' ':')
 ARGS=$@
