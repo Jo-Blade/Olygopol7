@@ -1,13 +1,12 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ lib, stdenv, buildMavenRepositoryFromLockFile
+, makeWrapper, maven, openjdk17, libglvnd
+, nix-gitignore
+}:
 let
-  mvn2nix = import
-    (fetchTarball "https://github.com/fzakaria/mvn2nix/archive/master.tar.gz")
-    { };
   mavenRepository =
-   mvn2nix.buildMavenRepositoryFromLockFile { file = ./mvn2nix-lock.json; };
-inherit (pkgs) lib stdenv openjdk17 maven makeWrapper libglvnd;
-inherit (stdenv) mkDerivation;
-in mkDerivation rec {
+   buildMavenRepositoryFromLockFile { file = ./mvn2nix-lock.json; };
+
+in stdenv.mkDerivation rec {
   pname = "Olygopol7";
   version = "1.0-SNAPSHOT";
   name = "${pname}-${version}";
