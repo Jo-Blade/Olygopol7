@@ -1,4 +1,4 @@
 # overlay.nix
 final: prev: {
-  myMavenProject = final.callPackage ./myPackage.nix { };
+  myMavenProject = final.callPackage ./derivation.nix { };
 }
