@@ -23,6 +23,9 @@ in stdenv.mkDerivation rec {
     # create the bin directory
     mkdir -p $out/bin
 
+    # copy the ressources
+    cp -r res $out/res
+
     # create a symbolic link for the lib directory
     ln -s ${mavenRepository} $out/lib
 
@@ -34,11 +37,13 @@ in stdenv.mkDerivation rec {
     # create a wrapper that will automatically set the classpath
     # this should be the paths from the dependency derivation
     makeWrapper ${openjdk17}/bin/java $out/bin/${pname} \
+          --chdir $out \
           --set LD_LIBRARY_PATH ${libglvnd}/lib \
           --add-flags "-jar $out/${name}.jar"
 
     # creer un wrapper pour lancer le jeu de taquin
     makeWrapper ${openjdk17}/bin/java $out/bin/${pname}-taquin \
+          --chdir $out \
           --set LD_LIBRARY_PATH ${libglvnd}/lib \
           --add-flags "-cp $out/${name}.jar jeuTaquin.JouerTaquin"
   '';
