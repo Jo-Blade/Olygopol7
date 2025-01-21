@@ -12,3 +12,6 @@ local.properties
 .factorypath
 src-gen/
 /target/
+.classpath
+.project
+result
